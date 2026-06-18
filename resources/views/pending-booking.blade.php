@@ -72,27 +72,30 @@
             color: #9ca3af;
         }
 
-        .btn-filter {
-            background: #fff;
+        .filter-select {
+            padding: 9px 28px 9px 10px;
             border: 1.5px solid #d1d5db;
             border-radius: 6px;
-            padding: 0 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
             font-size: 12.5px;
             font-weight: 600;
             color: #374151;
+            background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 10px center;
+            appearance: none;
+            -webkit-appearance: none;
+            outline: none;
             cursor: pointer;
         }
 
-        .btn-filter svg { width: 14px; height: 14px; }
+        .request-list-scroll {
+            overflow-y: auto;
+            max-height: 460px;
+            margin-bottom: 16px;
+        }
 
         .request-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-bottom: 16px;
         }
 
         .request-item {
@@ -109,14 +112,14 @@
         }
 
         .request-item:hover {
-            border-color: #cbd5e1;
-            background: #f8fafc;
+            border-color: #93c5fd;
+            background: #f0f7ff;
         }
 
         .request-item.selected {
-            background: #fffdf5;
-            border-color: #fcd34d;
-            box-shadow: 0 0 0 1px #fcd34d;
+            background: #eff6ff;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
         }
 
         .req-meta {
@@ -132,10 +135,18 @@
             flex-wrap: wrap;
         }
 
-        .req-ref {
-            font-size: 12px;
-            font-weight: 700;
-            color: #111827;
+        .req-submitted {
+            font-size: 11px;
+            font-weight: 500;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .req-submitted svg {
+            width: 12px; height: 12px;
+            color: #9ca3af;
         }
 
         .badge-status {
@@ -185,6 +196,23 @@
             color: #9ca3af;
             text-align: left;
             padding-top: 4px;
+        }
+
+        #detail-panel {
+            display: none;
+        }
+
+        #detail-panel.visible {
+            display: block;
+        }
+
+        .detail-empty {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+            color: #9ca3af;
+            font-size: 14px;
         }
 
         .detail-header {
@@ -321,97 +349,115 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                         <input type="text" placeholder="Cari pemohon / rujukan...">
                     </div>
-                    <button class="btn-filter">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-                        <span>Tapis</span>
-                    </button>
+                    <select class="filter-select">
+                        <option>Terdekat</option>
+                        <option>Menaik</option>
+                        <option>Menurun</option>
+                    </select>
                 </div>
 
-                <div class="request-list">
-                    <a href="#" class="request-item selected">
-                        <div class="req-meta">
-                            <div class="req-ref-row">
-                                <span class="req-ref">REF: DAPUR/2024/05/0012</span>
-                                <span class="badge-status">Menunggu</span>
+                <div class="request-list-scroll">
+                    <div class="request-list">
+                        <div class="request-item selected" onclick="selectRequest(this)">
+                            <div class="req-meta">
+                                <div class="req-ref-row">
+                                    <span class="req-submitted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Dihantar: 24 Mei 2024, 08:15 AM
+                                    </span>
+                                    <span class="badge-status">Menunggu</span>
+                                </div>
+                                <div class="req-name">Nur Aisyah Binti Ahmad</div>
+                                <div class="req-details">
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 24 Mei 2024 (Jumaat)</span>
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 09:00 AM - 09:15 AM</span>
+                                </div>
                             </div>
-                            <div class="req-name">Nur Aisyah Binti Ahmad</div>
-                            <div class="req-details">
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 24 Mei 2024 (Jumaat)</span>
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 09:00 AM - 09:15 AM</span>
+                            <div class="chevron-right">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
                             </div>
                         </div>
-                        <div class="chevron-right">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                        </div>
-                    </a>
 
-                    <a href="#" class="request-item">
-                        <div class="req-meta">
-                            <div class="req-ref-row">
-                                <span class="req-ref">REF: DAPUR/2024/05/0011</span>
-                                <span class="badge-status">Menunggu</span>
+                        <div class="request-item" onclick="selectRequest(this)">
+                            <div class="req-meta">
+                                <div class="req-ref-row">
+                                    <span class="req-submitted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Dihantar: 23 Mei 2024, 10:30 AM
+                                    </span>
+                                    <span class="badge-status">Menunggu</span>
+                                </div>
+                                <div class="req-name">Muhammad Faris Bin Razak</div>
+                                <div class="req-details">
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 23 Mei 2024 (Khamis)</span>
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 02:00 PM - 02:15 PM</span>
+                                </div>
                             </div>
-                            <div class="req-name">Muhammad Faris Bin Razak</div>
-                            <div class="req-details">
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 23 Mei 2024 (Khamis)</span>
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 02:00 PM - 02:15 PM</span>
+                            <div class="chevron-right">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
                             </div>
                         </div>
-                        <div class="chevron-right">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                        </div>
-                    </a>
 
-                    <a href="#" class="request-item">
-                        <div class="req-meta">
-                            <div class="req-ref-row">
-                                <span class="req-ref">REF: DAPUR/2024/05/0010</span>
-                                <span class="badge-status">Menunggu</span>
+                        <div class="request-item" onclick="selectRequest(this)">
+                            <div class="req-meta">
+                                <div class="req-ref-row">
+                                    <span class="req-submitted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Dihantar: 23 Mei 2024, 02:45 PM
+                                    </span>
+                                    <span class="badge-status">Menunggu</span>
+                                </div>
+                                <div class="req-name">Siti Hajar Binti Ismail</div>
+                                <div class="req-details">
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 23 Mei 2024 (Khamis)</span>
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 04:00 PM - 04:15 PM</span>
+                                </div>
                             </div>
-                            <div class="req-name">Siti Hajar Binti Ismail</div>
-                            <div class="req-details">
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 23 Mei 2024 (Khamis)</span>
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 04:00 PM - 04:15 PM</span>
+                            <div class="chevron-right">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
                             </div>
                         </div>
-                        <div class="chevron-right">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                        </div>
-                    </a>
 
-                    <a href="#" class="request-item">
-                        <div class="req-meta">
-                            <div class="req-ref-row">
-                                <span class="req-ref">REF: DAPUR/2024/05/0009</span>
-                                <span class="badge-status">Menunggu</span>
+                        <div class="request-item" onclick="selectRequest(this)">
+                            <div class="req-meta">
+                                <div class="req-ref-row">
+                                    <span class="req-submitted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Dihantar: 22 Mei 2024, 11:00 AM
+                                    </span>
+                                    <span class="badge-status">Menunggu</span>
+                                </div>
+                                <div class="req-name">Ahmad Danish Bin Nazri</div>
+                                <div class="req-details">
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 22 Mei 2024 (Rabu)</span>
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 03:00 PM - 03:15 PM</span>
+                                </div>
                             </div>
-                            <div class="req-name">Ahmad Danish Bin Nazri</div>
-                            <div class="req-details">
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 22 Mei 2024 (Rabu)</span>
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 03:00 PM - 03:15 PM</span>
+                            <div class="chevron-right">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
                             </div>
                         </div>
-                        <div class="chevron-right">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                        </div>
-                    </a>
 
-                    <a href="#" class="request-item">
-                        <div class="req-meta">
-                            <div class="req-ref-row">
-                                <span class="req-ref">REF: DAPUR/2024/05/0008</span>
-                                <span class="badge-status">Menunggu</span>
+                        <div class="request-item" onclick="selectRequest(this)">
+                            <div class="req-meta">
+                                <div class="req-ref-row">
+                                    <span class="req-submitted">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        Dihantar: 21 Mei 2024, 04:30 PM
+                                    </span>
+                                    <span class="badge-status">Menunggu</span>
+                                </div>
+                                <div class="req-name">Norsyazwani Binti Zakaria</div>
+                                <div class="req-details">
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 22 Mei 2024 (Rabu)</span>
+                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 08:00 AM - 08:15 AM</span>
+                                </div>
                             </div>
-                            <div class="req-name">Norsyazwani Binti Zakaria</div>
-                            <div class="req-details">
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 22 Mei 2024 (Rabu)</span>
-                                <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 08:00 AM - 08:15 AM</span>
+                            <div class="chevron-right">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
                             </div>
                         </div>
-                        <div class="chevron-right">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                        </div>
-                    </a>
+                    </div>
                 </div>
 
                 <div class="list-footer">
@@ -419,7 +465,7 @@
                 </div>
             </div>
 
-            <div class="panel-card">
+            <div class="panel-card" id="detail-panel">
                 <div class="detail-header">
                     <div class="panel-title">Butiran Permohonan</div>
                     <div class="status-container">
@@ -483,5 +529,21 @@
     <footer class="footer">
         &copy; 2024 Dapur Siswa Madani UPSI. Hak Cipta Terpelihara.
     </footer>
+
+    <script>
+        function selectRequest(el) {
+            document.querySelectorAll('.request-item').forEach(item => item.classList.remove('selected'));
+            el.classList.add('selected');
+            var detail = document.getElementById('detail-panel');
+            if (detail) detail.classList.add('visible');
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var selected = document.querySelector('.request-item.selected');
+            if (selected) {
+                document.getElementById('detail-panel').classList.add('visible');
+            }
+        });
+    </script>
 
 </x-admin-layout>
