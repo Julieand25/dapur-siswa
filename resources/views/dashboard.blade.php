@@ -1,98 +1,7 @@
-<x-admin-layout active="dashboard">
-
-    @section('title', 'Dashboard Tempahan – Dapur Siswa MADANI UPSI')
+<x-admin-layout active="dashboard" title="Dashboard Tempahan" subtitle="Sistem Tempahan Dapur Siswa Madani UPSI">
 
     @push('styles')
     <style>
-        .topbar {
-            background: #fff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 0 28px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
-
-        .topbar-titles { flex: 1; }
-        .topbar-titles h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #111827;
-        }
-        .topbar-titles p {
-            font-size: 12.5px;
-            color: #6b7280;
-            margin-top: 1px;
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .notif-btn {
-            position: relative;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: #6b7280;
-            padding: 4px;
-        }
-
-        .notif-btn svg { width: 22px; height: 22px; }
-
-        .notif-badge {
-            position: absolute;
-            top: -2px; right: -2px;
-            background: #ef4444;
-            color: #fff;
-            font-size: 9px;
-            font-weight: 700;
-            border-radius: 999px;
-            min-width: 16px;
-            height: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0 3px;
-        }
-
-        .topbar-user {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-        }
-
-        .topbar-user-text { text-align: right; }
-        .topbar-user-text .greet {
-            font-size: 11px;
-            color: #6b7280;
-        }
-        .topbar-user-text .name {
-            font-size: 13px;
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .topbar-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #1a3a8f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 700;
-        }
-
         .content {
             padding: 28px;
             flex: 1;
@@ -361,28 +270,6 @@
         }
     </style>
     @endpush
-
-    <!-- Topbar -->
-    <header class="topbar">
-        <div class="topbar-titles">
-            <h1>Dashboard Tempahan</h1>
-            <p>Sistem Tempahan Dapur Siswa Madani UPSI</p>
-        </div>
-        <div class="topbar-right">
-            <button class="notif-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                <span class="notif-badge">3</span>
-            </button>
-            <div class="topbar-user">
-                <div class="topbar-user-text">
-                    <div class="greet">Selamat datang,</div>
-                    <div class="name">Pentadbir</div>
-                </div>
-                <div class="topbar-avatar">P</div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 9l7 7 7-7"/></svg>
-            </div>
-        </div>
-    </header>
 
     <!-- Content -->
     <main class="content">
