@@ -301,27 +301,6 @@
         .btn-action.reject:hover { background: #b91c1c; }
         .btn-action svg { width: 16px; height: 16px; }
 
-        .info-alert {
-            background: #f0f7ff;
-            border: 1px solid #e0f2fe;
-            border-radius: 6px;
-            padding: 12px 14px;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-            font-size: 11.5px;
-            color: #0369a1;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-
-        .info-alert svg {
-            width: 15px; height: 15px;
-            color: #38bdf8;
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-
         .footer {
             text-align: center;
             padding: 16px 28px;
@@ -524,11 +503,6 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                         <span>Tolak</span>
                     </button>
-                </div>
-
-                <div class="info-alert">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <span>Sila semak maklumat permohonan sebelum membuat keputusan kelulusan.</span>
                 </div>
             </div>
 
