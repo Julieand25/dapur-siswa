@@ -3,7 +3,10 @@
 @php
 $navItems = [
     ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => '#', 'icon' => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'],
-    ['key' => 'tempahan', 'label' => 'Tempahan', 'href' => '#', 'icon' => '<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>'],
+    ['key' => 'tempahan', 'label' => 'Tempahan', 'href' => route('pending-booking'), 'icon' => '<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>', 'children' => [
+        ['key' => 'tempahan-kelulusan', 'label' => 'Kelulusan Tempahan', 'href' => route('pending-booking')],
+        ['key' => 'tempahan-semua', 'label' => 'Semua Tempahan', 'href' => '#'],
+    ]],
     ['key' => 'kalender', 'label' => 'Kalender', 'href' => '#', 'icon' => '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'],
     ['key' => 'dapur',   'label' => 'Dapur',   'href' => '#', 'icon' => '<path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="12" r="1" fill="currentColor"/><circle cx="6" cy="18" r="1" fill="currentColor"/>'],
     ['key' => 'peralatan', 'label' => 'Peralatan', 'href' => '#', 'icon' => '<path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>'],
@@ -99,6 +102,31 @@ $navItems = [
 
     .nav-item.active svg { opacity: 1; }
 
+    .nav-sub-item {
+        display: flex;
+        align-items: center;
+        padding: 8px 18px 8px 42px;
+        font-size: 12px;
+        font-weight: 500;
+        color: rgba(255,255,255,0.65);
+        text-decoration: none;
+        cursor: pointer;
+        border-left: 3px solid transparent;
+        transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-sub-item:hover {
+        background: rgba(255,255,255,0.08);
+        color: #fff;
+    }
+
+    .nav-sub-item.active {
+        background: rgba(255,255,255,0.12);
+        color: #fff;
+        border-left-color: #60a5fa;
+        font-weight: 600;
+    }
+
     .sidebar-user {
         padding: 14px 16px;
         border-top: 1px solid rgba(255,255,255,0.12);
@@ -147,7 +175,7 @@ $navItems = [
     @media (max-width: 640px) {
         .sidebar { width: 56px; }
         .sidebar-logo .brand-name, .sidebar-logo .brand-sub,
-        .nav-item span, .user-info, .chevron-btn { display: none; }
+        .nav-item span, .nav-sub-item, .user-info, .chevron-btn { display: none; }
     }
 </style>
 
@@ -159,10 +187,22 @@ $navItems = [
 
     <nav class="sidebar-nav">
         @foreach ($navItems as $item)
-            <a href="{{ $item['href'] }}" class="nav-item @if ($active === $item['key']) active @endif">
+            @php
+                $hasChildren = !empty($item['children']);
+                $isParentActive = $hasChildren ? \Illuminate\Support\Str::startsWith($active, $item['key'] . '-') : false;
+                $isActive = $active === $item['key'] || $isParentActive;
+            @endphp
+            <a href="{{ $item['href'] }}" class="nav-item @if($isActive) active @endif">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">{!! $item['icon'] !!}</svg>
                 <span>{{ $item['label'] }}</span>
             </a>
+            @if($hasChildren && ($isParentActive || $isActive))
+                @foreach ($item['children'] as $child)
+                    <a href="{{ $child['href'] }}" class="nav-sub-item @if($active === $child['key']) active @endif">
+                        <span>{{ $child['label'] }}</span>
+                    </a>
+                @endforeach
+            @endif
         @endforeach
     </nav>
 
