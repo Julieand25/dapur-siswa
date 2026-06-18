@@ -2,7 +2,7 @@
 
 @php
 $navItems = [
-    ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => '#', 'icon' => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'],
+    ['key' => 'dashboard', 'label' => 'Dashboard', 'href' => route('dashboard'), 'icon' => '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'],
     ['key' => 'tempahan', 'label' => 'Tempahan', 'href' => route('pending-booking'), 'icon' => '<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>', 'children' => [
         ['key' => 'tempahan-kelulusan', 'label' => 'Kelulusan Tempahan', 'href' => route('pending-booking')],
         ['key' => 'tempahan-semua', 'label' => 'Semua Tempahan', 'href' => '#'],
@@ -102,6 +102,20 @@ $navItems = [
 
     .nav-item.active svg { opacity: 1; }
 
+    .nav-chevron {
+        margin-left: auto;
+        width: 12px;
+        height: 12px;
+        opacity: 0.4;
+        flex-shrink: 0;
+        transition: transform 0.2s;
+    }
+
+    .nav-item.active .nav-chevron {
+        transform: rotate(180deg);
+        opacity: 0.7;
+    }
+
     .nav-sub-item {
         display: flex;
         align-items: center;
@@ -195,6 +209,9 @@ $navItems = [
             <a href="{{ $item['href'] }}" class="nav-item @if($isActive) active @endif">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">{!! $item['icon'] !!}</svg>
                 <span>{{ $item['label'] }}</span>
+                @if($hasChildren && ($isParentActive || $isActive))
+                    <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 15l7-7 7 7"/></svg>
+                @endif
             </a>
             @if($hasChildren && ($isParentActive || $isActive))
                 @foreach ($item['children'] as $child)
