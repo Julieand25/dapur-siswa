@@ -23,7 +23,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            max-height: calc(100vh - 250px);
         }
 
         .panel-title {
@@ -207,12 +206,11 @@
 
         #detail-panel {
             display: none;
-            max-height: none;
-            overflow: visible;
         }
 
         #detail-panel.visible {
             display: flex;
+            flex-direction: column;
         }
 
         .detail-empty {
@@ -519,6 +517,15 @@
             el.classList.add('selected');
             var detail = document.getElementById('detail-panel');
             if (detail) detail.classList.add('visible');
+            syncPanelHeight();
+        }
+
+        function syncPanelHeight() {
+            var leftPanel = document.querySelector('.split-grid .panel-card:first-child');
+            var rightPanel = document.getElementById('detail-panel');
+            if (rightPanel && rightPanel.classList.contains('visible') && leftPanel) {
+                leftPanel.style.maxHeight = rightPanel.offsetHeight + 'px';
+            }
         }
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -526,6 +533,7 @@
             if (selected) {
                 document.getElementById('detail-panel').classList.add('visible');
             }
+            syncPanelHeight();
         });
     </script>
 
