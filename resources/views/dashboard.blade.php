@@ -321,7 +321,7 @@
             <div class="table-toolbar">
                 <div class="search-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                    <input type="text" placeholder="Cari nama, program, atau tujuan…">
+                        <input type="text" placeholder="Cari nama, lokasi, atau tujuan…">
                 </div>
 
                 <select class="filter-select">
@@ -348,7 +348,7 @@
                     <tr>
                         <th>ID Tempahan</th>
                         <th>Pemohon</th>
-                        <th>Program / Tujuan</th>
+                        <th>Lokasi</th>
                         <th>Tarikh</th>
                         <th>Masa</th>
                         <th>Dapur</th>
@@ -360,7 +360,7 @@
                     <tr>
                         <td>BK240513-001</td>
                         <td>Hafizul Hakim</td>
-                        <td>Program Masakan Sihat</td>
+                        <td>KHAR</td>
                         <td>13/05/2024</td>
                         <td>08:00 – 12:00</td>
                         <td>Dapur 1</td>
@@ -376,7 +376,7 @@
                     <tr>
                         <td>BK240513-002</td>
                         <td>Nur Aisyah</td>
-                        <td>Kursus Bakeri</td>
+                        <td>KHAR</td>
                         <td>13/05/2024</td>
                         <td>13:00 – 17:00</td>
                         <td>Dapur 2</td>
@@ -392,7 +392,7 @@
                     <tr>
                         <td>BK240514-003</td>
                         <td>Muhammad Iqbal</td>
-                        <td>Aktiviti Kelab Kulinari</td>
+                        <td>KHAR</td>
                         <td>14/05/2024</td>
                         <td>08:00 – 12:00</td>
                         <td>Dapur 1</td>
@@ -408,7 +408,7 @@
                     <tr>
                         <td>BK240514-004</td>
                         <td>Siti Nur Farhana</td>
-                        <td>Pertandingan Memasak</td>
+                        <td>KHAR</td>
                         <td>14/05/2024</td>
                         <td>14:00 – 18:00</td>
                         <td>Dapur 3</td>
@@ -424,7 +424,7 @@
                     <tr>
                         <td>BK240515-005</td>
                         <td>Ahmad Danial</td>
-                        <td>Majlis Jamuan</td>
+                        <td>KHAR</td>
                         <td>15/05/2024</td>
                         <td>10:00 – 15:00</td>
                         <td>Dapur 2</td>
@@ -440,7 +440,7 @@
                     <tr>
                         <td>BK240515-006</td>
                         <td>Norsyafiqah</td>
-                        <td>Latihan Pengendalian Makanan</td>
+                        <td>KHAR</td>
                         <td>15/05/2024</td>
                         <td>08:00 – 12:00</td>
                         <td>Dapur 1</td>
@@ -456,7 +456,7 @@
                     <tr>
                         <td>BK240516-007</td>
                         <td>Intan Maisarah</td>
-                        <td>Program Kesedaran Sihat</td>
+                        <td>KHAR</td>
                         <td>16/05/2024</td>
                         <td>09:00 – 13:00</td>
                         <td>Dapur 3</td>
@@ -472,7 +472,7 @@
                     <tr>
                         <td>BK240516-008</td>
                         <td>Akmal Hakimi</td>
-                        <td>Kelas Kuih Tradisional</td>
+                        <td>KHAR</td>
                         <td>16/05/2024</td>
                         <td>14:00 – 17:00</td>
                         <td>Dapur 2</td>
