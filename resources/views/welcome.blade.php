@@ -43,26 +43,6 @@
             object-fit: contain;
         }
 
-        .tagline p {
-            font-size: 14.5px;
-            font-weight: 700;
-            color: #1a3a8f;
-            line-height: 1.5;
-        }
-
-        .madani-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-top: 4px;
-            font-size: 13px;
-            font-weight: 700;
-            color: #c00;
-            letter-spacing: 0.04em;
-            line-height: 1.3;
-        }
-
         /* ── Buttons ── */
         .btn-group {
             width: 100%;
@@ -124,10 +104,7 @@
         {{-- Logo & Tagline --}}
         <div class="logo-wrap">
             <img src="{{ asset('images/dapur-siswa-logo.png') }}" alt="Dapur Siswa MADANI UPSI">
-            <div class="tagline">
-                <p>Sistem Tempahan Dapur Siswa<br>MADANI UPSI</p>
-                <div class="madani-badge">🇲🇾 MALAYSIA MADANI</div>
-            </div>
+
         </div>
 
         {{-- Buttons --}}
