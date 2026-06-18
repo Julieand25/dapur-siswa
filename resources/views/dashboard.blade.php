@@ -379,24 +379,6 @@
             background: #fff;
         }
 
-        .btn-new {
-            margin-left: auto;
-            background: #1a56db;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 9px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            white-space: nowrap;
-            transition: filter 0.15s;
-        }
-        .btn-new:hover { filter: brightness(1.1); }
-        .btn-new svg { width: 15px; height: 15px; }
 
         /* Table */
         table {
@@ -435,6 +417,13 @@
             vertical-align: middle;
         }
 
+        tbody td:nth-last-child(2),
+        tbody td:last-child,
+        thead th:nth-last-child(2),
+        thead th:last-child {
+            text-align: center;
+        }
+
         tbody td:first-child {
             font-weight: 600;
             color: #1a3a8f;
@@ -444,20 +433,22 @@
         .badge {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
+            min-width: 100px;
             padding: 3px 10px;
-            border-radius: 999px;
+            border-radius: 4px;
             font-size: 11px;
             font-weight: 700;
             letter-spacing: 0.04em;
             text-transform: uppercase;
         }
 
-        .badge-disahkan  { background: #dcfce7; color: #15803d; }
-        .badge-menunggu  { background: #fef9c3; color: #b45309; }
-        .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; }
+        .badge-disahkan  { background: #15803d; color: #fff; }
+        .badge-menunggu  { background: #ca8a04; color: #fff; }
+        .badge-dibatalkan{ background: #b91c1c; color: #fff; }
 
         /* Action buttons */
-        .action-wrap { display: flex; align-items: center; gap: 6px; }
+        .action-wrap { display: flex; align-items: center; justify-content: center; gap: 6px; }
 
         .action-btn {
             width: 30px;
@@ -474,8 +465,7 @@
         .action-btn:hover { filter: brightness(0.9); }
         .action-btn svg { width: 14px; height: 14px; }
 
-        .action-btn.view   { background: #eff6ff; color: #1a56db; }
-        .action-btn.delete { background: #fef2f2; color: #dc2626; }
+        .action-btn.edit   { background: #f3f4f6; color: #111827; }
 
         /* Pagination */
         .pagination {
@@ -723,10 +713,7 @@
 
                     <input type="date" class="date-input" value="2024-05-13">
 
-                    <button class="btn-new">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-                        Tempahan Baru
-                    </button>
+
                 </div>
 
                 <!-- Table -->
@@ -754,11 +741,8 @@
                             <td><span class="badge badge-disahkan">Disahkan</span></td>
                             <td>
                                 <div class="action-wrap">
-                                    <button class="action-btn view" title="Lihat">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    </button>
-                                    <button class="action-btn delete" title="Padam">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    <button class="action-btn edit" title="Sunting">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
                                     </button>
                                 </div>
                             </td>
@@ -773,11 +757,8 @@
                             <td><span class="badge badge-menunggu">Menunggu</span></td>
                             <td>
                                 <div class="action-wrap">
-                                    <button class="action-btn view" title="Lihat">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    </button>
-                                    <button class="action-btn delete" title="Padam">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    <button class="action-btn edit" title="Sunting">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
                                     </button>
                                 </div>
                             </td>
@@ -792,11 +773,8 @@
                             <td><span class="badge badge-disahkan">Disahkan</span></td>
                             <td>
                                 <div class="action-wrap">
-                                    <button class="action-btn view" title="Lihat">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    </button>
-                                    <button class="action-btn delete" title="Padam">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    <button class="action-btn edit" title="Sunting">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
                                     </button>
                                 </div>
                             </td>
@@ -811,11 +789,8 @@
                             <td><span class="badge badge-menunggu">Menunggu</span></td>
                             <td>
                                 <div class="action-wrap">
-                                    <button class="action-btn view" title="Lihat">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    </button>
-                                    <button class="action-btn delete" title="Padam">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    <button class="action-btn edit" title="Sunting">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
                                     </button>
                                 </div>
                             </td>
@@ -830,11 +805,8 @@
                             <td><span class="badge badge-dibatalkan">Dibatalkan</span></td>
                             <td>
                                 <div class="action-wrap">
-                                    <button class="action-btn view" title="Lihat">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    </button>
-                                    <button class="action-btn delete" title="Padam">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    <button class="action-btn edit" title="Sunting">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
                                     </button>
                                 </div>
                             </td>
@@ -849,11 +821,8 @@
                             <td><span class="badge badge-disahkan">Disahkan</span></td>
                             <td>
                                 <div class="action-wrap">
-                                    <button class="action-btn view" title="Lihat">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    </button>
-                                    <button class="action-btn delete" title="Padam">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    <button class="action-btn edit" title="Sunting">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
                                     </button>
                                 </div>
                             </td>
@@ -868,11 +837,8 @@
                             <td><span class="badge badge-menunggu">Menunggu</span></td>
                             <td>
                                 <div class="action-wrap">
-                                    <button class="action-btn view" title="Lihat">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    </button>
-                                    <button class="action-btn delete" title="Padam">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    <button class="action-btn edit" title="Sunting">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
                                     </button>
                                 </div>
                             </td>
@@ -887,11 +853,8 @@
                             <td><span class="badge badge-disahkan">Disahkan</span></td>
                             <td>
                                 <div class="action-wrap">
-                                    <button class="action-btn view" title="Lihat">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                                    </button>
-                                    <button class="action-btn delete" title="Padam">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                                    <button class="action-btn edit" title="Sunting">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
                                     </button>
                                 </div>
                             </td>
