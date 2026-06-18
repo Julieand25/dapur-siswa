@@ -636,9 +636,6 @@
             <div class="stat-grid">
 
                 <div class="stat-card">
-                    <div class="stat-icon blue">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                    </div>
                     <div class="stat-body">
                         <div class="stat-num">12</div>
                         <div class="stat-label">Tempahan Hari Ini</div>
@@ -646,9 +643,6 @@
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon green">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                    </div>
                     <div class="stat-body">
                         <div class="stat-num">48</div>
                         <div class="stat-label">Tempahan Bulan Ini</div>
@@ -656,9 +650,6 @@
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon amber">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                    </div>
                     <div class="stat-body">
                         <div class="stat-num">5</div>
                         <div class="stat-label">Menunggu Kelulusan</div>
@@ -666,9 +657,6 @@
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon indigo">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
                     <div class="stat-body">
                         <div class="stat-num">43</div>
                         <div class="stat-label">Disahkan</div>
@@ -676,9 +664,6 @@
                 </div>
 
                 <div class="stat-card">
-                    <div class="stat-icon red">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
-                    </div>
                     <div class="stat-body">
                         <div class="stat-num">2</div>
                         <div class="stat-label">Dibatalkan</div>
