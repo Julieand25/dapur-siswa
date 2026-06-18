@@ -287,11 +287,11 @@
 
         .stat-icon svg { width: 22px; height: 22px; }
 
-        .stat-icon.blue   { background: #eff6ff; color: #1a56db; }
-        .stat-icon.green  { background: #f0fdf4; color: #16a34a; }
-        .stat-icon.amber  { background: #fffbeb; color: #d97706; }
-        .stat-icon.indigo { background: #eef2ff; color: #4f46e5; }
-        .stat-icon.red    { background: #fef2f2; color: #dc2626; }
+        .stat-icon.blue   { background: #1a56db; color: #fff; }
+        .stat-icon.green  { background: #16a34a; color: #fff; }
+        .stat-icon.amber  { background: #d97706; color: #fff; }
+        .stat-icon.indigo { background: #4f46e5; color: #fff; }
+        .stat-icon.red    { background: #dc2626; color: #fff; }
 
         .stat-body .stat-num {
             font-size: 26px;
