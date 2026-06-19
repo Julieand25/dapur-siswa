@@ -426,6 +426,11 @@
             height: 22px;
         }
 
+        .confirm-icon.reject-icon {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
         .confirm-title {
             font-size: 15px;
             font-weight: 700;
@@ -709,6 +714,22 @@
         </div>
     </div>
 
+    <div class="confirm-overlay" id="rejectConfirmModal">
+        <div class="confirm-card">
+            <div class="confirm-icon reject-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </div>
+            <div class="confirm-title">Sahkan Penolakan Permohonan</div>
+            <div class="confirm-text">
+                Anda pasti ingin menolak permohonan ini? Notifikasi akan dihantar terus kepada pemohon.
+            </div>
+            <div class="confirm-buttons">
+                <button class="confirm-btn no" onclick="closeRejectConfirm()">Tidak</button>
+                <button class="confirm-btn yes" style="background:#dc2626;" onclick="confirmReject()">Ya</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
         &copy; 2024 Dapur Siswa Madani UPSI. Hak Cipta Terpelihara.
     </footer>
@@ -742,6 +763,21 @@
             closeConfirm();
         }
 
+        function showRejectConfirm() {
+            document.getElementById('rejectConfirmModal').classList.add('show');
+        }
+
+        function closeRejectConfirm() {
+            document.getElementById('rejectConfirmModal').classList.remove('show');
+        }
+
+        function confirmReject() {
+            closeRejectConfirm();
+            hideRejectForm();
+            document.getElementById('rejectReason').value = '';
+            updateCharCount();
+        }
+
         function showRejectForm() {
             document.getElementById('detailContent').style.display = 'none';
             document.getElementById('rejectContent').classList.add('show');
@@ -760,9 +796,7 @@
         }
 
         function submitReject() {
-            hideRejectForm();
-            document.getElementById('rejectReason').value = '';
-            updateCharCount();
+            showRejectConfirm();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
