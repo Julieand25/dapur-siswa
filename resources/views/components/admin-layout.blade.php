@@ -115,6 +115,44 @@
             font-weight: 700;
         }
 
+        .user-menu-wrapper {
+            position: relative;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            right: 0;
+            top: 100%;
+            margin-top: 8px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            min-width: 160px;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .user-dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: left;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .user-dropdown-item.logout {
+            color: #dc2626;
+        }
+
+        .user-dropdown-item.logout:hover {
+            background: #fef2f2;
+        }
+
         @media (max-width: 640px) {
             .main { margin-left: 56px; }
         }
