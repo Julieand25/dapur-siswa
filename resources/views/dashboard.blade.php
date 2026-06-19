@@ -177,17 +177,16 @@
             align-items: center;
             justify-content: center;
             min-width: 100px;
-            padding: 3px 10px;
+            padding: 1px 8px;
             border-radius: 4px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
+            border: 1px solid;
         }
 
-        .badge-disahkan  { background: #15803d; color: #fff; }
-        .badge-menunggu  { background: #ca8a04; color: #fff; }
-        .badge-dibatalkan{ background: #b91c1c; color: #fff; }
+        .badge-disahkan  { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
+        .badge-menunggu  { background: #fff9db; color: #d97706; border-color: #fef08a; }
+        .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
 
 
         .pagination {
