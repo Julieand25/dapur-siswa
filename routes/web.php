@@ -24,6 +24,10 @@ Route::get('/dapur/create', function () {
     return view('create-dapur');
 })->name('dapur.create');
 
+Route::get('/dapur/{id}/barang', function () {
+    return view('manage-barang');
+})->name('dapur.barang');
+
 Route::get('/dapur/{id}/edit', function () {
     return view('edit-dapur');
 })->name('dapur.edit');

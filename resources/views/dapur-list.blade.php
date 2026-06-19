@@ -284,7 +284,7 @@
         </div>
 
         <div class="dapur-grid">
-            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 1) }}'">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.barang', 1) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 4</span>
                     <div class="card-menu">
@@ -292,6 +292,10 @@
                             <span></span><span></span><span></span>
                         </button>
                         <div class="menu-dropdown">
+                            <button class="menu-item" onclick="event.stopPropagation(); location.href='{{ route('dapur.edit', 1) }}'">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                Edit Dapur
+                            </button>
                             <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 1')">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 Padam
@@ -306,7 +310,7 @@
                 </div>
             </div>
 
-            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 2) }}'">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.barang', 2) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 4</span>
                     <div class="card-menu">
@@ -314,6 +318,10 @@
                             <span></span><span></span><span></span>
                         </button>
                         <div class="menu-dropdown">
+                            <button class="menu-item" onclick="event.stopPropagation(); location.href='{{ route('dapur.edit', 2) }}'">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                Edit Dapur
+                            </button>
                             <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 2')">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 Padam
@@ -328,7 +336,7 @@
                 </div>
             </div>
 
-            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 3) }}'">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.barang', 3) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 3</span>
                     <div class="card-menu">
@@ -336,6 +344,10 @@
                             <span></span><span></span><span></span>
                         </button>
                         <div class="menu-dropdown">
+                            <button class="menu-item" onclick="event.stopPropagation(); location.href='{{ route('dapur.edit', 3) }}'">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                Edit Dapur
+                            </button>
                             <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 1')">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 Padam
@@ -350,7 +362,7 @@
                 </div>
             </div>
 
-            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 4) }}'">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.barang', 4) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 3</span>
                     <div class="card-menu">
@@ -358,6 +370,10 @@
                             <span></span><span></span><span></span>
                         </button>
                         <div class="menu-dropdown">
+                            <button class="menu-item" onclick="event.stopPropagation(); location.href='{{ route('dapur.edit', 4) }}'">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                Edit Dapur
+                            </button>
                             <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 2')">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 Padam
@@ -371,7 +387,7 @@
                     <span class="badge-tersedia">Tersedia</span>
                 </div>
             </div>
-            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 5) }}'">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.barang', 5) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 2</span>
                     <div class="card-menu">
@@ -379,6 +395,10 @@
                             <span></span><span></span><span></span>
                         </button>
                         <div class="menu-dropdown">
+                            <button class="menu-item" onclick="event.stopPropagation(); location.href='{{ route('dapur.edit', 5) }}'">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                Edit Dapur
+                            </button>
                             <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 1')">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 Padam
@@ -392,7 +412,7 @@
                     <span class="badge-tersedia">Tersedia</span>
                 </div>
             </div>
-            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 6) }}'">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.barang', 6) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 2</span>
                     <div class="card-menu">
@@ -400,6 +420,10 @@
                             <span></span><span></span><span></span>
                         </button>
                         <div class="menu-dropdown">
+                            <button class="menu-item" onclick="event.stopPropagation(); location.href='{{ route('dapur.edit', 6) }}'">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                Edit Dapur
+                            </button>
                             <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 2')">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                 Padam
