@@ -48,6 +48,14 @@ Route::get('/laporan/maklumbalas/{id}', function () {
     return view('feedback-detail');
 })->name('laporan.maklumbalas.show');
 
+Route::get('/laporan/rekod', function () {
+    return view('record-list');
+})->name('laporan.rekod');
+
+Route::get('/laporan/rekod/{id}', function () {
+    return view('record-list');
+})->name('laporan.rekod.show');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
