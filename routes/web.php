@@ -32,6 +32,10 @@ Route::get('/dapur/{id}/edit', function () {
     return view('edit-dapur');
 })->name('dapur.edit');
 
+Route::get('/pengguna', function () {
+    return view('user-list');
+})->name('pengguna.index');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
