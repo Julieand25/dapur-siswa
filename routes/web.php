@@ -56,6 +56,10 @@ Route::get('/laporan/rekod/{id}', function () {
     return view('record-detail');
 })->name('laporan.rekod.show');
 
+Route::get('/tetapan', function () {
+    return view('settings');
+})->name('tetapan.index');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
