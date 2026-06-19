@@ -213,6 +213,7 @@
                     <option>Dapur 2</option>
                     <option>Dapur 3</option>
                 </select>
+                <input type="date" class="filter-select" style="width:140px;padding-right:10px;background-image:none;" value="2024-05-24">
             </div>
 
             <table>
