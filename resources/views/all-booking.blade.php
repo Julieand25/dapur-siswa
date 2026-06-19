@@ -1,60 +1,10 @@
-<x-admin-layout active="dashboard" title="Dashboard Tempahan" subtitle="Sistem Tempahan Dapur Siswa Madani UPSI">
+<x-admin-layout active="tempahan-semua" title="Semua Tempahan" subtitle="Lihat semua rekod tempahan dapur.">
 
     @push('styles')
     <style>
         .content {
             padding: 28px;
             flex: 1;
-        }
-
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 24px;
-        }
-
-        .stat-card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-
-        .stat-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .stat-icon svg { width: 22px; height: 22px; }
-
-        .stat-icon.blue   { background: #1a56db; color: #fff; }
-        .stat-icon.green  { background: #16a34a; color: #fff; }
-        .stat-icon.amber  { background: #d97706; color: #fff; }
-        .stat-icon.indigo { background: #4f46e5; color: #fff; }
-        .stat-icon.red    { background: #dc2626; color: #fff; }
-
-        .stat-body .stat-num {
-            font-size: 26px;
-            font-weight: 700;
-            color: #111827;
-            line-height: 1.1;
-        }
-
-        .stat-body .stat-label {
-            font-size: 11.5px;
-            color: #6b7280;
-            margin-top: 3px;
-            font-weight: 500;
         }
 
         .table-card {
@@ -164,13 +114,10 @@
             vertical-align: middle;
         }
 
-        tbody td:nth-last-child(2),
         tbody td:last-child,
-        thead th:nth-last-child(2),
         thead th:last-child {
             text-align: center;
         }
-
 
         .badge {
             display: inline-flex;
@@ -188,20 +135,44 @@
         .badge-menunggu  { background: #fff9db; color: #d97706; border-color: #fef08a; }
         .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
 
-
-        .view-all-link {
-            display: block;
-            text-align: center;
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             padding: 14px 20px;
             border-top: 1px solid #f3f4f6;
-            font-size: 13px;
-            font-weight: 600;
-            color: #1a56db;
-            text-decoration: none;
+        }
+
+        .pag-info {
+            font-size: 12.5px;
+            color: #6b7280;
+        }
+
+        .pag-pages {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .pag-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            font-size: 12.5px;
+            color: #374151;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
             transition: background 0.12s;
         }
 
-        .view-all-link:hover { background: #f0f4ff; }
+        .pag-btn:hover { background: #f3f4f6; }
+        .pag-btn.active { background: #1a56db; color: #fff; border-color: #1a56db; font-weight: 700; }
+        .pag-btn svg { width: 13px; height: 13px; }
 
         .footer {
             text-align: center;
@@ -210,49 +181,23 @@
             color: #9ca3af;
             border-top: 1px solid #e5e7eb;
             background: #fff;
-        }
-
-        @media (max-width: 900px) {
-            .stat-grid { grid-template-columns: repeat(2, 1fr); }
+            margin-top: auto;
         }
 
         @media (max-width: 640px) {
-            .stat-grid { grid-template-columns: 1fr 1fr; }
             .content { padding: 16px; }
         }
     </style>
     @endpush
 
-    <!-- Content -->
     <main class="content">
 
-        <!-- Stat Cards -->
-        <div class="stat-grid">
-
-            <div class="stat-card">
-                <div class="stat-body">
-                    <div class="stat-num">12</div>
-                    <div class="stat-label">Tempahan Hari Ini</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-body">
-                    <div class="stat-num">5</div>
-                    <div class="stat-label">Menunggu Kelulusan</div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Table Card -->
         <div class="table-card">
 
-            <!-- Toolbar -->
             <div class="table-toolbar">
                 <div class="search-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                        <input type="text" placeholder="Cari nama, lokasi, atau tujuan…">
+                    <input type="text" placeholder="Cari nama, lokasi, atau tujuan…">
                 </div>
 
                 <select class="filter-select">
@@ -270,13 +215,12 @@
                 </select>
 
                 <input type="date" class="date-input" value="2024-05-13">
-
             </div>
 
-            <!-- Table -->
             <table>
                 <thead>
                     <tr>
+                        <th>ID Tempahan</th>
                         <th>Pemohon</th>
                         <th>No. Matrik</th>
                         <th>Emel</th>
@@ -289,6 +233,7 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <td>BK240513-001</td>
                         <td>Hafizul Hakim</td>
                         <td>D20240000001</td>
                         <td>hafizul@siswa.edu.my</td>
@@ -299,6 +244,7 @@
                         <td><span class="badge badge-disahkan">Disahkan</span></td>
                     </tr>
                     <tr>
+                        <td>BK240513-002</td>
                         <td>Nur Aisyah</td>
                         <td>D20240000002</td>
                         <td>aisyah@siswa.edu.my</td>
@@ -309,6 +255,7 @@
                         <td><span class="badge badge-menunggu">Menunggu</span></td>
                     </tr>
                     <tr>
+                        <td>BK240514-003</td>
                         <td>Muhammad Iqbal</td>
                         <td>D20240000003</td>
                         <td>iqbal@siswa.edu.my</td>
@@ -319,6 +266,7 @@
                         <td><span class="badge badge-disahkan">Disahkan</span></td>
                     </tr>
                     <tr>
+                        <td>BK240514-004</td>
                         <td>Siti Nur Farhana</td>
                         <td>D20240000004</td>
                         <td>farhana@siswa.edu.my</td>
@@ -329,6 +277,7 @@
                         <td><span class="badge badge-menunggu">Menunggu</span></td>
                     </tr>
                     <tr>
+                        <td>BK240515-005</td>
                         <td>Ahmad Danial</td>
                         <td>D20240000005</td>
                         <td>danial@siswa.edu.my</td>
@@ -339,6 +288,7 @@
                         <td><span class="badge badge-dibatalkan">Dibatalkan</span></td>
                     </tr>
                     <tr>
+                        <td>BK240515-006</td>
                         <td>Norsyafiqah</td>
                         <td>D20240000006</td>
                         <td>syafiqah@siswa.edu.my</td>
@@ -349,6 +299,7 @@
                         <td><span class="badge badge-disahkan">Disahkan</span></td>
                     </tr>
                     <tr>
+                        <td>BK240516-007</td>
                         <td>Intan Maisarah</td>
                         <td>D20240000007</td>
                         <td>intan@siswa.edu.my</td>
@@ -359,6 +310,7 @@
                         <td><span class="badge badge-menunggu">Menunggu</span></td>
                     </tr>
                     <tr>
+                        <td>BK240516-008</td>
                         <td>Akmal Hakimi</td>
                         <td>D20240000008</td>
                         <td>akmal@siswa.edu.my</td>
@@ -371,7 +323,22 @@
                 </tbody>
             </table>
 
-            <a href="{{ route('all-booking') }}" class="view-all-link">Lihat semua tempahan</a>
+            <div class="pagination">
+                <span class="pag-info">Memaparkan 1 hingga 8 daripada 48 rekod</span>
+                <div class="pag-pages">
+                    <button class="pag-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button class="pag-btn active">1</button>
+                    <button class="pag-btn">2</button>
+                    <button class="pag-btn">3</button>
+                    <button class="pag-btn" disabled style="cursor:default;color:#9ca3af;">…</button>
+                    <button class="pag-btn">6</button>
+                    <button class="pag-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
 
         </div>
 

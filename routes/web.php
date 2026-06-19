@@ -16,6 +16,10 @@ Route::get('/pending-booking', function () {
     return view('pending-booking');
 })->name('pending-booking');
 
+Route::get('/all-booking', function () {
+    return view('all-booking');
+})->name('all-booking');
+
 Route::get('/dapur', function () {
     return view('dapur-list');
 })->name('dapur.index');
