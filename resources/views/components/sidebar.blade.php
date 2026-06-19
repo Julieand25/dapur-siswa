@@ -236,9 +236,7 @@ $navItems = [
             <div class="u-name">Pentadbir</div>
             <div class="u-role">Admin</div>
         </div>
-        <button class="chevron-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 9l7 7 7-7"/></svg>
-        </button>
+
     </div>
 </aside>
 
