@@ -198,6 +198,17 @@
                     Maklumat Peribadi
                 </div>
 
+                <div class="photo-section">
+                    <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
+                    <label class="photo-preview-wrapper" for="photoInput">
+                        <div class="photo-preview" id="photoPreview">P</div>
+                        <div class="photo-plus">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        </div>
+                    </label>
+                </div>
+                <div class="photo-hint">Format: JPG, PNG. Maksimum 2MB.</div>
+
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Nama Penuh</label>
@@ -224,17 +235,6 @@
                         <input type="text" class="form-input" value="019-123 4567" placeholder="No. telefon">
                     </div>
                 </div>
-
-                <div class="photo-section">
-                    <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
-                    <label class="photo-preview-wrapper" for="photoInput">
-                        <div class="photo-preview" id="photoPreview">P</div>
-                        <div class="photo-plus">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                        </div>
-                    </label>
-                </div>
-                <div class="photo-hint">Format: JPG, PNG. Maksimum 2MB.</div>
 
                 <button class="btn-save">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
