@@ -36,6 +36,10 @@ Route::get('/pengguna', function () {
     return view('user-list');
 })->name('pengguna.index');
 
+Route::get('/kalendar', function () {
+    return view('kalendar');
+})->name('kalendar.index');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
