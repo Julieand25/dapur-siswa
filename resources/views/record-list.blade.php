@@ -223,6 +223,8 @@
                         <th>Nama</th>
                         <th style="width:130px;">No. Matrik</th>
                         <th>Emel</th>
+                        <th style="width:90px;">Lokasi</th>
+                        <th style="width:90px;">Dapur</th>
                         <th style="width:120px;">Jumlah Orang</th>
                         <th style="width:70px;">Tindakan</th>
                     </tr>
@@ -234,6 +236,8 @@
                         <td>Nur Aisyah Binti Ahmad</td>
                         <td>D20231098765</td>
                         <td>nuraisyah@example.com</td>
+                        <td>KHAR 4</td>
+                        <td>Dapur 1</td>
                         <td>5</td>
                         <td>
                             <a href="{{ route('laporan.rekod.show', 1) }}" class="btn-icon" title="Lihat">
@@ -247,6 +251,8 @@
                         <td>Muhammad Faris Bin Razak</td>
                         <td>D20221123456</td>
                         <td>farisfr@example.com</td>
+                        <td>KHAR 4</td>
+                        <td>Dapur 2</td>
                         <td>3</td>
                         <td>
                             <a href="{{ route('laporan.rekod.show', 2) }}" class="btn-icon" title="Lihat">
@@ -260,6 +266,8 @@
                         <td>Siti Hajar Binti Ismail</td>
                         <td>D20214567890</td>
                         <td>sitihajar@example.com</td>
+                        <td>KHAR 3</td>
+                        <td>Dapur 1</td>
                         <td>4</td>
                         <td>
                             <a href="{{ route('laporan.rekod.show', 3) }}" class="btn-icon" title="Lihat">
@@ -273,6 +281,8 @@
                         <td>Ahmad Danish Bin Nazri</td>
                         <td>D20220987654</td>
                         <td>ahmaddanish@example.com</td>
+                        <td>KHAR 3</td>
+                        <td>Dapur 2</td>
                         <td>6</td>
                         <td>
                             <a href="{{ route('laporan.rekod.show', 4) }}" class="btn-icon" title="Lihat">
@@ -286,6 +296,8 @@
                         <td>Norsyazwani Binti Zakaria</td>
                         <td>D20235678901</td>
                         <td>syazwani@example.com</td>
+                        <td>KHAR 2</td>
+                        <td>Dapur 1</td>
                         <td>2</td>
                         <td>
                             <a href="{{ route('laporan.rekod.show', 5) }}" class="btn-icon" title="Lihat">
@@ -299,6 +311,8 @@
                         <td>Amirul Hakim Bin Johari</td>
                         <td>D20211234098</td>
                         <td>amirul@example.com</td>
+                        <td>KHAR 2</td>
+                        <td>Dapur 2</td>
                         <td>8</td>
                         <td>
                             <a href="{{ route('laporan.rekod.show', 6) }}" class="btn-icon" title="Lihat">
