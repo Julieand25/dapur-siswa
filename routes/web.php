@@ -16,6 +16,10 @@ Route::get('/pending-booking', function () {
     return view('pending-booking');
 })->name('pending-booking');
 
+Route::get('/dapur', function () {
+    return view('dapur-list');
+})->name('dapur.index');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
