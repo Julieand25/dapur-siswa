@@ -299,6 +299,91 @@
         .btn-action.reject:hover { background: #b91c1c; }
         .btn-action svg { width: 16px; height: 16px; }
 
+        .detail-content { display: flex; flex-direction: column; }
+
+        .reject-content {
+            display: none;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .reject-content.show {
+            display: flex;
+        }
+
+        .reject-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .reject-hint {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-bottom: 14px;
+        }
+
+        .reject-textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 12px 14px;
+            border: 1.5px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: inherit;
+            color: #374151;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.15s;
+            flex: 1;
+        }
+
+        .reject-textarea:focus { border-color: #dc2626; }
+
+        .char-count {
+            text-align: right;
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 6px;
+            margin-bottom: 16px;
+        }
+
+        .reject-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-reject-back {
+            height: 38px;
+            padding: 0 22px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            transition: background 0.15s;
+        }
+
+        .btn-reject-back:hover { background: #e5e7eb; }
+
+        .btn-reject-submit {
+            height: 38px;
+            padding: 0 28px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            background: #dc2626;
+            color: #fff;
+            border: none;
+            transition: background 0.15s;
+        }
+
+        .btn-reject-submit:hover { background: #b91c1c; }
+
         .confirm-overlay {
             display: none;
             position: fixed;
@@ -539,6 +624,7 @@
             </div>
 
             <div class="panel-card" id="detail-panel">
+                <div class="detail-content" id="detailContent">
                 <div class="detail-header">
                     <div class="panel-title">Butiran Permohonan</div>
                     <div class="status-container">
@@ -584,10 +670,22 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                         <span>Luluskan</span>
                     </button>
-                    <button class="btn-action reject">
+                    <button class="btn-action reject" onclick="showRejectForm()">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                         <span>Tolak</span>
                     </button>
+                </div>
+                </div>
+
+                <div class="reject-content" id="rejectContent">
+                    <div class="reject-label">Sebab penolakan</div>
+                    <div class="reject-hint">Sila nyatakan sebab penolakan ini dengan jelas.</div>
+                    <textarea class="reject-textarea" id="rejectReason" placeholder="Taip sebab penolakan di sini..." maxlength="500" oninput="updateCharCount()"></textarea>
+                    <div class="char-count"><span id="charCount">0</span>/500</div>
+                    <div class="reject-buttons">
+                        <button class="btn-reject-back" onclick="hideRejectForm()">Kembali</button>
+                        <button class="btn-reject-submit" onclick="submitReject()">Sahkan</button>
+                    </div>
                 </div>
             </div>
 
@@ -641,6 +739,29 @@
 
         function confirmApprove() {
             closeConfirm();
+        }
+
+        function showRejectForm() {
+            document.getElementById('detailContent').style.display = 'none';
+            document.getElementById('rejectContent').classList.add('show');
+            syncPanelHeight();
+        }
+
+        function hideRejectForm() {
+            document.getElementById('rejectContent').classList.remove('show');
+            document.getElementById('detailContent').style.display = 'flex';
+            syncPanelHeight();
+        }
+
+        function updateCharCount() {
+            var len = document.getElementById('rejectReason').value.length;
+            document.getElementById('charCount').textContent = len;
+        }
+
+        function submitReject() {
+            hideRejectForm();
+            document.getElementById('rejectReason').value = '';
+            updateCharCount();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
