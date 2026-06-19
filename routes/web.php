@@ -20,6 +20,14 @@ Route::get('/dapur', function () {
     return view('dapur-list');
 })->name('dapur.index');
 
+Route::get('/dapur/create', function () {
+    return view('create-dapur');
+})->name('dapur.create');
+
+Route::get('/dapur/{id}/edit', function () {
+    return view('edit-dapur');
+})->name('dapur.edit');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

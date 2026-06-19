@@ -25,10 +25,11 @@
             color: #fff;
             background: #1a56db;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
             transition: background 0.15s;
+            text-decoration: none;
         }
 
         .btn-tambah:hover { background: #1e40af; }
@@ -98,6 +99,7 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             padding: 20px 22px;
             transition: box-shadow 0.2s, border-color 0.2s;
+            cursor: pointer;
         }
 
         .dapur-card:hover {
@@ -109,7 +111,79 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 14px;
+            margin-bottom: 8px;
+        }
+
+        .card-menu {
+            position: relative;
+        }
+
+        .menu-dots {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            padding: 0;
+            transition: background 0.15s;
+        }
+
+        .menu-dots:hover { background: #f3f4f6; }
+
+        .menu-dots span {
+            width: 3.5px;
+            height: 3.5px;
+            border-radius: 50%;
+            background: #9ca3af;
+        }
+
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 34px;
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            z-index: 20;
+            min-width: 140px;
+            overflow: hidden;
+        }
+
+        .menu-dropdown.show { display: block; }
+
+        .menu-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #374151;
+            background: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background 0.1s;
+            text-align: left;
+        }
+
+        .menu-item:hover { background: #f9fafb; }
+
+        .menu-item.delete-item { color: #dc2626; }
+
+        .menu-item.delete-item:hover { background: #fef2f2; }
+
+        .menu-item svg {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
         }
 
         .card-location {
@@ -127,14 +201,10 @@
             font-weight: 700;
             color: #111827;
             margin-bottom: 4px;
+            padding-bottom: 16px;
         }
 
-        .card-desc {
-            font-size: 12.5px;
-            color: #6b7280;
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
+
 
         .card-footer {
             display: flex;
@@ -162,35 +232,6 @@
             background: #fef2f2;
             color: #dc2626;
             border: 1px solid #fecaca;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 6px;
-        }
-
-        .btn-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            border: 1px solid #e5e7eb;
-            background: #fff;
-            color: #6b7280;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.15s, color 0.15s;
-        }
-
-        .btn-icon:hover {
-            background: #f3f4f6;
-            color: #374151;
-        }
-
-        .btn-icon svg {
-            width: 14px;
-            height: 14px;
         }
 
         .footer {
@@ -236,124 +277,140 @@
                 <option>Tersedia</option>
                 <option>Tidak Tersedia</option>
             </select>
-            <button class="btn-tambah" style="flex-shrink:0;">
+            <a href="{{ route('dapur.create') }}" class="btn-tambah" style="flex-shrink:0;">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                 Tambah Dapur
-            </button>
+            </a>
         </div>
 
         <div class="dapur-grid">
-            <div class="dapur-card">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 1) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 4</span>
+                    <div class="card-menu">
+                        <button class="menu-dots" onclick="toggleMenu(event)">
+                            <span></span><span></span><span></span>
+                        </button>
+                        <div class="menu-dropdown">
+                            <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 1')">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Padam
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-name">Dapur 1</div>
-                <div class="card-desc">Dapur utama tingkat bawah, lengkap dengan peralatan memasak asas.</div>
+
                 <div class="card-footer">
                     <span class="badge-tersedia">Tersedia</span>
-                    <div class="card-actions">
-                        <button class="btn-icon" title="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        </button>
-                        <button class="btn-icon" title="Padam">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <div class="dapur-card">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 2) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 4</span>
+                    <div class="card-menu">
+                        <button class="menu-dots" onclick="toggleMenu(event)">
+                            <span></span><span></span><span></span>
+                        </button>
+                        <div class="menu-dropdown">
+                            <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 2')">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Padam
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-name">Dapur 2</div>
-                <div class="card-desc">Dapur bersebelahan dewan utama, sesuai untuk majlis kecil.</div>
+
                 <div class="card-footer">
                     <span class="badge-tersedia">Tersedia</span>
-                    <div class="card-actions">
-                        <button class="btn-icon" title="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        </button>
-                        <button class="btn-icon" title="Padam">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <div class="dapur-card">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 3) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 3</span>
+                    <div class="card-menu">
+                        <button class="menu-dots" onclick="toggleMenu(event)">
+                            <span></span><span></span><span></span>
+                        </button>
+                        <div class="menu-dropdown">
+                            <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 1')">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Padam
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-name">Dapur 1</div>
-                <div class="card-desc">Dapur di aras satu, dilengkapi ketuhar dan peti sejuk industri.</div>
+
                 <div class="card-footer">
                     <span class="badge-tidak-tersedia">Tidak Tersedia</span>
-                    <div class="card-actions">
-                        <button class="btn-icon" title="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        </button>
-                        <button class="btn-icon" title="Padam">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <div class="dapur-card">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 4) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 3</span>
-                </div>
-                <div class="card-name">Dapur 2</div>
-                <div class="card-desc">Dapur kecil untuk aktiviti memasak berkumpulan pelajar.</div>
-                <div class="card-footer">
-                    <span class="badge-tersedia">Tersedia</span>
-                    <div class="card-actions">
-                        <button class="btn-icon" title="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    <div class="card-menu">
+                        <button class="menu-dots" onclick="toggleMenu(event)">
+                            <span></span><span></span><span></span>
                         </button>
-                        <button class="btn-icon" title="Padam">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        </button>
+                        <div class="menu-dropdown">
+                            <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 2')">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Padam
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="card-name">Dapur 2</div>
 
-            <div class="dapur-card">
+                <div class="card-footer">
+                    <span class="badge-tersedia">Tersedia</span>
+                </div>
+            </div>
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 5) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 2</span>
+                    <div class="card-menu">
+                        <button class="menu-dots" onclick="toggleMenu(event)">
+                            <span></span><span></span><span></span>
+                        </button>
+                        <div class="menu-dropdown">
+                            <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 1')">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Padam
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-name">Dapur 1</div>
-                <div class="card-desc">Dapur pelbagai guna dengan ruang penyediaan yang luas.</div>
+
                 <div class="card-footer">
                     <span class="badge-tersedia">Tersedia</span>
-                    <div class="card-actions">
-                        <button class="btn-icon" title="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        </button>
-                        <button class="btn-icon" title="Padam">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        </button>
-                    </div>
                 </div>
             </div>
-
-            <div class="dapur-card">
+            <div class="dapur-card" onclick="location.href='{{ route('dapur.edit', 6) }}'">
                 <div class="card-top">
                     <span class="card-location">KHAR 2</span>
+                    <div class="card-menu">
+                        <button class="menu-dots" onclick="toggleMenu(event)">
+                            <span></span><span></span><span></span>
+                        </button>
+                        <div class="menu-dropdown">
+                            <button class="menu-item delete-item" onclick="confirmDeleteDapur(event, 'Dapur 2')">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                Padam
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-name">Dapur 2</div>
-                <div class="card-desc">Dapur baharu, siap dinaik taraf dengan peralatan moden.</div>
+
                 <div class="card-footer">
                     <span class="badge-tidak-tersedia">Tidak Tersedia</span>
-                    <div class="card-actions">
-                        <button class="btn-icon" title="Edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                        </button>
-                        <button class="btn-icon" title="Padam">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -362,5 +419,25 @@
     <footer class="footer">
         &copy; 2024 Dapur Siswa Madani UPSI. Hak Cipta Terpelihara.
     </footer>
+
+    <script>
+        function toggleMenu(e) {
+            e.stopPropagation();
+            var dropdown = e.currentTarget.nextElementSibling;
+            var isOpen = dropdown.classList.contains('show');
+            document.querySelectorAll('.menu-dropdown.show').forEach(function(d) { d.classList.remove('show'); });
+            if (!isOpen) dropdown.classList.add('show');
+        }
+
+        function confirmDeleteDapur(e, name) {
+            e.stopPropagation();
+            document.querySelectorAll('.menu-dropdown.show').forEach(function(d) { d.classList.remove('show'); });
+            alert('Padam ' + name + '?');
+        }
+
+        document.addEventListener('click', function() {
+            document.querySelectorAll('.menu-dropdown.show').forEach(function(d) { d.classList.remove('show'); });
+        });
+    </script>
 
 </x-admin-layout>
