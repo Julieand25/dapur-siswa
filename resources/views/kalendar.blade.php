@@ -220,6 +220,9 @@
             display: flex;
         }
 
+        #slotModal { z-index: 999; }
+        #detailModal { z-index: 1001; }
+
         .modal-card {
             background: #fff;
             border-radius: 12px;
