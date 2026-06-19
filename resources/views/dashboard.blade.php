@@ -9,7 +9,7 @@
 
         .stat-grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 16px;
             margin-bottom: 24px;
         }
@@ -171,10 +171,6 @@
             text-align: center;
         }
 
-        tbody td:first-child {
-            font-weight: 600;
-            color: #1a3a8f;
-        }
 
         .badge {
             display: inline-flex;
@@ -193,24 +189,6 @@
         .badge-menunggu  { background: #ca8a04; color: #fff; }
         .badge-dibatalkan{ background: #b91c1c; color: #fff; }
 
-        .action-wrap { display: flex; align-items: center; justify-content: center; gap: 6px; }
-
-        .action-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: filter 0.15s;
-        }
-
-        .action-btn:hover { filter: brightness(0.9); }
-        .action-btn svg { width: 14px; height: 14px; }
-
-        .action-btn.edit   { background: #f3f4f6; color: #111827; }
 
         .pagination {
             display: flex;
@@ -286,29 +264,8 @@
 
             <div class="stat-card">
                 <div class="stat-body">
-                    <div class="stat-num">48</div>
-                    <div class="stat-label">Tempahan Bulan Ini</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-body">
                     <div class="stat-num">5</div>
                     <div class="stat-label">Menunggu Kelulusan</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-body">
-                    <div class="stat-num">43</div>
-                    <div class="stat-label">Disahkan</div>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-body">
-                    <div class="stat-num">2</div>
-                    <div class="stat-label">Dibatalkan</div>
                 </div>
             </div>
 
@@ -346,144 +303,96 @@
             <table>
                 <thead>
                     <tr>
-                        <th>ID Tempahan</th>
                         <th>Pemohon</th>
+                        <th>No. Matrik</th>
+                        <th>Emel</th>
                         <th>Lokasi</th>
+                        <th>Dapur</th>
                         <th>Tarikh</th>
                         <th>Masa</th>
-                        <th>Dapur</th>
                         <th>Status</th>
-                        <th>Tindakan</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>BK240513-001</td>
                         <td>Hafizul Hakim</td>
+                        <td>D20240000001</td>
+                        <td>hafizul@siswa.edu.my</td>
                         <td>KHAR</td>
+                        <td>Dapur 1</td>
                         <td>13/05/2024</td>
                         <td>08:00 – 12:00</td>
-                        <td>Dapur 1</td>
                         <td><span class="badge badge-disahkan">Disahkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                     <tr>
-                        <td>BK240513-002</td>
                         <td>Nur Aisyah</td>
+                        <td>D20240000002</td>
+                        <td>aisyah@siswa.edu.my</td>
                         <td>KHAR</td>
+                        <td>Dapur 2</td>
                         <td>13/05/2024</td>
                         <td>13:00 – 17:00</td>
-                        <td>Dapur 2</td>
                         <td><span class="badge badge-menunggu">Menunggu</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                     <tr>
-                        <td>BK240514-003</td>
                         <td>Muhammad Iqbal</td>
+                        <td>D20240000003</td>
+                        <td>iqbal@siswa.edu.my</td>
                         <td>KHAR</td>
+                        <td>Dapur 1</td>
                         <td>14/05/2024</td>
                         <td>08:00 – 12:00</td>
-                        <td>Dapur 1</td>
                         <td><span class="badge badge-disahkan">Disahkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                     <tr>
-                        <td>BK240514-004</td>
                         <td>Siti Nur Farhana</td>
+                        <td>D20240000004</td>
+                        <td>farhana@siswa.edu.my</td>
                         <td>KHAR</td>
+                        <td>Dapur 3</td>
                         <td>14/05/2024</td>
                         <td>14:00 – 18:00</td>
-                        <td>Dapur 3</td>
                         <td><span class="badge badge-menunggu">Menunggu</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                     <tr>
-                        <td>BK240515-005</td>
                         <td>Ahmad Danial</td>
+                        <td>D20240000005</td>
+                        <td>danial@siswa.edu.my</td>
                         <td>KHAR</td>
+                        <td>Dapur 2</td>
                         <td>15/05/2024</td>
                         <td>10:00 – 15:00</td>
-                        <td>Dapur 2</td>
                         <td><span class="badge badge-dibatalkan">Dibatalkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                     <tr>
-                        <td>BK240515-006</td>
                         <td>Norsyafiqah</td>
+                        <td>D20240000006</td>
+                        <td>syafiqah@siswa.edu.my</td>
                         <td>KHAR</td>
+                        <td>Dapur 1</td>
                         <td>15/05/2024</td>
                         <td>08:00 – 12:00</td>
-                        <td>Dapur 1</td>
                         <td><span class="badge badge-disahkan">Disahkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                     <tr>
-                        <td>BK240516-007</td>
                         <td>Intan Maisarah</td>
+                        <td>D20240000007</td>
+                        <td>intan@siswa.edu.my</td>
                         <td>KHAR</td>
+                        <td>Dapur 3</td>
                         <td>16/05/2024</td>
                         <td>09:00 – 13:00</td>
-                        <td>Dapur 3</td>
                         <td><span class="badge badge-menunggu">Menunggu</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                     <tr>
-                        <td>BK240516-008</td>
                         <td>Akmal Hakimi</td>
+                        <td>D20240000008</td>
+                        <td>akmal@siswa.edu.my</td>
                         <td>KHAR</td>
+                        <td>Dapur 2</td>
                         <td>16/05/2024</td>
                         <td>14:00 – 17:00</td>
-                        <td>Dapur 2</td>
                         <td><span class="badge badge-disahkan">Disahkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
                     </tr>
                 </tbody>
             </table>
