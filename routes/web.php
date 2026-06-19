@@ -44,6 +44,10 @@ Route::get('/laporan/maklumbalas', function () {
     return view('feedback-list');
 })->name('laporan.maklumbalas');
 
+Route::get('/laporan/maklumbalas/{id}', function () {
+    return view('feedback-detail');
+})->name('laporan.maklumbalas.show');
+
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 //     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

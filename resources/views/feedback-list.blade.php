@@ -334,9 +334,9 @@
                         <td><span class="stars" data-rating="5"></span></td>
                         <td><span class="komen-text">Sangat berpuas hati dengan kemudahan dapur. Bersih dan lengkap!</span></td>
                         <td>
-                            <button class="btn-icon" title="Lihat" onclick="viewFeedback('Nur Aisyah Binti Ahmad','D20231098765','24/05/2024','5','Sangat berpuas hati dengan kemudahan dapur. Bersih dan lengkap!')">
+                            <a href="{{ route('laporan.maklumbalas.show', 1) }}" class="btn-icon" title="Lihat">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                     <tr>
@@ -436,20 +436,6 @@
 
     </main>
 
-    <div class="modal-overlay" id="feedbackModal">
-        <div class="modal-card">
-            <div class="modal-title">Butiran Maklum Balas</div>
-            <div class="modal-body">
-                <div class="modal-row"><span class="mlabel">Nama</span><span class="mvalue" id="fbNama"></span></div>
-                <div class="modal-row"><span class="mlabel">No. Matrik</span><span class="mvalue" id="fbMatrik"></span></div>
-                <div class="modal-row"><span class="mlabel">Tarikh</span><span class="mvalue" id="fbTarikh"></span></div>
-                <div class="modal-row"><span class="mlabel">Penilaian</span><span class="mvalue"><span class="stars" id="fbRating"></span></span></div>
-                <div class="modal-row" style="flex-direction:column;align-items:flex-start;gap:6px;"><span class="mlabel">Komen</span><div class="modal-comment" id="fbKomen"></div></div>
-            </div>
-            <button class="modal-close" onclick="closeFeedback()">Tutup</button>
-        </div>
-    </div>
-
     <footer class="footer">
         &copy; 2024 Dapur Siswa Madani UPSI. Hak Cipta Terpelihara.
     </footer>
@@ -469,26 +455,6 @@
                 el.innerHTML = html;
             });
         }
-
-        function viewFeedback(nama, matrik, tarikh, rating, komen) {
-            document.getElementById('fbNama').textContent = nama;
-            document.getElementById('fbMatrik').textContent = matrik;
-            document.getElementById('fbTarikh').textContent = tarikh;
-            var fbRating = document.getElementById('fbRating');
-            fbRating.setAttribute('data-rating', rating);
-            fbRating.innerHTML = '';
-            document.getElementById('fbKomen').textContent = komen;
-            document.getElementById('feedbackModal').classList.add('show');
-            renderStars();
-        }
-
-        function closeFeedback() {
-            document.getElementById('feedbackModal').classList.remove('show');
-        }
-
-        document.getElementById('feedbackModal').addEventListener('click', function(e) {
-            if (e.target === this) closeFeedback();
-        });
 
         document.addEventListener('DOMContentLoaded', function() {
             renderStars();
