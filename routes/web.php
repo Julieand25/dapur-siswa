@@ -53,7 +53,7 @@ Route::get('/laporan/rekod', function () {
 })->name('laporan.rekod');
 
 Route::get('/laporan/rekod/{id}', function () {
-    return view('record-list');
+    return view('record-detail');
 })->name('laporan.rekod.show');
 
 // Route::middleware('auth')->group(function () {
