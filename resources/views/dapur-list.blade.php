@@ -7,28 +7,12 @@
             flex: 1;
         }
 
-        .page-header {
+        .search-row {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            gap: 12px;
             margin-bottom: 24px;
-        }
-
-        .page-header-left {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-
-        .page-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #111827;
-        }
-
-        .page-subtitle {
-            font-size: 13px;
-            color: #6b7280;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .btn-tambah {
@@ -209,21 +193,6 @@
             height: 14px;
         }
 
-        .badge-count-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .badge-count {
-            background: #e0e7ff;
-            color: #4338ca;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 8px;
-            border-radius: 999px;
-        }
-
         .footer {
             text-align: center;
             padding: 16px 28px;
@@ -240,7 +209,6 @@
 
         @media (max-width: 768px) {
             .dapur-grid { grid-template-columns: 1fr; }
-            .page-header { flex-direction: column; align-items: flex-start; gap: 12px; }
             .search-row { flex-direction: column; }
             .search-box { max-width: 100%; }
         }
@@ -252,22 +220,8 @@
     @endpush
 
     <main class="content">
-        <div class="page-header">
-            <div class="page-header-left">
-                <div class="badge-count-row">
-                    <span class="page-title">Senarai Dapur</span>
-                    <span class="badge-count">6</span>
-                </div>
-                <span class="page-subtitle">Urus dan pantau semua dapur yang berdaftar.</span>
-            </div>
-            <button class="btn-tambah">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                Tambah Dapur
-            </button>
-        </div>
-
         <div class="search-row">
-            <div class="search-box">
+            <div class="search-box" style="flex:1;max-width:100%;">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                 <input type="text" placeholder="Cari dapur...">
             </div>
@@ -282,6 +236,10 @@
                 <option>Tersedia</option>
                 <option>Tidak Tersedia</option>
             </select>
+            <button class="btn-tambah" style="flex-shrink:0;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                Tambah Dapur
+            </button>
         </div>
 
         <div class="dapur-grid">
