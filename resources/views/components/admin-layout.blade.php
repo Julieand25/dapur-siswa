@@ -143,14 +143,16 @@
             border: none;
             background: none;
             cursor: pointer;
+            color: #374151;
+            text-decoration: none;
+        }
+
+        .user-dropdown-item:hover {
+            background: #f3f4f6;
         }
 
         .user-dropdown-item.logout {
             color: #dc2626;
-        }
-
-        .user-dropdown-item.logout:hover {
-            background: #fef2f2;
         }
 
         @media (max-width: 640px) {
