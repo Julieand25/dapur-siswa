@@ -71,25 +71,6 @@
             cursor: pointer;
         }
 
-        .cal-legend {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #6b7280;
-        }
-
-        .legend-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        .legend-dot.lulus { background: #16a34a; }
-        .legend-dot.tunggu { background: #d97706; }
-        .legend-dot.tolak { background: #dc2626; }
 
         .cal-card {
             background: #fff;
@@ -205,6 +186,24 @@
             background: #fef2f2;
             color: #dc2626;
             border: 1px solid #fecaca;
+        }
+
+        .cal-summary {
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 3px 7px;
+            border-radius: 999px;
+            display: inline-block;
+        }
+
+        .cal-summary.ada {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .cal-summary.penuh {
+            background: #fef2f2;
+            color: #dc2626;
         }
 
         .modal-overlay {
@@ -444,11 +443,6 @@
             </div>
 
             <div class="cal-actions">
-                <div class="cal-legend">
-                    <span><span class="legend-dot lulus"></span> Diluluskan</span>
-                    <span><span class="legend-dot tunggu"></span> Menunggu</span>
-                    <span><span class="legend-dot tolak"></span> Ditolak</span>
-                </div>
                 <select class="cal-filter">
                     <option>Semua Dapur</option>
                     <option>Dapur 1</option>
@@ -474,88 +468,37 @@
                 <div class="cal-day other-month"><div class="cal-day-num">29</div></div>
                 <div class="cal-day other-month"><div class="cal-day-num">30</div></div>
 
-                <div class="cal-day clickable" onclick="openSlotModal(1)">
-                    <div class="cal-day-num">1</div>
-                    <div class="cal-slot tunggu" onclick="event.stopPropagation();showDetail('Nur Aisyah','Dapur 1','KHAR 4','09:00-09:15','Menunggu')">Nur Aisyah</div>
-                    <div class="cal-slot lulus" onclick="event.stopPropagation();showDetail('Hafizul Hakim','Dapur 2','KHAR 4','14:00-14:15','Diluluskan')">Hafizul</div>
-                </div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(2)">
-                    <div class="cal-day-num">2</div>
-                    <div class="cal-slot lulus" onclick="event.stopPropagation();showDetail('Amirul Hakim','Dapur 3','KHAR 3','10:00-10:15','Diluluskan')">Amirul H.</div>
-                </div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(3)">
-                    <div class="cal-day-num">3</div>
-                    <div class="cal-slot lulus" onclick="event.stopPropagation();showDetail('Siti Hajar','Dapur 1','KHAR 4','08:00-08:15','Diluluskan')">Siti Hajar</div>
-                    <div class="cal-slot tunggu" onclick="event.stopPropagation();showDetail('Farhana','Dapur 2','KHAR 3','11:00-11:15','Menunggu')">Farhana</div>
-                    <div class="cal-slot lulus" onclick="event.stopPropagation();showDetail('Akmal','Dapur 1','KHAR 4','16:00-16:15','Diluluskan')">Akmal</div>
-                </div>
-
+                <div class="cal-day clickable" data-day="1" onclick="openSlotModal(1)"><div class="cal-day-num">1</div></div>
+                <div class="cal-day clickable" data-day="2" onclick="openSlotModal(2)"><div class="cal-day-num">2</div></div>
+                <div class="cal-day clickable" data-day="3" onclick="openSlotModal(3)"><div class="cal-day-num">3</div></div>
                 <div class="cal-day weekend"><div class="cal-day-num">4</div></div>
                 <div class="cal-day weekend"><div class="cal-day-num">5</div></div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(6)">
-                    <div class="cal-day-num">6</div>
-                    <div class="cal-slot tunggu" onclick="event.stopPropagation();showDetail('M. Faris','Dapur 1','KHAR 4','09:30-09:45','Menunggu')">M. Faris</div>
-                </div>
-
-                <div class="cal-day clickable today" onclick="openSlotModal(7)">
-                    <div class="cal-day-num">7</div>
-                    <div class="cal-slot lulus" onclick="event.stopPropagation();showDetail('Nur Aisyah','Dapur 1','KHAR 4','08:30-08:45','Diluluskan')">Nur Aisyah</div>
-                    <div class="cal-slot tunggu" onclick="event.stopPropagation();showDetail('A. Danish','Dapur 2','KHAR 3','12:00-12:15','Menunggu')">A. Danish</div>
-                </div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(8)">
-                    <div class="cal-day-num">8</div>
-                </div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(9)">
-                    <div class="cal-day-num">9</div>
-                    <div class="cal-slot tunggu" onclick="event.stopPropagation();showDetail('Nur Aisyah','Dapur 3','KHAR 2','07:00-07:15','Menunggu')">Nur Aisyah</div>
-                </div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(10)">
-                    <div class="cal-day-num">10</div>
-                    <div class="cal-slot lulus" onclick="event.stopPropagation();showDetail('Syazwani','Dapur 1','KHAR 4','15:00-15:15','Diluluskan')">Syazwani</div>
-                </div>
-
+                <div class="cal-day clickable" data-day="6" onclick="openSlotModal(6)"><div class="cal-day-num">6</div></div>
+                <div class="cal-day clickable today" data-day="7" onclick="openSlotModal(7)"><div class="cal-day-num">7</div></div>
+                <div class="cal-day clickable" data-day="8" onclick="openSlotModal(8)"><div class="cal-day-num">8</div></div>
+                <div class="cal-day clickable" data-day="9" onclick="openSlotModal(9)"><div class="cal-day-num">9</div></div>
+                <div class="cal-day clickable" data-day="10" onclick="openSlotModal(10)"><div class="cal-day-num">10</div></div>
                 <div class="cal-day weekend"><div class="cal-day-num">11</div></div>
                 <div class="cal-day weekend"><div class="cal-day-num">12</div></div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(13)">
-                    <div class="cal-day-num">13</div>
-                    <div class="cal-slot lulus" onclick="event.stopPropagation();showDetail('Hafizul','Dapur 1','KHAR 4','10:00-10:15','Diluluskan')">Hafizul</div>
-                    <div class="cal-slot lulus" onclick="event.stopPropagation();showDetail('Amirul H.','Dapur 3','KHAR 3','13:00-13:15','Diluluskan')">Amirul H.</div>
-                </div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(14)">
-                    <div class="cal-day-num">14</div>
-                    <div class="cal-slot tolak" onclick="event.stopPropagation();showDetail('Nur Aisyah','Dapur 2','KHAR 3','16:00-16:15','Ditolak')">Nur Aisyah</div>
-                </div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(15)"><div class="cal-day-num">15</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(16)"><div class="cal-day-num">16</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(17)"><div class="cal-day-num">17</div></div>
+                <div class="cal-day clickable" data-day="13" onclick="openSlotModal(13)"><div class="cal-day-num">13</div></div>
+                <div class="cal-day clickable" data-day="14" onclick="openSlotModal(14)"><div class="cal-day-num">14</div></div>
+                <div class="cal-day clickable" data-day="15" onclick="openSlotModal(15)"><div class="cal-day-num">15</div></div>
+                <div class="cal-day clickable" data-day="16" onclick="openSlotModal(16)"><div class="cal-day-num">16</div></div>
+                <div class="cal-day clickable" data-day="17" onclick="openSlotModal(17)"><div class="cal-day-num">17</div></div>
                 <div class="cal-day weekend"><div class="cal-day-num">18</div></div>
                 <div class="cal-day weekend"><div class="cal-day-num">19</div></div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(20)">
-                    <div class="cal-day-num">20</div>
-                    <div class="cal-slot tunggu" onclick="event.stopPropagation();showDetail('Siti Hajar','Dapur 1','KHAR 4','11:00-11:15','Menunggu')">Siti Hajar</div>
-                </div>
-
-                <div class="cal-day clickable" onclick="openSlotModal(21)"><div class="cal-day-num">21</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(22)"><div class="cal-day-num">22</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(23)"><div class="cal-day-num">23</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(24)"><div class="cal-day-num">24</div></div>
+                <div class="cal-day clickable" data-day="20" onclick="openSlotModal(20)"><div class="cal-day-num">20</div></div>
+                <div class="cal-day clickable" data-day="21" onclick="openSlotModal(21)"><div class="cal-day-num">21</div></div>
+                <div class="cal-day clickable" data-day="22" onclick="openSlotModal(22)"><div class="cal-day-num">22</div></div>
+                <div class="cal-day clickable" data-day="23" onclick="openSlotModal(23)"><div class="cal-day-num">23</div></div>
+                <div class="cal-day clickable" data-day="24" onclick="openSlotModal(24)"><div class="cal-day-num">24</div></div>
                 <div class="cal-day weekend"><div class="cal-day-num">25</div></div>
                 <div class="cal-day weekend"><div class="cal-day-num">26</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(27)"><div class="cal-day-num">27</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(28)"><div class="cal-day-num">28</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(29)"><div class="cal-day-num">29</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(30)"><div class="cal-day-num">30</div></div>
-                <div class="cal-day clickable" onclick="openSlotModal(31)"><div class="cal-day-num">31</div></div>
+                <div class="cal-day clickable" data-day="27" onclick="openSlotModal(27)"><div class="cal-day-num">27</div></div>
+                <div class="cal-day clickable" data-day="28" onclick="openSlotModal(28)"><div class="cal-day-num">28</div></div>
+                <div class="cal-day clickable" data-day="29" onclick="openSlotModal(29)"><div class="cal-day-num">29</div></div>
+                <div class="cal-day clickable" data-day="30" onclick="openSlotModal(30)"><div class="cal-day-num">30</div></div>
+                <div class="cal-day clickable" data-day="31" onclick="openSlotModal(31)"><div class="cal-day-num">31</div></div>
             </div>
         </div>
 
@@ -571,7 +514,10 @@
                 <div class="modal-row"><span class="mlabel">Masa</span><span class="mvalue" id="dmMasa"></span></div>
                 <div class="modal-row"><span class="mlabel">Status</span><span class="mvalue" id="dmStatus"></span></div>
             </div>
-            <button class="modal-close" onclick="closeDetail()">Tutup</button>
+            <div class="modal-detail-btns">
+                <button class="modal-close" onclick="cancelBooking()" style="background:#dc2626;color:#fff;border-color:#dc2626;">Batalkan Tempahan</button>
+                <button class="modal-close" onclick="closeDetail()">Tutup</button>
+            </div>
         </div>
     </div>
 
@@ -682,7 +628,10 @@
             document.getElementById('slotModal').classList.remove('show');
         }
 
+        var currentBooking = null;
+
         function showDetail(pemohon, dapur, lokasi, masa, status) {
+            currentBooking = {pemohon:pemohon, dapur:dapur, lokasi:lokasi, masa:masa, status:status};
             var sClass = status === 'Diluluskan' ? 'lulus' : (status === 'Menunggu' ? 'tunggu' : 'tolak');
             document.getElementById('dmTitle').innerHTML = 'Butiran Tempahan <span class="modal-badge ' + sClass + '">' + status + '</span>';
             document.getElementById('dmPemohon').textContent = pemohon;
@@ -697,12 +646,47 @@
             document.getElementById('detailModal').classList.remove('show');
         }
 
+        function cancelBooking() {
+            if (currentBooking && currentBooking.status !== 'Ditolak') {
+                currentBooking.status = 'Ditolak';
+                var sClass = 'tolak';
+                document.getElementById('dmTitle').innerHTML = 'Butiran Tempahan <span class="modal-badge ' + sClass + '">Ditolak</span>';
+                document.getElementById('dmStatus').innerHTML = '<span class="modal-badge ' + sClass + '">Ditolak</span>';
+                var cancelBtn = document.querySelector('#detailModal .modal-close:first-child');
+                if (cancelBtn) cancelBtn.style.display = 'none';
+            }
+        }
+
         document.getElementById('detailModal').addEventListener('click', function(e) {
             if (e.target === this) closeDetail();
         });
 
         document.getElementById('slotModal').addEventListener('click', function(e) {
             if (e.target === this) closeSlotModal();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var days = document.querySelectorAll('.cal-day[data-day]');
+            days.forEach(function(day) {
+                var d = parseInt(day.getAttribute('data-day'));
+                var count = 0;
+                if (bookings[d]) {
+                    bookings[d].forEach(function(b) {
+                        if (b.slot >= 0 && b.slot < 22) count++;
+                    });
+                }
+                if (count > 0) {
+                    var badge = document.createElement('span');
+                    if (count >= 22) {
+                        badge.className = 'cal-summary penuh';
+                        badge.textContent = 'Tempahan Penuh';
+                    } else {
+                        badge.className = 'cal-summary ada';
+                        badge.textContent = count + ' Tempahan';
+                    }
+                    day.appendChild(badge);
+                }
+            });
         });
     </script>
 
