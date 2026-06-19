@@ -11,7 +11,9 @@ $navItems = [
     ['key' => 'dapur',   'label' => 'Dapur',   'href' => route('dapur.index'), 'icon' => '<path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="12" r="1" fill="currentColor"/><circle cx="6" cy="18" r="1" fill="currentColor"/>'],
     ['key' => 'peralatan', 'label' => 'Peralatan', 'href' => '#', 'icon' => '<path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>'],
     ['key' => 'pengguna', 'label' => 'Pengguna', 'href' => route('pengguna.index'), 'icon' => '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>'],
-    ['key' => 'laporan', 'label' => 'Laporan', 'href' => '#', 'icon' => '<path d="M9 17v-2m3 2v-4m3 4v-6M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"/>'],
+    ['key' => 'laporan', 'label' => 'Laporan', 'href' => '#', 'icon' => '<path d="M9 17v-2m3 2v-4m3 4v-6M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"/>', 'children' => [
+        ['key' => 'laporan-maklumbalas', 'label' => 'Maklum Balas Pengguna', 'href' => route('laporan.maklumbalas')],
+    ]],
     ['key' => 'notifikasi', 'label' => 'Notifikasi', 'href' => '#', 'icon' => '<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>'],
     ['key' => 'tetapan', 'label' => 'Tetapan', 'href' => '#', 'icon' => '<path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/>'],
 ];
@@ -141,6 +143,11 @@ $navItems = [
         font-weight: 600;
     }
 
+    .nav-sub-wrap {
+        overflow: hidden;
+        transition: max-height 0.2s ease;
+    }
+
     .sidebar-user {
         padding: 14px 16px;
         border-top: 1px solid rgba(255,255,255,0.12);
@@ -206,20 +213,22 @@ $navItems = [
                 $isParentActive = $hasChildren ? \Illuminate\Support\Str::startsWith($active, $item['key'] . '-') : false;
                 $isActive = $active === $item['key'] || $isParentActive;
             @endphp
-            <a href="{{ $item['href'] }}" class="nav-item @if($isActive) active @endif">
+            <a href="{{ $hasChildren ? 'javascript:void(0)' : $item['href'] }}" class="nav-item @if($isActive) active @endif" @if($hasChildren) onclick="toggleSubmenu(this)" @endif>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">{!! $item['icon'] !!}</svg>
                 <span>{{ $item['label'] }}</span>
-                @if($hasChildren && ($isParentActive || $isActive))
+                @if($hasChildren)
                     <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 15l7-7 7 7"/></svg>
                 @endif
             </a>
-            @if($hasChildren && ($isParentActive || $isActive))
-                @foreach ($item['children'] as $child)
-                    <a href="{{ $child['href'] }}" class="nav-sub-item @if($active === $child['key']) active @endif">
-                        <span>{{ $child['label'] }}</span>
-                    </a>
-                @endforeach
-            @endif
+            <div class="nav-sub-wrap" @if(!$isParentActive && !$isActive) style="display:none;" @endif>
+                @if($hasChildren)
+                    @foreach ($item['children'] as $child)
+                        <a href="{{ $child['href'] }}" class="nav-sub-item @if($active === $child['key']) active @endif">
+                            <span>{{ $child['label'] }}</span>
+                        </a>
+                    @endforeach
+                @endif
+            </div>
         @endforeach
     </nav>
 
@@ -234,3 +243,17 @@ $navItems = [
         </button>
     </div>
 </aside>
+
+<script>
+    function toggleSubmenu(el) {
+        var wrap = el.nextElementSibling;
+        if (wrap) {
+            var isOpen = wrap.style.display !== 'none';
+            wrap.style.display = isOpen ? 'none' : 'block';
+            var chevron = el.querySelector('.nav-chevron');
+            if (chevron) {
+                chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+        }
+    }
+</script>
