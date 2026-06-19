@@ -211,6 +211,7 @@
         #detail-panel.visible {
             display: flex;
             flex-direction: column;
+            min-height: 520px;
         }
 
         .detail-empty {
@@ -299,7 +300,7 @@
         .btn-action.reject:hover { background: #b91c1c; }
         .btn-action svg { width: 16px; height: 16px; }
 
-        .detail-content { display: flex; flex-direction: column; }
+        .detail-content { display: flex; flex-direction: column; flex: 1; }
 
         .reject-content {
             display: none;
