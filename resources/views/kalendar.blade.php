@@ -134,6 +134,7 @@
         }
 
         .cal-day-num {
+            display: block;
             font-size: 12.5px;
             font-weight: 600;
             color: #374151;
@@ -189,11 +190,12 @@
         }
 
         .cal-summary {
+            display: block;
             font-size: 10.5px;
             font-weight: 700;
             padding: 3px 7px;
             border-radius: 999px;
-            display: inline-block;
+            width: fit-content;
         }
 
         .cal-summary.ada {
@@ -687,7 +689,12 @@
                         badge.className = 'cal-summary ada';
                         badge.textContent = count + ' Tempahan';
                     }
-                    day.appendChild(badge);
+                    var dayNum = day.querySelector('.cal-day-num');
+                    if (dayNum) {
+                        dayNum.insertAdjacentElement('afterend', badge);
+                    } else {
+                        day.appendChild(badge);
+                    }
                 }
             });
         });
