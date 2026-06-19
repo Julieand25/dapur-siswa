@@ -299,6 +299,93 @@
         .btn-action.reject:hover { background: #b91c1c; }
         .btn-action svg { width: 16px; height: 16px; }
 
+        .confirm-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confirm-overlay.show {
+            display: flex;
+        }
+
+        .confirm-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 28px 28px 22px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .confirm-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #fef3c7;
+            color: #d97706;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+        }
+
+        .confirm-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .confirm-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .confirm-text {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 22px;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .confirm-btn {
+            height: 38px;
+            padding: 0 28px;
+            border-radius: 6px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: background 0.15s;
+        }
+
+        .confirm-btn.no {
+            background: #f3f4f6;
+            color: #374151;
+            border: 1px solid #d1d5db;
+        }
+
+        .confirm-btn.no:hover { background: #e5e7eb; }
+
+        .confirm-btn.yes {
+            background: #16a34a;
+            color: #fff;
+        }
+
+        .confirm-btn.yes:hover { background: #15803d; }
+
         .footer {
             text-align: center;
             padding: 16px 28px;
@@ -493,7 +580,7 @@
                 </table>
 
                 <div class="action-row">
-                    <button class="btn-action approve">
+                    <button class="btn-action approve" onclick="showConfirm()">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
                         <span>Luluskan</span>
                     </button>
@@ -506,6 +593,22 @@
 
         </div>
     </main>
+
+    <div class="confirm-overlay" id="confirmModal">
+        <div class="confirm-card">
+            <div class="confirm-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+            </div>
+            <div class="confirm-title">Pengesahan Kelulusan</div>
+            <div class="confirm-text">
+                Adakah anda pasti ingin meluluskan tempahan? Slot untuk masa ini akan diambil dan segala tempahan dengan tarikh dan masa di lokasi dapur yang sama juga akan dibatalkan secara automatik.
+            </div>
+            <div class="confirm-buttons">
+                <button class="confirm-btn no" onclick="closeConfirm()">Tidak</button>
+                <button class="confirm-btn yes" onclick="confirmApprove()">Ya</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="footer">
         &copy; 2024 Dapur Siswa Madani UPSI. Hak Cipta Terpelihara.
@@ -526,6 +629,18 @@
             if (rightPanel && rightPanel.classList.contains('visible') && leftPanel) {
                 leftPanel.style.maxHeight = rightPanel.offsetHeight + 'px';
             }
+        }
+
+        function showConfirm() {
+            document.getElementById('confirmModal').classList.add('show');
+        }
+
+        function closeConfirm() {
+            document.getElementById('confirmModal').classList.remove('show');
+        }
+
+        function confirmApprove() {
+            closeConfirm();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
