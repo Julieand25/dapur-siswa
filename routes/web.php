@@ -8,61 +8,63 @@ Route::get('/', function () {
 });
 
 // Auth middleware temporarily removed for UI development
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-Route::get('/pending-booking', function () {
-    return view('pending-booking');
-})->name('pending-booking');
+    Route::get('/pending-booking', function () {
+        return view('pending-booking');
+    })->name('pending-booking');
 
-Route::get('/all-booking', function () {
-    return view('all-booking');
-})->name('all-booking');
+    Route::get('/all-booking', function () {
+        return view('all-booking');
+    })->name('all-booking');
 
-Route::get('/dapur', function () {
-    return view('dapur-list');
-})->name('dapur.index');
+    Route::get('/dapur', function () {
+        return view('dapur-list');
+    })->name('dapur.index');
 
-Route::get('/dapur/create', function () {
-    return view('create-dapur');
-})->name('dapur.create');
+    Route::get('/dapur/create', function () {
+        return view('create-dapur');
+    })->name('dapur.create');
 
-Route::get('/dapur/{id}/barang', function () {
-    return view('manage-barang');
-})->name('dapur.barang');
+    Route::get('/dapur/{id}/barang', function () {
+        return view('manage-barang');
+    })->name('dapur.barang');
 
-Route::get('/dapur/{id}/edit', function () {
-    return view('edit-dapur');
-})->name('dapur.edit');
+    Route::get('/dapur/{id}/edit', function () {
+        return view('edit-dapur');
+    })->name('dapur.edit');
 
-Route::get('/pengguna', function () {
-    return view('user-list');
-})->name('pengguna.index');
+    Route::get('/pengguna', function () {
+        return view('user-list');
+    })->name('pengguna.index');
 
-Route::get('/kalendar', function () {
-    return view('kalendar');
-})->name('kalendar.index');
+    Route::get('/kalendar', function () {
+        return view('kalendar');
+    })->name('kalendar.index');
 
-Route::get('/laporan/maklumbalas', function () {
-    return view('feedback-list');
-})->name('laporan.maklumbalas');
+    Route::get('/laporan/maklumbalas', function () {
+        return view('feedback-list');
+    })->name('laporan.maklumbalas');
 
-Route::get('/laporan/maklumbalas/{id}', function () {
-    return view('feedback-detail');
-})->name('laporan.maklumbalas.show');
+    Route::get('/laporan/maklumbalas/{id}', function () {
+        return view('feedback-detail');
+    })->name('laporan.maklumbalas.show');
 
-Route::get('/laporan/rekod', function () {
-    return view('record-list');
-})->name('laporan.rekod');
+    Route::get('/laporan/rekod', function () {
+        return view('record-list');
+    })->name('laporan.rekod');
 
-Route::get('/laporan/rekod/{id}', function () {
-    return view('record-detail');
-})->name('laporan.rekod.show');
+    Route::get('/laporan/rekod/{id}', function () {
+        return view('record-detail');
+    })->name('laporan.rekod.show');
 
-Route::get('/tetapan', function () {
-    return view('settings');
-})->name('tetapan.index');
+    Route::get('/tetapan', function () {
+        return view('settings');
+    })->name('tetapan.index');
+});
 
 // Route::middleware('auth')->group(function () {
 //     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
