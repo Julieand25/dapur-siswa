@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('peralatans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('dapur_id')->constrained('dapurs')->cascadeOnDelete();
+            $table->foreignId('dapur_id')->constrained('dapur')->cascadeOnDelete();
             $table->string('nama');
             $table->integer('kuantiti')->default(1);
             $table->string('status')->default('Tersedia');

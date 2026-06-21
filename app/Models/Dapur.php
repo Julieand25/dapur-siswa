@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Dapur extends Model
 {
+    protected $table = 'dapur';
+
     protected $fillable = [
         'lokasi',
         'nama_dapur',
