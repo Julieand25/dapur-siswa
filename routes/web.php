@@ -3,6 +3,7 @@
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DapurController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PendingBookingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::patch('/bookings/{booking}/status', [DashboardController::class, 'updateStatus'])->name('bookings.status');
 
-    Route::get('/pending-booking', function () {
-        return view('pending-booking');
-    })->name('pending-booking');
+    Route::get('/pending-booking', [PendingBookingController::class, 'index'])->name('pending-booking');
 
     Route::get('/all-booking', function () {
         return view('all-booking');

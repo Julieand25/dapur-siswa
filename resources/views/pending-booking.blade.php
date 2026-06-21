@@ -477,6 +477,17 @@
 
         .confirm-btn.yes:hover { background: #15803d; }
 
+        .success-msg {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
         .footer {
             text-align: center;
             padding: 16px 28px;
@@ -500,132 +511,40 @@
     @endpush
 
     <main class="content">
+        @if (session('success'))
+            <div class="success-msg">{{ session('success') }}</div>
+        @endif
+
         <div class="split-grid">
 
             <div class="panel-card">
                 <div class="panel-title">
                     <span>Senarai Permohonan (Menunggu)</span>
-                    <span class="badge-count">5</span>
+                    <span class="badge-count">{{ $pendingBookings->count() }}</span>
                 </div>
 
                 <div class="search-filter-row">
                     <div class="search-box">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                        <input type="text" placeholder="Cari pemohon / rujukan...">
+                        <input type="text" id="searchInput" placeholder="Cari pemohon..." oninput="filterAndRender()">
                     </div>
-                    <select class="filter-select">
-                        <option>Terdekat</option>
-                        <option>Menaik</option>
-                        <option>Menurun</option>
+                    <select class="filter-select" id="sortSelect" onchange="sortAndRender()">
+                        <option value="desc">Terdekat</option>
+                        <option value="asc">Menaik</option>
+                        <option value="desc">Menurun</option>
                     </select>
                 </div>
 
                 <div class="request-list-scroll">
-                    <div class="request-list">
-                        <div class="request-item selected" onclick="selectRequest(this)">
-                            <div class="req-meta">
-                                <div class="req-ref-row">
-                                    <span class="req-submitted">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                        Dihantar: 24 Mei 2024, 08:15 AM
-                                    </span>
-                                    <span class="badge-status">Menunggu</span>
-                                </div>
-                                <div class="req-name">Nur Aisyah Binti Ahmad</div>
-                                <div class="req-details">
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 24 Mei 2024 (Jumaat)</span>
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 09:00 AM - 09:15 AM</span>
-                                </div>
-                            </div>
-                            <div class="chevron-right">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="request-item" onclick="selectRequest(this)">
-                            <div class="req-meta">
-                                <div class="req-ref-row">
-                                    <span class="req-submitted">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                        Dihantar: 23 Mei 2024, 10:30 AM
-                                    </span>
-                                    <span class="badge-status">Menunggu</span>
-                                </div>
-                                <div class="req-name">Muhammad Faris Bin Razak</div>
-                                <div class="req-details">
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 23 Mei 2024 (Khamis)</span>
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 02:00 PM - 02:15 PM</span>
-                                </div>
-                            </div>
-                            <div class="chevron-right">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="request-item" onclick="selectRequest(this)">
-                            <div class="req-meta">
-                                <div class="req-ref-row">
-                                    <span class="req-submitted">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                        Dihantar: 23 Mei 2024, 02:45 PM
-                                    </span>
-                                    <span class="badge-status">Menunggu</span>
-                                </div>
-                                <div class="req-name">Siti Hajar Binti Ismail</div>
-                                <div class="req-details">
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 23 Mei 2024 (Khamis)</span>
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 04:00 PM - 04:15 PM</span>
-                                </div>
-                            </div>
-                            <div class="chevron-right">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="request-item" onclick="selectRequest(this)">
-                            <div class="req-meta">
-                                <div class="req-ref-row">
-                                    <span class="req-submitted">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                        Dihantar: 22 Mei 2024, 11:00 AM
-                                    </span>
-                                    <span class="badge-status">Menunggu</span>
-                                </div>
-                                <div class="req-name">Ahmad Danish Bin Nazri</div>
-                                <div class="req-details">
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 22 Mei 2024 (Rabu)</span>
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 03:00 PM - 03:15 PM</span>
-                                </div>
-                            </div>
-                            <div class="chevron-right">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                            </div>
-                        </div>
-
-                        <div class="request-item" onclick="selectRequest(this)">
-                            <div class="req-meta">
-                                <div class="req-ref-row">
-                                    <span class="req-submitted">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                        Dihantar: 21 Mei 2024, 04:30 PM
-                                    </span>
-                                    <span class="badge-status">Menunggu</span>
-                                </div>
-                                <div class="req-name">Norsyazwani Binti Zakaria</div>
-                                <div class="req-details">
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> 22 Mei 2024 (Rabu)</span>
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> 08:00 AM - 08:15 AM</span>
-                                </div>
-                            </div>
-                            <div class="chevron-right">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="request-list" id="requestList"></div>
                 </div>
 
-                <div class="list-footer">
-                    Memaparkan 1 hingga 5 daripada 5 permohonan
+                <div class="list-footer" id="listFooter">
+                    @if ($pendingBookings->isEmpty())
+                        Tiada permohonan menunggu.
+                    @else
+                        {{ $pendingBookings->count() }} permohonan menunggu kelulusan
+                    @endif
                 </div>
             </div>
 
@@ -642,44 +561,63 @@
                     <tbody>
                         <tr>
                             <td class="label">No. Rujukan</td>
-                            <td class="value">DAPUR/2024/05/0012</td>
+                            <td class="value" id="val-ref">—</td>
                         </tr>
                         <tr>
                             <td class="label">Nama Pemohon</td>
-                            <td class="value">Nur Aisyah Binti Ahmad</td>
+                            <td class="value" id="val-nama">—</td>
+                        </tr>
+                        <tr>
+                            <td class="label">No. Matrik</td>
+                            <td class="value" id="val-matrik">—</td>
+                        </tr>
+                        <tr>
+                            <td class="label">Emel</td>
+                            <td class="value" id="val-emel">—</td>
                         </tr>
                         <tr>
                             <td class="label">Tarikh</td>
-                            <td class="value">25 Mei 2024 (Sabtu)</td>
+                            <td class="value" id="val-tarikh">—</td>
                         </tr>
                         <tr>
                             <td class="label">Masa</td>
-                            <td class="value">10:05 AM - 10:20 AM (15 minit)</td>
+                            <td class="value" id="val-masa">—</td>
                         </tr>
                         <tr>
                             <td class="label">Dapur</td>
-                            <td class="value">Dapur 1</td>
+                            <td class="value" id="val-dapur">—</td>
                         </tr>
                         <tr>
                             <td class="label">Lokasi</td>
-                            <td class="value">KHAR 4</td>
+                            <td class="value" id="val-lokasi">—</td>
                         </tr>
                         <tr>
                             <td class="label">Bilangan</td>
-                            <td class="value">5 orang</td>
+                            <td class="value" id="val-bilangan">—</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div class="action-row">
-                    <button class="btn-action approve" onclick="showConfirm()">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
-                        <span>Luluskan</span>
-                    </button>
-                    <button class="btn-action reject" onclick="showRejectForm()">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                        <span>Tolak</span>
-                    </button>
+                    <form id="approveForm" method="POST" action="" style="display:contents;">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="status" value="approved">
+                        <button type="button" class="btn-action approve" onclick="showConfirm()">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                            <span>Luluskan</span>
+                        </button>
+                    </form>
+                    <form id="rejectForm" method="POST" action="" style="display:contents;">
+                        @csrf
+                        @method('PATCH')
+                        <input type="hidden" name="status" value="rejected">
+                        <input type="hidden" name="rejection_reason" id="rejectReasonHidden">
+                        <button type="button" class="btn-action reject" onclick="showRejectForm()">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                            <span>Tolak</span>
+                        </button>
+                    </form>
                 </div>
                 </div>
 
@@ -735,12 +673,107 @@
     </footer>
 
     <script>
-        function selectRequest(el) {
-            document.querySelectorAll('.request-item').forEach(item => item.classList.remove('selected'));
-            el.classList.add('selected');
-            var detail = document.getElementById('detail-panel');
-            if (detail) detail.classList.add('visible');
+        var bookingsData = @json($bookingsJson);
+
+        var filteredBookings = bookingsData;
+        var selectedIndex = -1;
+
+        function formatTimeRange(start, end) {
+            return start + ' - ' + end;
+        }
+
+        function calcDuration(start, end) {
+            var s = start.split(':');
+            var e = end.split(':');
+            var mins = (parseInt(e[0]) * 60 + parseInt(e[1])) - (parseInt(s[0]) * 60 + parseInt(s[1]));
+            return mins + ' minit';
+        }
+
+        function renderList(data) {
+            var container = document.getElementById('requestList');
+            if (data.length === 0) {
+                container.innerHTML = '<div style="padding:20px;text-align:center;color:#9ca3af;font-size:13px;">Tiada permohonan dijumpai.</div>';
+                return;
+            }
+            var html = '';
+            data.forEach(function (b, i) {
+                var sel = (i === selectedIndex) ? ' selected' : '';
+                html += '<div class="request-item' + sel + '" onclick="selectRequest(' + i + ')">';
+                html += '<div class="req-meta">';
+                html += '<div class="req-ref-row">';
+                html += '<span class="req-submitted">';
+                html += '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+                html += 'Dihantar: ' + b.created_at;
+                html += '</span>';
+                html += '<span class="badge-status">Menunggu</span>';
+                html += '</div>';
+                html += '<div class="req-name">' + escapeHtml(b.nama) + '</div>';
+                html += '<div class="req-details">';
+                html += '<span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> ' + b.date_full + '</span>';
+                html += '<span><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> ' + formatTimeRange(b.start_time, b.end_time) + ' (' + calcDuration(b.start_time, b.end_time) + ')</span>';
+                html += '</div>';
+                html += '</div>';
+                html += '<div class="chevron-right"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg></div>';
+                html += '</div>';
+            });
+            container.innerHTML = html;
+        }
+
+        function selectRequest(index) {
+            selectedIndex = index;
+            renderList(filteredBookings);
+
+            var b = filteredBookings[index];
+            if (!b) return;
+
+            document.getElementById('val-ref').textContent = b.id.substring(0, 8) + '...';
+            document.getElementById('val-nama').textContent = b.nama;
+            document.getElementById('val-matrik').textContent = b.matrik;
+            document.getElementById('val-emel').textContent = b.emel;
+            document.getElementById('val-tarikh').textContent = b.date_full;
+            document.getElementById('val-masa').textContent = formatTimeRange(b.start_time, b.end_time) + ' (' + calcDuration(b.start_time, b.end_time) + ')';
+            document.getElementById('val-dapur').textContent = b.kitchen_name;
+            document.getElementById('val-lokasi').textContent = b.location_code;
+            document.getElementById('val-bilangan').textContent = b.bilangan_hidangan + ' orang';
+
+            document.getElementById('approveForm').action = b.statusUrl;
+            document.getElementById('rejectForm').action = b.statusUrl;
+
+            var panel = document.getElementById('detail-panel');
+            if (panel) panel.classList.add('visible');
             syncPanelHeight();
+        }
+
+        function sortAndRender() {
+            var order = document.getElementById('sortSelect').value;
+            filteredBookings.sort(function (a, b) {
+                if (order === 'asc') return a.created_at.localeCompare(b.created_at);
+                return b.created_at.localeCompare(a.created_at);
+            });
+            selectedIndex = filteredBookings.length > 0 ? 0 : -1;
+            renderList(filteredBookings);
+            if (selectedIndex >= 0) selectRequest(selectedIndex);
+        }
+
+        function filterAndRender() {
+            var q = document.getElementById('searchInput').value.toLowerCase();
+            if (q === '') {
+                filteredBookings = bookingsData.slice();
+            } else {
+                filteredBookings = bookingsData.filter(function (b) {
+                    return b.nama.toLowerCase().indexOf(q) !== -1
+                        || b.matrik.toLowerCase().indexOf(q) !== -1
+                        || b.emel.toLowerCase().indexOf(q) !== -1
+                        || b.kitchen_name.toLowerCase().indexOf(q) !== -1;
+                });
+            }
+            sortAndRender();
+        }
+
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
         }
 
         function syncPanelHeight() {
@@ -761,6 +794,7 @@
 
         function confirmApprove() {
             closeConfirm();
+            document.getElementById('approveForm').submit();
         }
 
         function showRejectConfirm() {
@@ -773,9 +807,8 @@
 
         function confirmReject() {
             closeRejectConfirm();
-            hideRejectForm();
-            document.getElementById('rejectReason').value = '';
-            updateCharCount();
+            document.getElementById('rejectReasonHidden').value = document.getElementById('rejectReason').value;
+            document.getElementById('rejectForm').submit();
         }
 
         function showRejectForm() {
@@ -787,6 +820,8 @@
         function hideRejectForm() {
             document.getElementById('rejectContent').classList.remove('show');
             document.getElementById('detailContent').style.display = 'flex';
+            document.getElementById('rejectReason').value = '';
+            updateCharCount();
             syncPanelHeight();
         }
 
@@ -796,14 +831,17 @@
         }
 
         function submitReject() {
+            var reason = document.getElementById('rejectReason').value.trim();
+            if (!reason) { alert('Sila isi sebab penolakan.'); return; }
             showRejectConfirm();
         }
 
         document.addEventListener('DOMContentLoaded', function () {
-            var selected = document.querySelector('.request-item.selected');
-            if (selected) {
-                document.getElementById('detail-panel').classList.add('visible');
+            sortAndRender();
+            if (filteredBookings.length > 0) {
+                selectRequest(0);
             }
+            document.getElementById('detail-panel').classList.add('visible');
             syncPanelHeight();
         });
     </script>

@@ -80,11 +80,31 @@ class DashboardController extends Controller
     {
         $request->validate([
             'status' => ['required', 'in:approved,rejected'],
+            'rejection_reason' => ['nullable', 'string', 'max:500'],
         ]);
 
-        DB::table('bookings')->where('id', $booking->id)->update([
-            'status' => $request->status,
-        ]);
+        $data = ['status' => $request->status];
+
+        if ($request->status === 'rejected' && $request->filled('rejection_reason')) {
+            $data['rejection_reason'] = $request->rejection_reason;
+        }
+
+        DB::table('bookings')->where('id', $booking->id)->update($data);
+
+        if ($request->status === 'approved') {
+            DB::table('bookings')
+                ->where('date', $booking->date)
+                ->where('location_code', $booking->location_code)
+                ->where('kitchen_name', $booking->kitchen_name)
+                ->where('status', 'pending')
+                ->where('id', '!=', $booking->id)
+                ->where('start_time', '<', $booking->end_time)
+                ->where('end_time', '>', $booking->start_time)
+                ->update([
+                    'status' => 'rejected',
+                    'rejection_reason' => 'Slot telah diambil oleh tempahan lain.',
+                ]);
+        }
 
         $label = $request->status === 'approved' ? 'diterima' : 'ditolak';
 
