@@ -188,6 +188,38 @@
         .badge-menunggu  { background: #fff9db; color: #d97706; border-color: #fef08a; }
         .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
 
+        .action-wrap { display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+        .action-btn {
+            width: 28px; height: 28px;
+            border-radius: 6px; border: none;
+            cursor: pointer; font-weight: 700; font-size: 14px;
+            display: inline-flex; align-items: center; justify-content: center;
+            transition: filter 0.15s;
+        }
+
+        .action-btn:hover { filter: brightness(0.9); }
+        .action-btn.accept { background: #dcfce7; color: #15803d; }
+        .action-btn.reject { background: #fee2e2; color: #dc2626; }
+
+        .success-msg {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .empty-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
 
         .view-all-link {
             display: block;
@@ -231,19 +263,23 @@
 
             <div class="stat-card">
                 <div class="stat-body">
-                    <div class="stat-num">12</div>
+                    <div class="stat-num">{{ $todayCount }}</div>
                     <div class="stat-label">Tempahan Hari Ini</div>
                 </div>
             </div>
 
             <div class="stat-card">
                 <div class="stat-body">
-                    <div class="stat-num">5</div>
+                    <div class="stat-num">{{ $pendingCount }}</div>
                     <div class="stat-label">Menunggu Kelulusan</div>
                 </div>
             </div>
 
         </div>
+
+        @if (session('success'))
+            <div class="success-msg">{{ session('success') }}</div>
+        @endif
 
         <!-- Table Card -->
         <div class="table-card">
@@ -252,7 +288,7 @@
             <div class="table-toolbar">
                 <div class="search-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                        <input type="text" placeholder="Cari nama, lokasi, atau tujuan…">
+                        <input type="text" placeholder="Cari nama, lokasi, atau tujuan...">
                 </div>
 
                 <select class="filter-select">
@@ -269,107 +305,72 @@
                     <option>Dibatalkan</option>
                 </select>
 
-                <input type="date" class="date-input" value="2024-05-13">
+                <input type="date" class="date-input" value="{{ now()->format('Y-m-d') }}">
 
             </div>
 
             <!-- Table -->
-            <table>
-                <thead>
-                    <tr>
-                        <th>Pemohon</th>
-                        <th>No. Matrik</th>
-                        <th>Emel</th>
-                        <th>Lokasi</th>
-                        <th>Dapur</th>
-                        <th>Tarikh</th>
-                        <th>Masa</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Hafizul Hakim</td>
-                        <td>D20240000001</td>
-                        <td>hafizul@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 1</td>
-                        <td>13/05/2024</td>
-                        <td>08:00 – 12:00</td>
-                        <td><span class="badge badge-disahkan">Disahkan</span></td>
-                    </tr>
-                    <tr>
-                        <td>Nur Aisyah</td>
-                        <td>D20240000002</td>
-                        <td>aisyah@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 2</td>
-                        <td>13/05/2024</td>
-                        <td>13:00 – 17:00</td>
-                        <td><span class="badge badge-menunggu">Menunggu</span></td>
-                    </tr>
-                    <tr>
-                        <td>Muhammad Iqbal</td>
-                        <td>D20240000003</td>
-                        <td>iqbal@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 1</td>
-                        <td>14/05/2024</td>
-                        <td>08:00 – 12:00</td>
-                        <td><span class="badge badge-disahkan">Disahkan</span></td>
-                    </tr>
-                    <tr>
-                        <td>Siti Nur Farhana</td>
-                        <td>D20240000004</td>
-                        <td>farhana@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 3</td>
-                        <td>14/05/2024</td>
-                        <td>14:00 – 18:00</td>
-                        <td><span class="badge badge-menunggu">Menunggu</span></td>
-                    </tr>
-                    <tr>
-                        <td>Ahmad Danial</td>
-                        <td>D20240000005</td>
-                        <td>danial@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 2</td>
-                        <td>15/05/2024</td>
-                        <td>10:00 – 15:00</td>
-                        <td><span class="badge badge-dibatalkan">Dibatalkan</span></td>
-                    </tr>
-                    <tr>
-                        <td>Norsyafiqah</td>
-                        <td>D20240000006</td>
-                        <td>syafiqah@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 1</td>
-                        <td>15/05/2024</td>
-                        <td>08:00 – 12:00</td>
-                        <td><span class="badge badge-disahkan">Disahkan</span></td>
-                    </tr>
-                    <tr>
-                        <td>Intan Maisarah</td>
-                        <td>D20240000007</td>
-                        <td>intan@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 3</td>
-                        <td>16/05/2024</td>
-                        <td>09:00 – 13:00</td>
-                        <td><span class="badge badge-menunggu">Menunggu</span></td>
-                    </tr>
-                    <tr>
-                        <td>Akmal Hakimi</td>
-                        <td>D20240000008</td>
-                        <td>akmal@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 2</td>
-                        <td>16/05/2024</td>
-                        <td>14:00 – 17:00</td>
-                        <td><span class="badge badge-disahkan">Disahkan</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            @if ($bookings->isEmpty())
+                <div class="empty-msg">Tiada tempahan dijumpai.</div>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pemohon</th>
+                            <th>No. Matrik</th>
+                            <th>Emel</th>
+                            <th>Lokasi</th>
+                            <th>Dapur</th>
+                            <th>Tarikh</th>
+                            <th>Masa</th>
+                            <th>Status</th>
+                            <th>Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($bookings as $b)
+                            <tr>
+                                <td>{{ $b->nama }}</td>
+                                <td>{{ $b->matrik }}</td>
+                                <td>{{ $b->emel }}</td>
+                                <td>{{ $b->location_code }}</td>
+                                <td>{{ $b->kitchen_name }}</td>
+                                <td>{{ \Carbon\Carbon::parse($b->date)->format('d/m/Y') }}</td>
+                                <td>{{ $b->start_time }} – {{ $b->end_time }}</td>
+                                <td>
+                                    @if ($b->status === 'approved')
+                                        <span class="badge badge-disahkan">Disahkan</span>
+                                    @elseif ($b->status === 'rejected')
+                                        <span class="badge badge-dibatalkan">Dibatalkan</span>
+                                    @else
+                                        <span class="badge badge-menunggu">Menunggu</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="action-wrap">
+                                        @if ($b->status === 'pending')
+                                            <form method="POST" action="{{ route('bookings.status', $b->id) }}" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="action-btn accept" title="Terima">✓</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('bookings.status', $b->id) }}" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="rejected">
+                                                <button type="submit" class="action-btn reject" title="Tolak">✕</button>
+                                            </form>
+                                        @else
+                                            <span style="color:#9ca3af;font-size:12px;">—</span>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
 
             <a href="{{ route('all-booking') }}" class="view-all-link">Lihat semua tempahan</a>
 
