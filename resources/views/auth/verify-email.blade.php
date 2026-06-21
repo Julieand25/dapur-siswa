@@ -113,8 +113,8 @@
 
         .actions {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
             margin-top: 20px;
             gap: 12px;
         }
@@ -150,8 +150,9 @@
         }
 
         .btn-resend:hover { color: #1e40af; }
+        .btn-resend:disabled { color: #9ca3af; cursor: not-allowed; }
 
-        .btn-logout {
+        .back-link {
             background: none;
             color: #6b7280;
             font-size: 13px;
@@ -162,7 +163,7 @@
             padding: 8px 4px;
         }
 
-        .btn-logout:hover { color: #374151; }
+        .back-link:hover { color: #374151; }
 
         @media (max-width: 480px) {
             .card { padding: 24px 20px; }
@@ -185,7 +186,7 @@
             <h2>Sahkan Alamat Emel Anda</h2>
             <p>
                 Sila masukkan kod OTP 4 angka yang telah dihantar ke
-                <span class="email-highlight">{{ auth()->user()->email }}</span>
+                <span class="email-highlight">{{ $email }}</span>
             </p>
 
             @if (session('status') == 'otp-sent')
@@ -247,23 +248,21 @@
                 @endif
 
                 <div class="actions">
-                    <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Sahkan</button>
-
                     <button type="submit" form="resend-form" class="btn-resend" id="resend-btn">Hantar Semula</button>
 
-                    <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                        @csrf
-                        <button type="submit" class="btn-logout">Log Keluar</button>
-                    </form>
+                    <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Sahkan</button>
                 </div>
             </form>
 
-            <form id="resend-form" method="POST" action="{{ route('verification.send') }}" style="display:none;">
-                @csrf
-            </form>
         </div>
 
+        <a href="{{ route('login') }}" class="back-link">Kembali</a>
+
     </div>
+
+    <form id="resend-form" method="POST" action="{{ route('verification.send') }}" style="display:none;">
+        @csrf
+    </form>
 
     <script>
         (function () {
@@ -324,6 +323,31 @@
                 inputs[i].addEventListener('keydown', handleKeydown);
                 inputs[i].addEventListener('paste', handlePaste);
             }
+
+            var resendBtn = document.getElementById('resend-btn');
+            var countdown = 0;
+            var timer = null;
+
+            resendBtn.addEventListener('click', function (e) {
+                if (countdown > 0) {
+                    e.preventDefault();
+                    return;
+                }
+                countdown = 60;
+                resendBtn.disabled = true;
+                resendBtn.textContent = 'Hantar Semula (' + countdown + 's)';
+                timer = setInterval(function () {
+                    countdown--;
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        timer = null;
+                        resendBtn.disabled = false;
+                        resendBtn.textContent = 'Hantar Semula';
+                    } else {
+                        resendBtn.textContent = 'Hantar Semula (' + countdown + 's)';
+                    }
+                }, 1000);
+            });
         })();
     </script>
 

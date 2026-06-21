@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
@@ -13,11 +14,27 @@ class EmailVerificationNotificationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false));
+        $email = $request->session()->get('verification_email');
+
+        if (! $email) {
+            return redirect()->route('login');
         }
 
-        $request->user()->sendEmailVerificationNotification();
+        $user = User::where('email', $email)->first();
+
+        if (! $user) {
+            $request->session()->forget('verification_email');
+
+            return redirect()->route('login');
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            $request->session()->forget('verification_email');
+
+            return redirect()->route('login');
+        }
+
+        $user->sendEmailVerificationNotification();
 
         return back()->with('status', 'otp-sent');
     }

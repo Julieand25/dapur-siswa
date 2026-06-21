@@ -16,6 +16,7 @@ test('new users can register', function () {
         'password_confirmation' => 'password',
     ]);
 
-    $this->assertAuthenticated();
+    $this->assertGuest();
     $response->assertRedirect(route('verification.notice'));
+    $response->assertSessionHas('verification_email', 'test@example.com');
 });

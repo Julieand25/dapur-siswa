@@ -28,6 +28,20 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = Auth::user();
+
+        if (! $user->hasVerifiedEmail()) {
+            $request->session()->put('verification_email', $user->email);
+
+            Auth::guard('web')->logout();
+
+            $request->session()->regenerateToken();
+
+            $user->sendEmailVerificationNotification();
+
+            return redirect(route('verification.notice'));
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
