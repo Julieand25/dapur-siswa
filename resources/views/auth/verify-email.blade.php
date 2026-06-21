@@ -73,7 +73,42 @@
             border-radius: 6px;
             padding: 10px 14px;
             line-height: 1.5;
-            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .error-msg {
+            font-size: 12px;
+            color: #dc2626;
+            margin-top: 6px;
+        }
+
+        .otp-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0 8px;
+        }
+
+        .otp-input {
+            width: 56px;
+            height: 64px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+            color: #111827;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .otp-input:focus {
+            border-color: #1a56db;
+            box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.1);
+        }
+
+        .otp-input.has-error {
+            border-color: #dc2626;
         }
 
         .actions {
@@ -101,6 +136,20 @@
         .btn:active { transform: translateY(0); }
 
         .btn-primary { background: #1a56db; color: #fff; }
+        .btn-primary:disabled { background: #93b4f5; cursor: not-allowed; }
+
+        .btn-resend {
+            background: none;
+            color: #1a56db;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            padding: 8px 4px;
+        }
+
+        .btn-resend:hover { color: #1e40af; }
 
         .btn-logout {
             background: none;
@@ -119,6 +168,8 @@
             .card { padding: 24px 20px; }
             .actions { flex-direction: column; align-items: stretch; }
             .actions .btn { width: 100%; }
+            .otp-input { width: 48px; height: 56px; font-size: 22px; }
+            .otp-group { gap: 6px; }
         }
     </style>
 </head>
@@ -133,33 +184,148 @@
         <div class="card">
             <h2>Sahkan Alamat Emel Anda</h2>
             <p>
-                Terima kasih kerana mendaftar! Sebelum meneruskan, sila sahkan alamat emel anda dengan menekan pautan yang telah dihantar ke
-                <span class="email-highlight">{{ auth()->user()->email }}</span>.
-            </p>
-            <p style="margin-top: 8px;">
-                Jika anda tidak menerima emel tersebut, kami akan menghantar semula dengan senang hati.
+                Sila masukkan kod OTP 4 angka yang telah dihantar ke
+                <span class="email-highlight">{{ auth()->user()->email }}</span>
             </p>
 
-            @if (session('status') == 'verification-link-sent')
+            @if (session('status') == 'otp-sent')
                 <div class="status-msg">
-                    Pautan pengesahan baharu telah dihantar ke alamat emel yang anda berikan semasa pendaftaran.
+                    Kod OTP baharu telah dihantar ke emel anda.
                 </div>
             @endif
 
-            <div class="actions">
-                <form method="POST" action="{{ route('verification.send') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-primary">Hantar Semula Emel</button>
-                </form>
+            <form method="POST" action="{{ route('verification.verify') }}">
+                @csrf
 
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn-logout">Log Keluar</button>
-                </form>
-            </div>
+                <div class="otp-group">
+                    <input
+                        type="text"
+                        name="otp[]"
+                        maxlength="1"
+                        inputmode="numeric"
+                        pattern="[0-9]"
+                        class="otp-input {{ $errors->any() ? 'has-error' : '' }}"
+                        id="otp-1"
+                        autofocus
+                        autocomplete="one-time-code"
+                        required
+                    >
+                    <input
+                        type="text"
+                        name="otp[]"
+                        maxlength="1"
+                        inputmode="numeric"
+                        pattern="[0-9]"
+                        class="otp-input {{ $errors->any() ? 'has-error' : '' }}"
+                        id="otp-2"
+                        required
+                    >
+                    <input
+                        type="text"
+                        name="otp[]"
+                        maxlength="1"
+                        inputmode="numeric"
+                        pattern="[0-9]"
+                        class="otp-input {{ $errors->any() ? 'has-error' : '' }}"
+                        id="otp-3"
+                        required
+                    >
+                    <input
+                        type="text"
+                        name="otp[]"
+                        maxlength="1"
+                        inputmode="numeric"
+                        pattern="[0-9]"
+                        class="otp-input {{ $errors->any() ? 'has-error' : '' }}"
+                        id="otp-4"
+                        required
+                    >
+                </div>
+
+                @if ($errors->any())
+                    <div class="error-msg">{{ $errors->first() }}</div>
+                @endif
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Sahkan</button>
+
+                    <button type="submit" form="resend-form" class="btn-resend" id="resend-btn">Hantar Semula</button>
+
+                    <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                        @csrf
+                        <button type="submit" class="btn-logout">Log Keluar</button>
+                    </form>
+                </div>
+            </form>
+
+            <form id="resend-form" method="POST" action="{{ route('verification.send') }}" style="display:none;">
+                @csrf
+            </form>
         </div>
 
     </div>
+
+    <script>
+        (function () {
+            var inputs = document.querySelectorAll('.otp-input');
+            var submitBtn = document.getElementById('submit-btn');
+
+            function updateSubmitState() {
+                var allFilled = true;
+                for (var i = 0; i < inputs.length; i++) {
+                    if (!inputs[i].value || !/^\d$/.test(inputs[i].value)) {
+                        allFilled = false;
+                        break;
+                    }
+                }
+                submitBtn.disabled = !allFilled;
+            }
+
+            function handleInput(e) {
+                var el = e.target;
+                var val = el.value;
+                el.value = val.replace(/[^0-9]/g, '').slice(-1);
+                updateSubmitState();
+
+                if (el.value && el.nextElementSibling && el.nextElementSibling.classList.contains('otp-input')) {
+                    el.nextElementSibling.focus();
+                }
+            }
+
+            function handleKeydown(e) {
+                var el = e.target;
+                if (e.key === 'Backspace' && !el.value && el.previousElementSibling && el.previousElementSibling.classList.contains('otp-input')) {
+                    el.previousElementSibling.focus();
+                }
+                if (e.key === 'ArrowLeft' && el.previousElementSibling && el.previousElementSibling.classList.contains('otp-input')) {
+                    el.previousElementSibling.focus();
+                }
+                if (e.key === 'ArrowRight' && el.nextElementSibling && el.nextElementSibling.classList.contains('otp-input')) {
+                    el.nextElementSibling.focus();
+                }
+            }
+
+            function handlePaste(e) {
+                e.preventDefault();
+                var paste = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+                var digits = paste.slice(0, 4).split('');
+                for (var i = 0; i < inputs.length; i++) {
+                    inputs[i].value = digits[i] || '';
+                }
+                var lastIndex = Math.min(digits.length, inputs.length) - 1;
+                if (lastIndex >= 0) {
+                    inputs[lastIndex].focus();
+                }
+                updateSubmitState();
+            }
+
+            for (var i = 0; i < inputs.length; i++) {
+                inputs[i].addEventListener('input', handleInput);
+                inputs[i].addEventListener('keydown', handleKeydown);
+                inputs[i].addEventListener('paste', handlePaste);
+            }
+        })();
+    </script>
 
 </body>
 </html>

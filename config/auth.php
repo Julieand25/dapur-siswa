@@ -114,4 +114,18 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Email Verification OTP
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define the number of minutes before an email verification
+    | OTP expires. By default, the OTP expires after 10 minutes.
+    |
+    */
+
+    'verification' => [
+        'otp_expire' => env('AUTH_OTP_EXPIRE', 10),
+    ],
+
 ];

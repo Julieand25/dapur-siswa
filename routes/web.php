@@ -7,6 +7,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test-email', function () {
+    if (! app()->environment('local')) abort(403);
+
+    $user = \App\Models\User::whereNull('email_verified_at')->first();
+    if (! $user) return 'No unverified user found. Register first.';
+
+    try {
+        $user->sendEmailVerificationNotification();
+        $user->refresh();
+        return 'OTP sent! Code: <strong>' . $user->email_verification_otp . '</strong><br>Check email: ' . $user->email;
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});
+
 // Auth middleware temporarily removed for UI development
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {

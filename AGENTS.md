@@ -5,7 +5,7 @@ Laravel 13.x booking system for a university student kitchen ("Dapur Siswa Madan
 
 ## Stack & Versions
 - PHP ^8.3, Laravel ^13.8
-- SQLite (default via `.env`; `database/database.sqlite` already committed)
+- PostgreSQL via Supabase (live `.env`); SQLite via `.env.example` default
 - Tailwind CSS v3 + Alpine.js via Vite
 - Laravel Breeze (auth scaffolding, Blade stack)
 - Pest v4 for testing (not raw PHPUnit)
@@ -23,18 +23,19 @@ Laravel 13.x booking system for a university student kitchen ("Dapur Siswa Madan
 | List routes | `php artisan route:list` |
 
 ## Database
-- Default connection is SQLite (`database/database.sqlite`). No external DB service needed.
-- Session, cache, and queue all use the `database` driver (SQLite tables).
-- Tests use SQLite `:memory:` (set in `phpunit.xml`), with `RefreshDatabase` trait on all Feature tests via `tests/Pest.php`.
+- `.env.example` defaults to SQLite (`DB_CONNECTION=sqlite`). The actual `.env` is configured for **PostgreSQL** (Supabase). `database/database.sqlite` exists but is a stale artifact.
+- Session, cache, and queue all use the `database` driver (PostgreSQL tables in live `.env`).
+- Tests always use SQLite `:memory:` (set via `<env>` in `phpunit.xml`), regardless of `.env`. `RefreshDatabase` trait is applied to all Feature tests via `tests/Pest.php`.
 
 ## Architecture & Layout
 - **Two layout systems coexist:**
   - `layouts/app.blade.php` — default Breeze layout (Tailwind + navbar), used by auth pages and `/`.
   - `components/admin-layout.blade.php` — custom admin shell with `<x-sidebar>` and `<x-topbar>`. Used by dashboard and all `/dapur/*`, `/pengguna`, `/laporan/*`, `/kalendar`, `/tetapan` pages.
 - `<x-sidebar>` defines all navigation items inline in `resources/views/components/sidebar.blade.php:4-17`. The `active` prop maps to the `key` fields there.
-- Auth middleware is **currently commented out** on dashboard/auth routes — the app is in UI-prototyping/wireframing phase.
+- Auth middleware exists on dashboard routes (`auth` + `verified`). Profile routes (`profile.edit`, etc.) are commented out. The app is in UI-prototyping/wireframing phase.
 - Routes return Blade views directly with hardcoded/fake data. No real controllers or models exist beyond Breeze's `User` model and auth controllers.
 - User model is standard Breeze `App\Models\User` (id, name, email, password). No custom fields yet.
+- `resources/views/auth/verify-email.blade.php` is a **standalone page** (does not extend any layout) — it has its own complete HTML document with inline CSS. This is a Breeze default pattern for the email verification page, not a bug.
 
 ## Page ↔ Route ↔ View Map
 
