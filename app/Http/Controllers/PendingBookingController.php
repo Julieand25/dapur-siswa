@@ -40,6 +40,8 @@ class PendingBookingController extends Controller
         }
 
         $bookingsJson = $pendingBookings->map(function ($b) {
+            $tz = 'Asia/Kuala_Lumpur';
+
             return [
                 'id' => $b->id,
                 'nama' => $b->nama,
@@ -53,7 +55,7 @@ class PendingBookingController extends Controller
                 'end_time' => $b->end_time,
                 'status' => $b->status,
                 'bilangan_hidangan' => $b->bilangan_hidangan ?? 1,
-                'created_at' => Carbon::parse($b->created_at)->locale('ms')->isoFormat('D MMM YYYY, h:mm A'),
+                'created_at' => Carbon::parse($b->created_at)->setTimezone($tz)->locale('ms')->isoFormat('D MMM YYYY, h:mm A'),
                 'statusUrl' => route('bookings.status', $b->id),
             ];
         })->values();
