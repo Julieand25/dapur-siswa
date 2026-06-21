@@ -164,14 +164,63 @@
         .action-links a {
             font-size: 13px;
             font-weight: 600;
-            color: #1a56db;
             text-decoration: none;
         }
 
-        .action-links a:hover {
-            text-decoration: underline;
-            color: #1e40af;
+        .action-links a:hover { text-decoration: underline; }
+
+        .action-links .link-ubah { color: #1a56db; }
+        .action-links .link-ubah:hover { color: #1e40af; }
+        .action-links .link-urus { color: #1a56db; }
+        .action-links .link-urus:hover { color: #1e40af; }
+        .action-links .link-padam { color: #dc2626; }
+        .action-links .link-padam:hover { color: #b91c1c; }
+
+        .success-msg {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
         }
+
+        .empty-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .pagination-row {
+            display: flex;
+            justify-content: center;
+            padding: 14px 20px;
+            border-top: 1px solid #f3f4f6;
+            font-size: 13px;
+            gap: 4px;
+        }
+
+        .pagination-row a,
+        .pagination-row span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+            padding: 0 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            color: #374151;
+            text-decoration: none;
+            transition: background 0.1s;
+        }
+
+        .pagination-row a:hover { background: #f3f4f6; }
+        .pagination-row span.active { background: #1a56db; color: #fff; }
+        .pagination-row span.disabled { color: #d1d5db; cursor: default; }
 
         .footer {
             text-align: center;
@@ -202,118 +251,100 @@
             Tambah Dapur
         </a>
 
+        @if (session('success'))
+            <div class="success-msg">{{ session('success') }}</div>
+        @endif
+
         <div class="table-card">
 
-            <div class="table-toolbar">
+            <form class="table-toolbar" method="GET" action="{{ route('dapur.index') }}">
                 <div class="search-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                    <input type="text" placeholder="Cari dapur...">
+                    <input type="text" name="search" placeholder="Cari dapur..." value="{{ request('search') }}">
                 </div>
 
-                <select class="filter-select">
-                    <option>Semua Lokasi</option>
-                    <option>KHAR 4</option>
-                    <option>KHAR 3</option>
-                    <option>KHAR 2</option>
+                <select class="filter-select" name="lokasi" onchange="this.form.submit()">
+                    <option value="">Semua Lokasi</option>
+                    <option value="KHAR" {{ request('lokasi') === 'KHAR' ? 'selected' : '' }}>KHAR</option>
+                    <option value="KUO" {{ request('lokasi') === 'KUO' ? 'selected' : '' }}>KUO</option>
+                    <option value="KAHS" {{ request('lokasi') === 'KAHS' ? 'selected' : '' }}>KAHS</option>
+                    <option value="KAB" {{ request('lokasi') === 'KAB' ? 'selected' : '' }}>KAB</option>
+                    <option value="KZ" {{ request('lokasi') === 'KZ' ? 'selected' : '' }}>KZ</option>
                 </select>
 
-                <select class="filter-select">
-                    <option>Semua Status</option>
-                    <option>Tersedia</option>
-                    <option>Tidak Tersedia</option>
+                <select class="filter-select" name="status" onchange="this.form.submit()">
+                    <option value="">Semua Status</option>
+                    <option value="tersedia" {{ request('status') === 'tersedia' ? 'selected' : '' }}>Tersedia</option>
+                    <option value="tidak-tersedia" {{ request('status') === 'tidak-tersedia' ? 'selected' : '' }}>Tidak Tersedia</option>
                 </select>
-            </div>
+            </form>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th class="col-bil">Bil.</th>
-                        <th>Lokasi</th>
-                        <th>Dapur</th>
-                        <th>Status</th>
-                        <th>Tindakan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="col-bil">1</td>
-                        <td>KHAR 4</td>
-                        <td class="col-dapur">Dapur 1</td>
-                        <td><span class="badge badge-tersedia">Tersedia</span></td>
-                        <td>
-                            <div class="action-links">
-                                <a href="{{ route('dapur.edit', 1) }}">Ubah Dapur</a>
-                                <a href="{{ route('dapur.barang', 1) }}">Urus Barang</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-bil">2</td>
-                        <td>KHAR 4</td>
-                        <td class="col-dapur">Dapur 2</td>
-                        <td><span class="badge badge-tersedia">Tersedia</span></td>
-                        <td>
-                            <div class="action-links">
-                                <a href="{{ route('dapur.edit', 2) }}">Ubah Dapur</a>
-                                <a href="{{ route('dapur.barang', 2) }}">Urus Barang</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-bil">3</td>
-                        <td>KHAR 3</td>
-                        <td class="col-dapur">Dapur 1</td>
-                        <td><span class="badge badge-tidak-tersedia">Tidak Tersedia</span></td>
-                        <td>
-                            <div class="action-links">
-                                <a href="{{ route('dapur.edit', 3) }}">Ubah Dapur</a>
-                                <a href="{{ route('dapur.barang', 3) }}">Urus Barang</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-bil">4</td>
-                        <td>KHAR 3</td>
-                        <td class="col-dapur">Dapur 2</td>
-                        <td><span class="badge badge-tersedia">Tersedia</span></td>
-                        <td>
-                            <div class="action-links">
-                                <a href="{{ route('dapur.edit', 4) }}">Ubah Dapur</a>
-                                <a href="{{ route('dapur.barang', 4) }}">Urus Barang</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-bil">5</td>
-                        <td>KHAR 2</td>
-                        <td class="col-dapur">Dapur 1</td>
-                        <td><span class="badge badge-tersedia">Tersedia</span></td>
-                        <td>
-                            <div class="action-links">
-                                <a href="{{ route('dapur.edit', 5) }}">Ubah Dapur</a>
-                                <a href="{{ route('dapur.barang', 5) }}">Urus Barang</a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-bil">6</td>
-                        <td>KHAR 2</td>
-                        <td class="col-dapur">Dapur 2</td>
-                        <td><span class="badge badge-tidak-tersedia">Tidak Tersedia</span></td>
-                        <td>
-                            <div class="action-links">
-                                <a href="{{ route('dapur.edit', 6) }}">Ubah Dapur</a>
-                                <a href="{{ route('dapur.barang', 6) }}">Urus Barang</a>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @if ($dapurs->isEmpty())
+                <div class="empty-msg">Tiada dapur dijumpai.</div>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-bil">Bil.</th>
+                            <th>Lokasi</th>
+                            <th>Status</th>
+                            <th>Dapur</th>
+                            <th>Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($dapurs as $dapur)
+                            <tr>
+                                <td class="col-bil">{{ $loop->iteration + (($dapurs->currentPage() - 1) * $dapurs->perPage()) }}</td>
+                                <td>{{ $dapur->lokasi }}</td>
+                                <td>
+                                    <span class="badge {{ $dapur->status === 'tersedia' ? 'badge-tersedia' : 'badge-tidak-tersedia' }}">
+                                        {{ $dapur->status === 'tersedia' ? 'Tersedia' : 'Tidak Tersedia' }}
+                                    </span>
+                                </td>
+                                <td class="col-dapur">{{ $dapur->nama_dapur }}</td>
+                                <td>
+                                    <div class="action-links">
+                                        <a href="{{ route('dapur.edit', $dapur) }}" class="link-ubah">Ubah Dapur</a>
+                                        <a href="{{ route('dapur.barang', $dapur) }}" class="link-urus">Urus Barang</a>
+                                        <a href="#" class="link-padam" onclick="confirmDelete(event, '{{ route('dapur.destroy', $dapur) }}', '{{ $dapur->nama_dapur }}')">Padam</a>
+                                        <form id="delete-form-{{ $dapur->id }}" method="POST" action="{{ route('dapur.destroy', $dapur) }}" style="display:none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                @if ($dapurs->hasPages())
+                    <div class="pagination-row">
+                        {{ $dapurs->links() }}
+                    </div>
+                @endif
+            @endif
         </div>
     </main>
 
     <footer class="footer">
         &copy; 2024 Dapur Siswa Madani UPSI. Hak Cipta Terpelihara.
     </footer>
+
+    <script>
+        function confirmDelete(e, url, name) {
+            e.preventDefault();
+            if (confirm('Padam "' + name + '"? Tindakan ini tidak boleh dikembalikan.')) {
+                var form = document.createElement('form');
+                form.method = 'POST';
+                form.action = url;
+                form.style.display = 'none';
+                form.innerHTML = '@csrf @method('DELETE')';
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+    </script>
 
 </x-admin-layout>

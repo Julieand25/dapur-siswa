@@ -1,4 +1,4 @@
-<x-admin-layout active="dapur" title="Rekod Barang" subtitle="Rekod penggunaan peralatan dan bahan masakan.">
+<x-admin-layout active="dapur" title="Urus Barang — {{ $dapur->nama_dapur }}" subtitle="{{ $dapur->lokasi }} — Rekod penggunaan peralatan dan bahan masakan.">
 
     @push('styles')
     <style>
@@ -68,34 +68,6 @@
             padding: 14px 20px;
             border-bottom: 1px solid #f3f4f6;
             flex-wrap: wrap;
-        }
-
-        .search-wrap {
-            position: relative;
-            flex: 1;
-            min-width: 180px;
-            max-width: 280px;
-        }
-
-        .search-wrap input {
-            width: 100%;
-            padding: 9px 12px 9px 36px;
-            border: 1.5px solid #d1d5db;
-            border-radius: 6px;
-            font-size: 12.5px;
-            color: #374151;
-            outline: none;
-            transition: border-color 0.15s;
-        }
-
-        .search-wrap input:focus { border-color: #1a56db; }
-
-        .search-wrap svg {
-            position: absolute;
-            left: 10px; top: 50%;
-            transform: translateY(-50%);
-            width: 15px; height: 15px;
-            color: #9ca3af;
         }
 
         .btn-tambah-barang {
@@ -221,6 +193,12 @@
             height: 13px;
         }
 
+        .btn-icon.delete-icon:hover {
+            background: #fef2f2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
@@ -331,6 +309,24 @@
 
         .modal-btn-save:hover { background: #1e40af; }
 
+        .success-msg {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .empty-msg {
+            text-align: center;
+            padding: 30px 20px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
         .footer {
             text-align: center;
             padding: 16px 28px;
@@ -343,8 +339,6 @@
 
         @media (max-width: 640px) {
             .content { padding: 16px; }
-            .table-toolbar { flex-direction: column; }
-            .search-wrap { max-width: 100%; }
             .btn-tambah-barang { margin-left: 0; }
         }
     </style>
@@ -356,6 +350,10 @@
             Kembali ke Senarai Dapur
         </a>
 
+        @if (session('success'))
+            <div class="success-msg">{{ session('success') }}</div>
+        @endif
+
         <div class="tab-row">
             <button class="tab-btn active" onclick="switchTab('peralatan', this)">Peralatan</button>
             <button class="tab-btn" onclick="switchTab('bahan', this)">Bahan Masak</button>
@@ -364,10 +362,6 @@
         <div class="tab-content active" id="tab-peralatan">
             <div class="table-card">
                 <div class="table-toolbar">
-                    <div class="search-wrap">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                        <input type="text" placeholder="Cari peralatan...">
-                    </div>
                     <button class="btn-tambah-barang" onclick="openModal('peralatan')">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                         Tambah Peralatan
@@ -384,76 +378,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Periuk Besar</td>
-                            <td>5</td>
-                            <td><span class="badge-tersedia">Tersedia</span></td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('peralatan','Periuk Besar','5','Tersedia')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Kuali Leper</td>
-                            <td>8</td>
-                            <td><span class="badge-tersedia">Tersedia</span></td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('peralatan','Kuali Leper','8','Tersedia')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Pisau Chef</td>
-                            <td>12</td>
-                            <td><span class="badge-tersedia">Tersedia</span></td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('peralatan','Pisau Chef','12','Tersedia')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Papan Pemotong</td>
-                            <td>10</td>
-                            <td><span class="badge-rosak">Rosak</span></td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('peralatan','Papan Pemotong','10','Rosak')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Ketuhar Elektrik</td>
-                            <td>2</td>
-                            <td><span class="badge-diselenggara">Diselenggara</span></td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('peralatan','Ketuhar Elektrik','2','Diselenggara')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
+                        @forelse ($peralatans as $p)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $p->nama }}</td>
+                                <td>{{ $p->kuantiti }}</td>
+                                <td>
+                                    <span class="badge-{{ strtolower($p->status) === 'tersedia' ? 'tersedia' : (strtolower($p->status) === 'rosak' ? 'rosak' : 'diselenggara') }}">
+                                        {{ $p->status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <button class="btn-icon" title="Edit" onclick="openEditModal('peralatan', {{ $p->id }}, '{{ addslashes($p->nama) }}', {{ $p->kuantiti }}, '{{ $p->status }}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                    </button>
+                                    <form method="POST" action="{{ route('dapur.peralatan.destroy', [$dapur, $p]) }}" style="display:inline;" onsubmit="return confirm('Padam peralatan ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn-icon delete-icon" title="Padam">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="empty-msg">Tiada peralatan didaftarkan.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -462,10 +414,6 @@
         <div class="tab-content" id="tab-bahan">
             <div class="table-card">
                 <div class="table-toolbar">
-                    <div class="search-wrap">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                        <input type="text" placeholder="Cari bahan masak...">
-                    </div>
                     <button class="btn-tambah-barang" onclick="openModal('bahan')">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                         Tambah Bahan
@@ -482,62 +430,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Minyak Masak</td>
-                            <td>5</td>
-                            <td>Botol</td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('bahan','Minyak Masak','5','Botol')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Beras</td>
-                            <td>10</td>
-                            <td>Kg</td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('bahan','Beras','10','Kg')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Garam</td>
-                            <td>3</td>
-                            <td>Pek</td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('bahan','Garam','3','Pek')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Gula Pasir</td>
-                            <td>4</td>
-                            <td>Kg</td>
-                            <td>
-                                <button class="btn-icon" title="Edit" onclick="openEditModal('bahan','Gula Pasir','4','Kg')">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                </button>
-                                <button class="btn-icon" title="Padam">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                </button>
-                            </td>
-                        </tr>
+                        @forelse ($bahans as $b)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $b->nama }}</td>
+                                <td>{{ $b->kuantiti }}</td>
+                                <td>{{ $b->unit }}</td>
+                                <td>
+                                    <button class="btn-icon" title="Edit" onclick="openEditModal('bahan', {{ $b->id }}, '{{ addslashes($b->nama) }}', {{ $b->kuantiti }}, '{{ $b->unit }}')">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                    </button>
+                                    <form method="POST" action="{{ route('dapur.bahan.destroy', [$dapur, $b]) }}" style="display:inline;" onsubmit="return confirm('Padam bahan ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn-icon delete-icon" title="Padam">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="empty-msg">Tiada bahan didaftarkan.</td>
+                            </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -547,30 +463,35 @@
     <div class="modal-overlay" id="barangModal">
         <div class="modal-card">
             <div class="modal-title" id="modalTitle">Tambah Peralatan</div>
-            <div class="modal-form-group">
-                <label class="modal-label" id="modalNameLabel">Nama Peralatan</label>
-                <input type="text" class="modal-input" id="modalNama" placeholder="Masukkan nama...">
-            </div>
-            <div class="modal-form-group">
-                <label class="modal-label">Kuantiti</label>
-                <input type="number" class="modal-input" id="modalKuantiti" placeholder="Cth: 5" min="1">
-            </div>
-            <div class="modal-form-group" id="modalGroupStatus">
-                <label class="modal-label">Status</label>
-                <select class="modal-select" id="modalStatus">
-                    <option value="Tersedia">Tersedia</option>
-                    <option value="Rosak">Rosak</option>
-                    <option value="Diselenggara">Diselenggara</option>
-                </select>
-            </div>
-            <div class="modal-form-group" id="modalGroupUnit" style="display:none;">
-                <label class="modal-label">Unit</label>
-                <input type="text" class="modal-input" id="modalUnit" placeholder="Cth: Botol, Kg, Pek">
-            </div>
-            <div class="modal-buttons">
-                <button class="modal-btn-cancel" onclick="closeModal()">Batal</button>
-                <button class="modal-btn-save" onclick="saveBarang()">Simpan</button>
-            </div>
+            <form id="modalForm" method="POST" action="">
+                @csrf
+                <input type="hidden" name="_method" id="modalMethod" value="POST">
+
+                <div class="modal-form-group">
+                    <label class="modal-label" id="modalNameLabel">Nama Peralatan</label>
+                    <input type="text" class="modal-input" name="nama" id="modalNama" placeholder="Masukkan nama..." required>
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-label">Kuantiti</label>
+                    <input type="number" class="modal-input" name="kuantiti" id="modalKuantiti" placeholder="Cth: 5" min="1" required>
+                </div>
+                <div class="modal-form-group" id="modalGroupStatus">
+                    <label class="modal-label">Status</label>
+                    <select class="modal-select" name="status" id="modalStatus">
+                        <option value="Tersedia">Tersedia</option>
+                        <option value="Rosak">Rosak</option>
+                        <option value="Diselenggara">Diselenggara</option>
+                    </select>
+                </div>
+                <div class="modal-form-group" id="modalGroupUnit" style="display:none;">
+                    <label class="modal-label">Unit</label>
+                    <input type="text" class="modal-input" name="unit" id="modalUnit" placeholder="Cth: Botol, Kg, Pek">
+                </div>
+                <div class="modal-buttons">
+                    <button type="button" class="modal-btn-cancel" onclick="closeModal()">Batal</button>
+                    <button type="submit" class="modal-btn-save">Simpan</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -579,8 +500,7 @@
     </footer>
 
     <script>
-        var currentType = 'peralatan';
-        var isEditMode = false;
+        var dapurId = {{ $dapur->id }};
 
         function switchTab(tab, el) {
             document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
@@ -590,9 +510,8 @@
         }
 
         function openModal(type) {
-            currentType = type;
-            isEditMode = false;
-            document.getElementById('barangModal').classList.add('show');
+            document.getElementById('modalForm').action = '/dapur/' + dapurId + '/' + (type === 'peralatan' ? 'peralatan' : 'bahan');
+            document.getElementById('modalMethod').value = 'POST';
             document.getElementById('modalNama').value = '';
             document.getElementById('modalKuantiti').value = '';
             document.getElementById('modalUnit').value = '';
@@ -609,12 +528,14 @@
                 document.getElementById('modalGroupStatus').style.display = 'none';
                 document.getElementById('modalGroupUnit').style.display = 'block';
             }
+
+            document.getElementById('barangModal').classList.add('show');
         }
 
-        function openEditModal(type, nama, kuantiti, extra) {
-            currentType = type;
-            isEditMode = true;
-            document.getElementById('barangModal').classList.add('show');
+        function openEditModal(type, id, nama, kuantiti, extra) {
+            var base = '/dapur/' + dapurId + '/' + (type === 'peralatan' ? 'peralatan' : 'bahan');
+            document.getElementById('modalForm').action = base + '/' + id;
+            document.getElementById('modalMethod').value = 'PUT';
             document.getElementById('modalNama').value = nama;
             document.getElementById('modalKuantiti').value = kuantiti;
 
@@ -631,18 +552,12 @@
                 document.getElementById('modalGroupUnit').style.display = 'block';
                 document.getElementById('modalUnit').value = extra;
             }
+
+            document.getElementById('barangModal').classList.add('show');
         }
 
         function closeModal() {
             document.getElementById('barangModal').classList.remove('show');
-        }
-
-        function saveBarang() {
-            var nama = document.getElementById('modalNama').value.trim();
-            var kuantiti = document.getElementById('modalKuantiti').value;
-            if (!nama) { alert('Sila isi nama.'); return; }
-            if (!kuantiti || kuantiti < 1) { alert('Sila isi kuantiti.'); return; }
-            closeModal();
         }
 
         document.getElementById('barangModal').addEventListener('click', function(e) {

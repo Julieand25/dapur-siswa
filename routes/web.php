@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\DapurController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -7,7 +9,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Auth middleware temporarily removed for UI development
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -21,21 +22,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('all-booking');
     })->name('all-booking');
 
-    Route::get('/dapur', function () {
-        return view('dapur-list');
-    })->name('dapur.index');
+    Route::resource('dapur', DapurController::class)->except(['show']);
 
-    Route::get('/dapur/create', function () {
-        return view('create-dapur');
-    })->name('dapur.create');
-
-    Route::get('/dapur/{id}/barang', function () {
-        return view('manage-barang');
-    })->name('dapur.barang');
-
-    Route::get('/dapur/{id}/edit', function () {
-        return view('edit-dapur');
-    })->name('dapur.edit');
+    Route::get('/dapur/{dapur}/barang', [BarangController::class, 'index'])->name('dapur.barang');
+    Route::post('/dapur/{dapur}/peralatan', [BarangController::class, 'storePeralatan'])->name('dapur.peralatan.store');
+    Route::put('/dapur/{dapur}/peralatan/{peralatan}', [BarangController::class, 'updatePeralatan'])->name('dapur.peralatan.update');
+    Route::delete('/dapur/{dapur}/peralatan/{peralatan}', [BarangController::class, 'destroyPeralatan'])->name('dapur.peralatan.destroy');
+    Route::post('/dapur/{dapur}/bahan', [BarangController::class, 'storeBahan'])->name('dapur.bahan.store');
+    Route::put('/dapur/{dapur}/bahan/{bahan}', [BarangController::class, 'updateBahan'])->name('dapur.bahan.update');
+    Route::delete('/dapur/{dapur}/bahan/{bahan}', [BarangController::class, 'destroyBahan'])->name('dapur.bahan.destroy');
 
     Route::get('/pengguna', function () {
         return view('user-list');

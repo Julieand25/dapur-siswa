@@ -230,7 +230,7 @@
         </a>
 
         <div class="form-container">
-            <form class="form-card" method="POST" action="#">
+            <form class="form-card" method="POST" action="{{ route('dapur.store') }}">
                 @csrf
                 <div class="form-card-title">Maklumat Dapur Baharu</div>
 
@@ -238,16 +238,20 @@
                     <div class="form-group">
                         <label class="form-label">Lokasi <span class="required">*</span></label>
                         <select class="form-select" name="lokasi" required>
-                            <option value="" disabled selected>Pilih lokasi</option>
-                            <option value="KHAR 4">KHAR 4</option>
-                            <option value="KHAR 3">KHAR 3</option>
-                            <option value="KHAR 2">KHAR 2</option>
+                            <option value="" disabled {{ old('lokasi') ? '' : 'selected' }}>Pilih lokasi</option>
+                            <option value="KHAR" {{ old('lokasi') === 'KHAR' ? 'selected' : '' }}>KHAR</option>
+                            <option value="KUO" {{ old('lokasi') === 'KUO' ? 'selected' : '' }}>KUO</option>
+                            <option value="KAHS" {{ old('lokasi') === 'KAHS' ? 'selected' : '' }}>KAHS</option>
+                            <option value="KAB" {{ old('lokasi') === 'KAB' ? 'selected' : '' }}>KAB</option>
+                            <option value="KZ" {{ old('lokasi') === 'KZ' ? 'selected' : '' }}>KZ</option>
                         </select>
+                        @error('lokasi')<span class="error-msg" style="font-size:12px;color:#dc2626;margin-top:4px;">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="form-group">
                         <label class="form-label">Nama Dapur <span class="required">*</span></label>
-                        <input type="text" class="form-input" name="nama_dapur" placeholder="Cth: Dapur 1" required>
+                        <input type="text" class="form-input" name="nama_dapur" value="{{ old('nama_dapur') }}" placeholder="Cth: Dapur 1" required>
+                        @error('nama_dapur')<span class="error-msg" style="font-size:12px;color:#dc2626;margin-top:4px;">{{ $message }}</span>@enderror
                     </div>
                 </div>
 
@@ -255,14 +259,14 @@
                     <label class="form-label">Status</label>
                     <div class="status-toggle-group">
                         <div class="status-option">
-                            <input type="radio" name="status" id="status-tersedia" value="tersedia" checked>
+                            <input type="radio" name="status" id="status-tersedia" value="tersedia" {{ old('status', 'tersedia') === 'tersedia' ? 'checked' : '' }}>
                             <label for="status-tersedia">
                                 <span class="dot"></span>
                                 Tersedia
                             </label>
                         </div>
                         <div class="status-option tidak">
-                            <input type="radio" name="status" id="status-tidak" value="tidak-tersedia">
+                            <input type="radio" name="status" id="status-tidak" value="tidak-tersedia" {{ old('status') === 'tidak-tersedia' ? 'checked' : '' }}>
                             <label for="status-tidak">
                                 <span class="dot"></span>
                                 Tidak Tersedia
@@ -273,7 +277,8 @@
 
                 <div class="form-group">
                     <label class="form-label">Maksimum Orang <span class="required">*</span></label>
-                    <input type="number" class="form-input" name="max_orang" placeholder="Cth: 10" min="1" required>
+                    <input type="number" class="form-input" name="max_orang" value="{{ old('max_orang') }}" placeholder="Cth: 10" min="1" required>
+                    @error('max_orang')<span class="error-msg" style="font-size:12px;color:#dc2626;margin-top:4px;">{{ $message }}</span>@enderror
                     <div class="form-hint">Jumlah maksimum pengguna yang dibenarkan pada satu masa.</div>
                 </div>
 
