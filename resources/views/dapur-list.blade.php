@@ -194,33 +194,45 @@
             font-size: 13px;
         }
 
-        .pagination-row {
+        .pagination {
             display: flex;
-            justify-content: center;
+            align-items: center;
+            justify-content: space-between;
             padding: 14px 20px;
             border-top: 1px solid #f3f4f6;
-            font-size: 13px;
+        }
+
+        .pag-info {
+            font-size: 12.5px;
+            color: #6b7280;
+        }
+
+        .pag-pages {
+            display: flex;
+            align-items: center;
             gap: 4px;
         }
 
-        .pagination-row a,
-        .pagination-row span {
-            display: inline-flex;
+        .pag-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+            background: #fff;
+            font-size: 12.5px;
+            color: #374151;
+            cursor: pointer;
+            display: flex;
             align-items: center;
             justify-content: center;
-            min-width: 32px;
-            height: 32px;
-            padding: 0 8px;
-            border-radius: 6px;
-            font-weight: 600;
-            color: #374151;
+            font-weight: 500;
+            transition: background 0.12s;
             text-decoration: none;
-            transition: background 0.1s;
         }
 
-        .pagination-row a:hover { background: #f3f4f6; }
-        .pagination-row span.active { background: #1a56db; color: #fff; }
-        .pagination-row span.disabled { color: #d1d5db; cursor: default; }
+        .pag-btn:hover { background: #f3f4f6; }
+        .pag-btn.active { background: #1a56db; color: #fff; border-color: #1a56db; font-weight: 700; }
+        .pag-btn svg { width: 13px; height: 13px; }
 
         .footer {
             text-align: center;
@@ -320,8 +332,25 @@
                 </table>
 
                 @if ($dapurs->hasPages())
-                    <div class="pagination-row">
-                        {{ $dapurs->links() }}
+                    <div class="pagination">
+                        <span class="pag-info">Memaparkan {{ $dapurs->firstItem() }} hingga {{ $dapurs->lastItem() }} daripada {{ $dapurs->total() }} rekod</span>
+                        <div class="pag-pages">
+                            @if (! $dapurs->onFirstPage())
+                                <a href="{{ $dapurs->previousPageUrl() }}" class="pag-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                                </a>
+                            @endif
+
+                            @foreach ($dapurs->getUrlRange(1, $dapurs->lastPage()) as $page => $url)
+                                <a href="{{ $url }}" class="pag-btn {{ $page == $dapurs->currentPage() ? 'active' : '' }}">{{ $page }}</a>
+                            @endforeach
+
+                            @if ($dapurs->hasMorePages())
+                                <a href="{{ $dapurs->nextPageUrl() }}" class="pag-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 @endif
             @endif
