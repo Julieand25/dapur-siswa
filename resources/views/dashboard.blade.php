@@ -164,13 +164,6 @@
             vertical-align: middle;
         }
 
-        tbody td:nth-last-child(2),
-        tbody td:last-child,
-        thead th:nth-last-child(2),
-        thead th:last-child {
-            text-align: center;
-        }
-
 
         .badge {
             display: inline-flex;
@@ -187,20 +180,6 @@
         .badge-disahkan  { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
         .badge-menunggu  { background: #fff9db; color: #d97706; border-color: #fef08a; }
         .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
-
-        .action-wrap { display: flex; align-items: center; justify-content: center; gap: 6px; }
-
-        .action-btn {
-            width: 28px; height: 28px;
-            border-radius: 6px; border: none;
-            cursor: pointer; font-weight: 700; font-size: 14px;
-            display: inline-flex; align-items: center; justify-content: center;
-            transition: filter 0.15s;
-        }
-
-        .action-btn:hover { filter: brightness(0.9); }
-        .action-btn.accept { background: #dcfce7; color: #15803d; }
-        .action-btn.reject { background: #fee2e2; color: #dc2626; }
 
         .success-msg {
             background: #dcfce7;
@@ -285,29 +264,29 @@
         <div class="table-card">
 
             <!-- Toolbar -->
-            <div class="table-toolbar">
+            <form class="table-toolbar" method="GET" action="{{ route('dashboard') }}">
                 <div class="search-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                        <input type="text" placeholder="Cari nama, lokasi, atau tujuan...">
+                        <input type="text" name="search" placeholder="Cari nama, lokasi, atau dapur..." value="{{ request('search') }}">
                 </div>
 
-                <select class="filter-select">
-                    <option>Semua Dapur</option>
-                    <option>Dapur 1</option>
-                    <option>Dapur 2</option>
-                    <option>Dapur 3</option>
+                <select class="filter-select" name="dapur" onchange="this.form.submit()">
+                    <option value="">Semua Dapur</option>
+                    @foreach ($dapurList as $dapurName)
+                        <option value="{{ $dapurName }}" {{ request('dapur') === $dapurName ? 'selected' : '' }}>{{ $dapurName }}</option>
+                    @endforeach
                 </select>
 
-                <select class="filter-select">
-                    <option>Semua Status</option>
-                    <option>Disahkan</option>
-                    <option>Menunggu</option>
-                    <option>Dibatalkan</option>
+                <select class="filter-select" name="status" onchange="this.form.submit()">
+                    <option value="semua" {{ request('status', 'semua') === 'semua' ? 'selected' : '' }}>Semua Status</option>
+                    <option value="disahkan" {{ request('status') === 'disahkan' ? 'selected' : '' }}>Disahkan</option>
+                    <option value="menunggu" {{ request('status') === 'menunggu' ? 'selected' : '' }}>Menunggu</option>
+                    <option value="dibatalkan" {{ request('status') === 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
                 </select>
 
-                <input type="date" class="date-input" value="{{ now()->format('Y-m-d') }}">
+                <input type="date" class="date-input" name="date" value="{{ request('date', now()->format('Y-m-d')) }}" onchange="this.form.submit()">
 
-            </div>
+            </form>
 
             <!-- Table -->
             @if ($bookings->isEmpty())
@@ -324,7 +303,6 @@
                             <th>Tarikh</th>
                             <th>Masa</th>
                             <th>Status</th>
-                            <th>Tindakan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -345,26 +323,6 @@
                                     @else
                                         <span class="badge badge-menunggu">Menunggu</span>
                                     @endif
-                                </td>
-                                <td>
-                                    <div class="action-wrap">
-                                        @if ($b->status === 'pending')
-                                            <form method="POST" action="{{ route('bookings.status', $b->id) }}" style="display:inline;">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="status" value="approved">
-                                                <button type="submit" class="action-btn accept" title="Terima">✓</button>
-                                            </form>
-                                            <form method="POST" action="{{ route('bookings.status', $b->id) }}" style="display:inline;">
-                                                @csrf
-                                                @method('PATCH')
-                                                <input type="hidden" name="status" value="rejected">
-                                                <button type="submit" class="action-btn reject" title="Tolak">✕</button>
-                                            </form>
-                                        @else
-                                            <span style="color:#9ca3af;font-size:12px;">—</span>
-                                        @endif
-                                    </div>
                                 </td>
                             </tr>
                         @endforeach

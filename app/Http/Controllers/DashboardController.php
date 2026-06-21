@@ -10,9 +10,28 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $bookings = Booking::orderBy('created_at', 'desc')->get();
+        $query = Booking::orderBy('created_at', 'desc');
+
+        if ($request->filled('date')) {
+            $query->whereDate('date', $request->date);
+        }
+
+        if ($request->filled('status') && $request->status !== 'semua') {
+            $statusMap = [
+                'disahkan' => 'approved',
+                'menunggu' => 'pending',
+                'dibatalkan' => 'rejected',
+            ];
+            $query->where('status', $statusMap[$request->status] ?? $request->status);
+        }
+
+        if ($request->filled('dapur')) {
+            $query->where('kitchen_name', $request->dapur);
+        }
+
+        $bookings = $query->get();
 
         $todayCount = Booking::whereDate('date', today())->count();
         $pendingCount = Booking::where('status', 'pending')->count();
@@ -41,7 +60,20 @@ class DashboardController extends Controller
             }
         }
 
-        return view('dashboard', compact('bookings', 'todayCount', 'pendingCount'));
+        if ($request->filled('search')) {
+            $search = mb_strtolower($request->search);
+            $bookings = $bookings->filter(function ($b) use ($search) {
+                return str_contains(mb_strtolower($b->nama), $search)
+                    || str_contains(mb_strtolower($b->emel), $search)
+                    || str_contains(mb_strtolower($b->matrik), $search)
+                    || str_contains(mb_strtolower($b->location_code), $search)
+                    || str_contains(mb_strtolower($b->kitchen_name), $search);
+            })->values();
+        }
+
+        $dapurList = Booking::distinct()->orderBy('kitchen_name')->pluck('kitchen_name');
+
+        return view('dashboard', compact('bookings', 'todayCount', 'pendingCount', 'dapurList'));
     }
 
     public function updateStatus(Request $request, Booking $booking): RedirectResponse
