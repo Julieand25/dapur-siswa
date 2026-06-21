@@ -161,7 +161,7 @@
 
         <div class="card">
             <p class="description">
-                Masukkan alamat emel anda dan kami akan menghantar pautan untuk menetapkan semula kata laluan.
+                Masukkan alamat emel anda dan kami akan menghantar kod OTP untuk menetapkan semula kata laluan.
             </p>
 
             <form method="POST" action="{{ route('password.email') }}" class="form-card">
@@ -184,7 +184,7 @@
                     @enderror
                 </div>
 
-                <button type="submit" class="btn btn-primary">Hantar Pautan</button>
+                <button type="submit" class="btn btn-primary">Hantar Kod OTP</button>
             </form>
         </div>
 
