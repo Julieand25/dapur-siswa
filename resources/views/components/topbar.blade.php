@@ -14,9 +14,15 @@
             <div class="topbar-user">
                 <div class="topbar-user-text">
                     <div class="greet">Selamat datang,</div>
-                    <div class="name">Pentadbir</div>
+                    <div class="name">{{ auth()->user()->name }}</div>
                 </div>
-                <div class="topbar-avatar" id="avatarBtn">P</div>
+                <div class="topbar-avatar" id="avatarBtn">
+                    @if (auth()->user()->avatarUrl())
+                        <img src="{{ auth()->user()->avatarUrl() }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+                    @else
+                        {{ auth()->user()->avatarInitial() }}
+                    @endif
+                </div>
             </div>
             <div class="user-dropdown" id="userDropdown" style="display:none;">
                 <a href="{{ route('tetapan.index') }}" class="user-dropdown-item">Tetapan</a>

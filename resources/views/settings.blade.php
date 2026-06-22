@@ -174,25 +174,6 @@
             margin-top: 4px;
         }
 
-        .photo-actions {
-            display: flex;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .btn-remove-photo {
-            font-size: 12px;
-            font-weight: 600;
-            color: #dc2626;
-            background: none;
-            border: none;
-            cursor: pointer;
-            text-decoration: underline;
-            padding: 0;
-        }
-
-        .btn-remove-photo:hover { color: #b91c1c; }
-
         .success-msg {
             background: #dcfce7;
             color: #15803d;
@@ -278,9 +259,6 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
                             </div>
                         </label>
-                        <div>
-                            <button type="button" class="btn-remove-photo" onclick="removePhoto()">Padam Foto</button>
-                        </div>
                     </div>
                     <div class="photo-hint">Format: JPG, PNG. Maksimum 2MB.</div>
 
@@ -372,23 +350,6 @@
                     preview.innerHTML = '<img src="' + e.target.result + '" alt="Foto Profil">';
                 };
                 reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function removePhoto() {
-            document.getElementById('photoPreview').innerHTML = '{{ auth()->user()->avatarInitial() }}';
-            var fileInput = document.getElementById('photoInput');
-            fileInput.value = '';
-            var removeInput = document.getElementById('removeAvatarInput');
-            if (!removeInput) {
-                removeInput = document.createElement('input');
-                removeInput.type = 'hidden';
-                removeInput.name = 'remove_avatar';
-                removeInput.value = '1';
-                removeInput.id = 'removeAvatarInput';
-                fileInput.parentElement.appendChild(removeInput);
-            } else {
-                removeInput.value = '1';
             }
         }
     </script>

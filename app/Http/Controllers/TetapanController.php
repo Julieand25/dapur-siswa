@@ -27,9 +27,7 @@ class TetapanController extends Controller
 
         $user->fill($request->only('name', 'phone', 'position'));
 
-        if ($request->boolean('remove_avatar')) {
-            $user->avatar_url = null;
-        } elseif ($request->hasFile('avatar')) {
+        if ($request->hasFile('avatar')) {
             $file = $request->file('avatar');
             $filename = 'user-'.$user->id.'-'.time().'.'.$file->getClientOriginalExtension();
             $mimeType = $file->getMimeType();
