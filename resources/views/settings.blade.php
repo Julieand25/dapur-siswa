@@ -297,7 +297,7 @@
                 </form>
             </div>
 
-            <div class="card full">
+            <div class="card">
                 <div class="card-title">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
                     Tukar Kata Laluan
@@ -321,6 +321,8 @@
                             <input type="password" class="form-input @error('password', 'updatePassword') is-invalid @enderror" name="password" placeholder="Masukkan kata laluan baharu" required>
                             @error('password', 'updatePassword') <span class="form-error">{{ $message }}</span> @enderror
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <label class="form-label">Sahkan Kata Laluan Baharu</label>
                             <input type="password" class="form-input" name="password_confirmation" placeholder="Sahkan kata laluan baharu" required>
