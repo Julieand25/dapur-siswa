@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KalendarController;
 use App\Http\Controllers\PendingBookingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserListController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -32,9 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/dapur/{dapur}/bahan/{bahan}', [BarangController::class, 'updateBahan'])->name('dapur.bahan.update');
     Route::delete('/dapur/{dapur}/bahan/{bahan}', [BarangController::class, 'destroyBahan'])->name('dapur.bahan.destroy');
 
-    Route::get('/pengguna', function () {
-        return view('user-list');
-    })->name('pengguna.index');
+    Route::get('/pengguna', [UserListController::class, 'index'])->name('pengguna.index');
 
     Route::get('/kalendar', [KalendarController::class, 'index'])->name('kalendar.index');
 
