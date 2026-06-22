@@ -166,6 +166,7 @@ $navItems = [
         font-weight: 700;
         color: #fff;
         flex-shrink: 0;
+        overflow: hidden;
     }
 
     .user-info { min-width: 0; }
@@ -231,9 +232,15 @@ $navItems = [
     </nav>
 
     <div class="sidebar-user">
-        <div class="user-avatar">P</div>
+        <div class="user-avatar">
+            @if (auth()->user()->avatarUrl())
+                <img src="{{ auth()->user()->avatarUrl() }}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+            @else
+                {{ auth()->user()->avatarInitial() }}
+            @endif
+        </div>
         <div class="user-info">
-            <div class="u-name">Pentadbir</div>
+            <div class="u-name">{{ auth()->user()->name }}</div>
             <div class="u-role">Admin</div>
         </div>
 
