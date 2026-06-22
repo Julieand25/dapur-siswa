@@ -71,7 +71,6 @@
             cursor: pointer;
         }
 
-
         .cal-card {
             background: #fff;
             border-radius: 10px;
@@ -438,21 +437,21 @@
 
         <div class="cal-header">
             <div class="cal-nav">
-                <button class="cal-nav-btn" title="Bulan Sebelum">
+                <button class="cal-nav-btn" title="Bulan Sebelum" onclick="changeMonth(-1)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
                 </button>
-                <span class="cal-month">Mei 2024</span>
-                <button class="cal-nav-btn" title="Bulan Seterusnya">
+                <span class="cal-month" id="calMonthLabel"></span>
+                <button class="cal-nav-btn" title="Bulan Seterusnya" onclick="changeMonth(1)">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
             </div>
 
             <div class="cal-actions">
-                <select class="cal-filter">
-                    <option>Semua Dapur</option>
-                    <option>Dapur 1</option>
-                    <option>Dapur 2</option>
-                    <option>Dapur 3</option>
+                <select class="cal-filter" id="dapurFilter" onchange="applyFilter()">
+                    <option value="">Semua Dapur</option>
+                    @foreach ($dapurList as $dapurName)
+                        <option value="{{ $dapurName }}">{{ $dapurName }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -468,43 +467,7 @@
                 <div class="cal-weekday cal-weekend">Sab</div>
             </div>
 
-            <div class="cal-grid">
-                <div class="cal-day weekend other-month"><div class="cal-day-num">28</div></div>
-                <div class="cal-day other-month"><div class="cal-day-num">29</div></div>
-                <div class="cal-day other-month"><div class="cal-day-num">30</div></div>
-
-                <div class="cal-day clickable" data-day="1" onclick="openSlotModal(1)"><div class="cal-day-num">1</div></div>
-                <div class="cal-day clickable" data-day="2" onclick="openSlotModal(2)"><div class="cal-day-num">2</div></div>
-                <div class="cal-day clickable" data-day="3" onclick="openSlotModal(3)"><div class="cal-day-num">3</div></div>
-                <div class="cal-day weekend"><div class="cal-day-num">4</div></div>
-                <div class="cal-day weekend"><div class="cal-day-num">5</div></div>
-                <div class="cal-day clickable" data-day="6" onclick="openSlotModal(6)"><div class="cal-day-num">6</div></div>
-                <div class="cal-day clickable today" data-day="7" onclick="openSlotModal(7)"><div class="cal-day-num">7</div></div>
-                <div class="cal-day clickable" data-day="8" onclick="openSlotModal(8)"><div class="cal-day-num">8</div></div>
-                <div class="cal-day clickable" data-day="9" onclick="openSlotModal(9)"><div class="cal-day-num">9</div></div>
-                <div class="cal-day clickable" data-day="10" onclick="openSlotModal(10)"><div class="cal-day-num">10</div></div>
-                <div class="cal-day weekend"><div class="cal-day-num">11</div></div>
-                <div class="cal-day weekend"><div class="cal-day-num">12</div></div>
-                <div class="cal-day clickable" data-day="13" onclick="openSlotModal(13)"><div class="cal-day-num">13</div></div>
-                <div class="cal-day clickable" data-day="14" onclick="openSlotModal(14)"><div class="cal-day-num">14</div></div>
-                <div class="cal-day clickable" data-day="15" onclick="openSlotModal(15)"><div class="cal-day-num">15</div></div>
-                <div class="cal-day clickable" data-day="16" onclick="openSlotModal(16)"><div class="cal-day-num">16</div></div>
-                <div class="cal-day clickable" data-day="17" onclick="openSlotModal(17)"><div class="cal-day-num">17</div></div>
-                <div class="cal-day weekend"><div class="cal-day-num">18</div></div>
-                <div class="cal-day weekend"><div class="cal-day-num">19</div></div>
-                <div class="cal-day clickable" data-day="20" onclick="openSlotModal(20)"><div class="cal-day-num">20</div></div>
-                <div class="cal-day clickable" data-day="21" onclick="openSlotModal(21)"><div class="cal-day-num">21</div></div>
-                <div class="cal-day clickable" data-day="22" onclick="openSlotModal(22)"><div class="cal-day-num">22</div></div>
-                <div class="cal-day clickable" data-day="23" onclick="openSlotModal(23)"><div class="cal-day-num">23</div></div>
-                <div class="cal-day clickable" data-day="24" onclick="openSlotModal(24)"><div class="cal-day-num">24</div></div>
-                <div class="cal-day weekend"><div class="cal-day-num">25</div></div>
-                <div class="cal-day weekend"><div class="cal-day-num">26</div></div>
-                <div class="cal-day clickable" data-day="27" onclick="openSlotModal(27)"><div class="cal-day-num">27</div></div>
-                <div class="cal-day clickable" data-day="28" onclick="openSlotModal(28)"><div class="cal-day-num">28</div></div>
-                <div class="cal-day clickable" data-day="29" onclick="openSlotModal(29)"><div class="cal-day-num">29</div></div>
-                <div class="cal-day clickable" data-day="30" onclick="openSlotModal(30)"><div class="cal-day-num">30</div></div>
-                <div class="cal-day clickable" data-day="31" onclick="openSlotModal(31)"><div class="cal-day-num">31</div></div>
-            </div>
+            <div class="cal-grid" id="calGrid"></div>
         </div>
 
     </main>
@@ -514,13 +477,20 @@
             <div class="modal-title" id="dmTitle"></div>
             <div class="modal-body">
                 <div class="modal-row"><span class="mlabel">Pemohon</span><span class="mvalue" id="dmPemohon"></span></div>
+                <div class="modal-row"><span class="mlabel">No. Matrik</span><span class="mvalue" id="dmMatrik"></span></div>
                 <div class="modal-row"><span class="mlabel">Dapur</span><span class="mvalue" id="dmDapur"></span></div>
                 <div class="modal-row"><span class="mlabel">Lokasi</span><span class="mvalue" id="dmLokasi"></span></div>
                 <div class="modal-row"><span class="mlabel">Masa</span><span class="mvalue" id="dmMasa"></span></div>
                 <div class="modal-row"><span class="mlabel">Status</span><span class="mvalue" id="dmStatus"></span></div>
             </div>
             <div class="modal-detail-btns">
-                <button class="modal-close" onclick="cancelBooking()" style="background:#dc2626;color:#fff;border-color:#dc2626;">Batalkan Tempahan</button>
+                <form id="cancelForm" method="POST" action="" style="display:inline;">
+                    @csrf
+                    @method('PATCH')
+                    <input type="hidden" name="status" value="rejected">
+                    <input type="hidden" name="rejection_reason" value="Dibatalkan oleh pentadbir">
+                    <button type="submit" class="modal-close" style="background:#dc2626;color:#fff;border-color:#dc2626;">Batalkan Tempahan</button>
+                </form>
                 <button class="modal-close" onclick="closeDetail()">Tutup</button>
             </div>
         </div>
@@ -529,8 +499,8 @@
     <div class="modal-overlay" id="slotModal">
         <div class="modal-card slot-modal">
             <div class="slot-header">
-                <span class="slot-header-date" id="slotDate">1 Mei 2024</span>
-                <span class="slot-header-info" id="slotTotal">22 slot masa</span>
+                <span class="slot-header-date" id="slotDate"></span>
+                <span class="slot-header-info" id="slotTotal"></span>
             </div>
             <div class="modal-body" id="slotList"></div>
             <button class="modal-close" onclick="closeSlotModal()">Tutup</button>
@@ -542,89 +512,117 @@
     </footer>
 
     <script>
-        var bookings = {
-            1: [
-                {name:'Nur Aisyah',dapur:'Dapur 1',lokasi:'KHAR 4',masa:'09:00-09:15',status:'Menunggu',slot:4},
-                {name:'Hafizul Hakim',dapur:'Dapur 2',lokasi:'KHAR 4',masa:'14:00-14:15',status:'Diluluskan',slot:15}
-            ],
-            2: [
-                {name:'Amirul Hakim',dapur:'Dapur 3',lokasi:'KHAR 3',masa:'10:00-10:15',status:'Diluluskan',slot:6}
-            ],
-            3: [
-                {name:'Siti Hajar',dapur:'Dapur 1',lokasi:'KHAR 4',masa:'08:00-08:15',status:'Diluluskan',slot:0},
-                {name:'Farhana',dapur:'Dapur 2',lokasi:'KHAR 3',masa:'11:00-11:15',status:'Menunggu',slot:8},
-                {name:'Akmal',dapur:'Dapur 1',lokasi:'KHAR 4',masa:'16:00-16:15',status:'Diluluskan',slot:20}
-            ],
-            6: [
-                {name:'M. Faris',dapur:'Dapur 1',lokasi:'KHAR 4',masa:'09:30-09:45',status:'Menunggu',slot:5}
-            ],
-            7: [
-                {name:'Nur Aisyah',dapur:'Dapur 1',lokasi:'KHAR 4',masa:'08:30-08:45',status:'Diluluskan',slot:2},
-                {name:'A. Danish',dapur:'Dapur 2',lokasi:'KHAR 3',masa:'12:00-12:15',status:'Menunggu',slot:10}
-            ],
-            9: [
-                {name:'Nur Aisyah',dapur:'Dapur 3',lokasi:'KHAR 2',masa:'07:00-07:15',status:'Menunggu',slot:-1}
-            ],
-            10: [
-                {name:'Syazwani',dapur:'Dapur 1',lokasi:'KHAR 4',masa:'15:00-15:15',status:'Diluluskan',slot:17}
-            ],
-            13: [
-                {name:'Hafizul',dapur:'Dapur 1',lokasi:'KHAR 4',masa:'10:00-10:15',status:'Diluluskan',slot:6},
-                {name:'Amirul H.',dapur:'Dapur 3',lokasi:'KHAR 3',masa:'13:00-13:15',status:'Diluluskan',slot:13}
-            ],
-            14: [
-                {name:'Nur Aisyah',dapur:'Dapur 2',lokasi:'KHAR 3',masa:'16:00-16:15',status:'Ditolak',slot:20}
-            ],
-            20: [
-                {name:'Siti Hajar',dapur:'Dapur 1',lokasi:'KHAR 4',masa:'11:00-11:15',status:'Menunggu',slot:8}
-            ]
-        };
+        var calendarData = @json($bookingsByDay);
+        var currentMonth = {{ $month }};
+        var currentYear = {{ $year }};
 
-        function generateSlots() {
-            var slots = [];
-            var h = 8, m = 0;
-            for (var i = 0; i < 22; i++) {
-                var start = pad(h) + ':' + pad(m);
-                var endH = h, endM = m + 15;
-                if (endM >= 60) { endH++; endM -= 60; }
-                var end = pad(endH) + ':' + pad(endM);
-                slots.push({time: start + ' - ' + end});
-                m += 25;
-                if (m >= 60) { h++; m -= 60; }
-            }
-            return slots;
+        var monthNames = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+
+        var currentBooking = null;
+
+        function changeMonth(delta) {
+            var m = currentMonth + delta;
+            var y = currentYear;
+            if (m < 1) { m = 12; y--; }
+            if (m > 12) { m = 1; y++; }
+            var params = '?month=' + m + '&year=' + y;
+            var dapur = document.getElementById('dapurFilter').value;
+            if (dapur) params += '&dapur=' + encodeURIComponent(dapur);
+            window.location = window.location.pathname + params;
         }
 
-        function pad(n) { return n < 10 ? '0' + n : '' + n; }
+        function applyFilter() {
+            var dapur = document.getElementById('dapurFilter').value;
+            var params = '?month=' + currentMonth + '&year=' + currentYear;
+            if (dapur) params += '&dapur=' + encodeURIComponent(dapur);
+            window.location = window.location.pathname + params;
+        }
 
-        var allSlots = generateSlots();
+        function getFilteredBookings(day) {
+            var items = calendarData[day] || [];
+            var dapur = document.getElementById('dapurFilter').value;
+            if (!dapur) return items;
+            return items.filter(function(b) { return b.kitchen_name === dapur; });
+        }
 
-        function openSlotModal(day) {
-            var dayBookings = bookings[day] || [];
-            var dateStr = day + ' Mei 2024';
-            document.getElementById('slotDate').textContent = dateStr;
+        function countDayBookings(day) {
+            return getFilteredBookings(day).length;
+        }
 
-            var bookedCount = dayBookings.filter(function(b) { return b.slot >= 0 && b.slot < 22; }).length;
-            document.getElementById('slotTotal').textContent = bookedCount + ' ditempah &middot; ' + (22 - bookedCount) + ' tersedia';
+        function renderCalendar() {
+            var grid = document.getElementById('calGrid');
+            var today = new Date();
+            var firstDay = new Date(currentYear, currentMonth - 1, 1);
+            var startDow = firstDay.getDay();
+            var daysInMonth = new Date(currentYear, currentMonth, 0).getDate();
+            var prevMonthDays = new Date(currentYear, currentMonth - 1, 0).getDate();
+
+            document.getElementById('calMonthLabel').textContent = monthNames[currentMonth - 1] + ' ' + currentYear;
 
             var html = '';
-            for (var i = 0; i < allSlots.length; i++) {
-                var found = null;
-                for (var j = 0; j < dayBookings.length; j++) {
-                    if (dayBookings[j].slot === i) { found = dayBookings[j]; break; }
+
+            // Previous month days
+            for (var i = startDow - 1; i >= 0; i--) {
+                var pd = prevMonthDays - i;
+                var isWeekend = (i === 5 || i === 6);
+                html += '<div class="cal-day other-month' + (isWeekend ? ' weekend' : '') + '"><div class="cal-day-num">' + pd + '</div></div>';
+            }
+
+            // Current month days
+            for (var d = 1; d <= daysInMonth; d++) {
+                var dow = new Date(currentYear, currentMonth - 1, d).getDay();
+                var isToday = (d === today.getDate() && currentMonth === (today.getMonth() + 1) && currentYear === today.getFullYear());
+                var isWeekend = (dow === 0 || dow === 6);
+                var count = countDayBookings(d);
+
+                html += '<div class="cal-day' + (count > 0 ? ' clickable' : '') + (isToday ? ' today' : '') + (isWeekend ? ' weekend' : '') + '"';
+                if (count > 0) {
+                    html += ' data-day="' + d + '" onclick="openSlotModal(' + d + ')"';
                 }
-                html += '<div class="slot-row">';
-                html += '<span class="slot-time">' + allSlots[i].time + '</span>';
-                if (found) {
-                    var sClass = found.status === 'Diluluskan' ? 'lulus' : (found.status === 'Menunggu' ? 'tunggu' : 'tolak');
-                    html += '<span class="slot-booked ' + sClass + '" onclick="showDetail(\'' + found.name + '\',\'' + found.dapur + '\',\'' + found.lokasi + '\',\'' + found.masa + '\',\'' + found.status + '\')">';
-                    html += '<svg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'currentColor\' stroke-width=\'2\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' d=\'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z\'/></svg>';
-                    html += found.name + '</span>';
-                } else {
-                    html += '<span class="slot-status slot-tersedia">Tersedia</span>';
+                html += '>';
+
+                html += '<div class="cal-day-num">' + d + '</div>';
+
+                if (count > 0) {
+                    if (count >= 22) {
+                        html += '<span class="cal-summary penuh">Tempahan Penuh</span>';
+                    } else {
+                        html += '<span class="cal-summary ada">' + count + ' Tempahan</span>';
+                    }
                 }
+
                 html += '</div>';
             }
+
+            // Next month days to fill remaining grid cells
+            var totalCells = startDow + daysInMonth;
+            var remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+            for (var nd = 1; nd <= remaining; nd++) {
+                html += '<div class="cal-day other-month"><div class="cal-day-num">' + nd + '</div></div>';
+            }
+
+            grid.innerHTML = html;
+        }
+
+        function openSlotModal(day) {
+            var dayBookings = getFilteredBookings(day);
+            var dateObj = new Date(currentYear, currentMonth - 1, day);
+            var dateStr = day + ' ' + monthNames[currentMonth - 1] + ' ' + currentYear;
+            document.getElementById('slotDate').textContent = dateStr;
+            document.getElementById('slotTotal').textContent = dayBookings.length + ' tempahan';
+
+            var html = '';
+            dayBookings.forEach(function (b) {
+                var sClass = b.status === 'approved' ? 'lulus' : (b.status === 'pending' ? 'tunggu' : 'tolak');
+                html += '<div class="slot-row">';
+                html += '<span class="slot-time">' + escapeHtml(b.start_time) + ' – ' + escapeHtml(b.end_time) + '</span>';
+                html += '<span class="slot-booked ' + sClass + '" onclick="showDetail(' + JSON.stringify(b.id) + ')">';
+                html += '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>';
+                html += escapeHtml(b.nama);
+                html += '</span>';
+                html += '</div>';
+            });
+
             document.getElementById('slotList').innerHTML = html;
             document.getElementById('slotModal').classList.add('show');
         }
@@ -633,33 +631,48 @@
             document.getElementById('slotModal').classList.remove('show');
         }
 
-        var currentBooking = null;
+        function showDetail(id) {
+            var allBookings = [];
+            for (var day in calendarData) {
+                calendarData[day].forEach(function(b) {
+                    if (b.id === id) currentBooking = b;
+                });
+            }
 
-        function showDetail(pemohon, dapur, lokasi, masa, status) {
-            currentBooking = {pemohon:pemohon, dapur:dapur, lokasi:lokasi, masa:masa, status:status};
-            var sClass = status === 'Diluluskan' ? 'lulus' : (status === 'Menunggu' ? 'tunggu' : 'tolak');
-            document.getElementById('dmTitle').innerHTML = 'Butiran Tempahan <span class="modal-badge ' + sClass + '">' + status + '</span>';
-            document.getElementById('dmPemohon').textContent = pemohon;
-            document.getElementById('dmDapur').textContent = dapur;
-            document.getElementById('dmLokasi').textContent = lokasi;
-            document.getElementById('dmMasa').textContent = masa;
-            document.getElementById('dmStatus').innerHTML = '<span class="modal-badge ' + sClass + '">' + status + '</span>';
+            if (!currentBooking) return;
+
+            var sClass = currentBooking.status === 'approved' ? 'lulus' : (currentBooking.status === 'pending' ? 'tunggu' : 'tolak');
+            var statusLabel = currentBooking.status === 'approved' ? 'Disahkan' : (currentBooking.status === 'pending' ? 'Menunggu' : 'Dibatalkan');
+
+            document.getElementById('dmTitle').innerHTML = 'Butiran Tempahan <span class="modal-badge ' + sClass + '">' + statusLabel + '</span>';
+            document.getElementById('dmPemohon').textContent = currentBooking.nama;
+            document.getElementById('dmMatrik').textContent = currentBooking.matrik;
+            document.getElementById('dmDapur').textContent = currentBooking.kitchen_name;
+            document.getElementById('dmLokasi').textContent = currentBooking.location_code;
+            document.getElementById('dmMasa').textContent = currentBooking.start_time + ' – ' + currentBooking.end_time;
+            document.getElementById('dmStatus').innerHTML = '<span class="modal-badge ' + sClass + '">' + statusLabel + '</span>';
+
+            document.getElementById('cancelForm').action = currentBooking.statusUrl;
+
+            var cancelBtn = document.querySelector('#detailModal .modal-detail-btns form');
+            if (cancelBtn && currentBooking.status === 'rejected') {
+                cancelBtn.style.display = 'none';
+            } else if (cancelBtn) {
+                cancelBtn.style.display = 'inline';
+            }
+
             document.getElementById('detailModal').classList.add('show');
         }
 
         function closeDetail() {
             document.getElementById('detailModal').classList.remove('show');
+            currentBooking = null;
         }
 
-        function cancelBooking() {
-            if (currentBooking && currentBooking.status !== 'Ditolak') {
-                currentBooking.status = 'Ditolak';
-                var sClass = 'tolak';
-                document.getElementById('dmTitle').innerHTML = 'Butiran Tempahan <span class="modal-badge ' + sClass + '">Ditolak</span>';
-                document.getElementById('dmStatus').innerHTML = '<span class="modal-badge ' + sClass + '">Ditolak</span>';
-                var cancelBtn = document.querySelector('#detailModal .modal-close:first-child');
-                if (cancelBtn) cancelBtn.style.display = 'none';
-            }
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
         }
 
         document.getElementById('detailModal').addEventListener('click', function(e) {
@@ -670,33 +683,8 @@
             if (e.target === this) closeSlotModal();
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            var days = document.querySelectorAll('.cal-day[data-day]');
-            days.forEach(function(day) {
-                var d = parseInt(day.getAttribute('data-day'));
-                var count = 0;
-                if (bookings[d]) {
-                    bookings[d].forEach(function(b) {
-                        if (b.slot >= 0 && b.slot < 22) count++;
-                    });
-                }
-                if (count > 0) {
-                    var badge = document.createElement('span');
-                    if (count >= 22) {
-                        badge.className = 'cal-summary penuh';
-                        badge.textContent = 'Tempahan Penuh';
-                    } else {
-                        badge.className = 'cal-summary ada';
-                        badge.textContent = count + ' Tempahan';
-                    }
-                    var dayNum = day.querySelector('.cal-day-num');
-                    if (dayNum) {
-                        dayNum.insertAdjacentElement('afterend', badge);
-                    } else {
-                        day.appendChild(badge);
-                    }
-                }
-            });
+        document.addEventListener('DOMContentLoaded', function () {
+            renderCalendar();
         });
     </script>
 

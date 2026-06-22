@@ -4,6 +4,7 @@ use App\Http\Controllers\AllBookingController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DapurController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KalendarController;
 use App\Http\Controllers\PendingBookingController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -35,9 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('user-list');
     })->name('pengguna.index');
 
-    Route::get('/kalendar', function () {
-        return view('kalendar');
-    })->name('kalendar.index');
+    Route::get('/kalendar', [KalendarController::class, 'index'])->name('kalendar.index');
 
     Route::get('/laporan/maklumbalas', function () {
         return view('feedback-list');
