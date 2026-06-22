@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllBookingController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DapurController;
 use App\Http\Controllers\DashboardController;
@@ -18,9 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/pending-booking', [PendingBookingController::class, 'index'])->name('pending-booking');
 
-    Route::get('/all-booking', function () {
-        return view('all-booking');
-    })->name('all-booking');
+    Route::get('/all-booking', [AllBookingController::class, 'index'])->name('all-booking');
 
     Route::resource('dapur', DapurController::class)->except(['show']);
 

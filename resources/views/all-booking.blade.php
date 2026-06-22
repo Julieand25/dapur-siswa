@@ -114,28 +114,33 @@
             vertical-align: middle;
         }
 
-        tbody td:last-child,
-        thead th:last-child {
+        .col-bil {
             text-align: center;
+            width: 50px;
+            color: #9ca3af;
+            font-weight: 600;
         }
 
         .action-wrap { display: flex; align-items: center; justify-content: center; gap: 6px; }
 
         .action-btn {
-            width: 30px;
-            height: 30px;
+            height: 28px;
+            padding: 0 10px;
             border-radius: 6px;
             border: none;
             cursor: pointer;
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
+            font-size: 11.5px;
+            font-weight: 700;
             transition: filter 0.15s;
+            color: #fff;
         }
 
         .action-btn:hover { filter: brightness(0.9); }
-        .action-btn svg { width: 14px; height: 14px; }
-        .action-btn.edit   { background: #f3f4f6; color: #111827; }
+        .action-btn.approve { background: #16a34a; }
+        .action-btn.reject { background: #dc2626; }
 
         .badge {
             display: inline-flex;
@@ -152,6 +157,24 @@
         .badge-disahkan  { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
         .badge-menunggu  { background: #fff9db; color: #d97706; border-color: #fef08a; }
         .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+
+        .success-msg {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .empty-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
 
         .pagination {
             display: flex;
@@ -186,6 +209,7 @@
             justify-content: center;
             font-weight: 500;
             transition: background 0.12s;
+            text-decoration: none;
         }
 
         .pag-btn:hover { background: #f3f4f6; }
@@ -210,211 +234,135 @@
 
     <main class="content">
 
+        @if (session('success'))
+            <div class="success-msg">{{ session('success') }}</div>
+        @endif
+
         <div class="table-card">
 
-            <div class="table-toolbar">
+            <form class="table-toolbar" method="GET" action="{{ route('all-booking') }}">
                 <div class="search-wrap">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-                    <input type="text" placeholder="Cari nama, lokasi, atau tujuan…">
+                    <input type="text" name="search" placeholder="Cari nama, lokasi, atau dapur..." value="{{ request('search') }}">
                 </div>
 
-                <select class="filter-select">
-                    <option>Semua Dapur</option>
-                    <option>Dapur 1</option>
-                    <option>Dapur 2</option>
-                    <option>Dapur 3</option>
+                <select class="filter-select" name="dapur" onchange="this.form.submit()">
+                    <option value="">Semua Dapur</option>
+                    @foreach ($dapurList as $dapurName)
+                        <option value="{{ $dapurName }}" {{ request('dapur') === $dapurName ? 'selected' : '' }}>{{ $dapurName }}</option>
+                    @endforeach
                 </select>
 
-                <select class="filter-select">
-                    <option>Semua Status</option>
-                    <option>Disahkan</option>
-                    <option>Menunggu</option>
-                    <option>Dibatalkan</option>
+                <select class="filter-select" name="status" onchange="this.form.submit()">
+                    <option value="semua" {{ request('status', 'semua') === 'semua' ? 'selected' : '' }}>Semua Status</option>
+                    <option value="disahkan" {{ request('status') === 'disahkan' ? 'selected' : '' }}>Disahkan</option>
+                    <option value="menunggu" {{ request('status') === 'menunggu' ? 'selected' : '' }}>Menunggu</option>
+                    <option value="dibatalkan" {{ request('status') === 'dibatalkan' ? 'selected' : '' }}>Dibatalkan</option>
                 </select>
 
-                <input type="date" class="date-input" value="2024-05-13">
-            </div>
+                <input type="date" class="date-input" name="date" value="{{ request('date') }}" onchange="this.form.submit()" placeholder="Semua Tarikh">
+            </form>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Bil.</th>
-                        <th>Pemohon</th>
-                        <th>No. Matrik</th>
-                        <th>Emel</th>
-                        <th>Lokasi</th>
-                        <th>Dapur</th>
-                        <th>Tarikh</th>
-                        <th>Masa</th>
-                        <th>Status</th>
-                        <th>Tindakan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1.</td>
-                        <td>Hafizul Hakim</td>
-                        <td>D20240000001</td>
-                        <td>hafizul@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 1</td>
-                        <td>13/05/2024</td>
-                        <td>08:00 – 12:00</td>
-                        <td><span class="badge badge-disahkan">Disahkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2.</td>
-                        <td>Nur Aisyah</td>
-                        <td>D20240000002</td>
-                        <td>aisyah@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 2</td>
-                        <td>13/05/2024</td>
-                        <td>13:00 – 17:00</td>
-                        <td><span class="badge badge-menunggu">Menunggu</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3.</td>
-                        <td>Muhammad Iqbal</td>
-                        <td>D20240000003</td>
-                        <td>iqbal@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 1</td>
-                        <td>14/05/2024</td>
-                        <td>08:00 – 12:00</td>
-                        <td><span class="badge badge-disahkan">Disahkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>4.</td>
-                        <td>Siti Nur Farhana</td>
-                        <td>D20240000004</td>
-                        <td>farhana@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 3</td>
-                        <td>14/05/2024</td>
-                        <td>14:00 – 18:00</td>
-                        <td><span class="badge badge-menunggu">Menunggu</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>5.</td>
-                        <td>Ahmad Danial</td>
-                        <td>D20240000005</td>
-                        <td>danial@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 2</td>
-                        <td>15/05/2024</td>
-                        <td>10:00 – 15:00</td>
-                        <td><span class="badge badge-dibatalkan">Dibatalkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>6.</td>
-                        <td>Norsyafiqah</td>
-                        <td>D20240000006</td>
-                        <td>syafiqah@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 1</td>
-                        <td>15/05/2024</td>
-                        <td>08:00 – 12:00</td>
-                        <td><span class="badge badge-disahkan">Disahkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>7.</td>
-                        <td>Intan Maisarah</td>
-                        <td>D20240000007</td>
-                        <td>intan@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 3</td>
-                        <td>16/05/2024</td>
-                        <td>09:00 – 13:00</td>
-                        <td><span class="badge badge-menunggu">Menunggu</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>8.</td>
-                        <td>Akmal Hakimi</td>
-                        <td>D20240000008</td>
-                        <td>akmal@siswa.edu.my</td>
-                        <td>KHAR</td>
-                        <td>Dapur 2</td>
-                        <td>16/05/2024</td>
-                        <td>14:00 – 17:00</td>
-                        <td><span class="badge badge-disahkan">Disahkan</span></td>
-                        <td>
-                            <div class="action-wrap">
-                                <button class="action-btn edit" title="Sunting">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.731 2.269a2.625 2.625 0 00-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 000-3.712zM19.513 8.199l-3.712-3.712-12.15 12.15a5.25 5.25 0 00-1.32 2.214l-.8 2.685a.75.75 0 00.933.933l2.685-.8a5.25 5.25 0 002.214-1.32L19.513 8.2z"/></svg>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            @if ($bookings->isEmpty())
+                <div class="empty-msg">Tiada tempahan dijumpai.</div>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="col-bil">Bil.</th>
+                            <th>Pemohon</th>
+                            <th>No. Matrik</th>
+                            <th>Emel</th>
+                            <th>Lokasi</th>
+                            <th>Dapur</th>
+                            <th>Tarikh</th>
+                            <th>Masa</th>
+                            <th>Status</th>
+                            <th>Tindakan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($bookings as $b)
+                            <tr>
+                                <td class="col-bil">{{ $loop->iteration + (($bookings->currentPage() - 1) * $bookings->perPage()) }}</td>
+                                <td>{{ $b->nama }}</td>
+                                <td>{{ $b->matrik }}</td>
+                                <td>{{ $b->emel }}</td>
+                                <td>{{ $b->location_code }}</td>
+                                <td>{{ $b->kitchen_name }}</td>
+                                <td>{{ \Carbon\Carbon::parse($b->date)->format('d/m/Y') }}</td>
+                                <td>{{ $b->start_time }} – {{ $b->end_time }}</td>
+                                <td>
+                                    @if ($b->status === 'approved')
+                                        <span class="badge badge-disahkan">Disahkan</span>
+                                    @elseif ($b->status === 'rejected')
+                                        <span class="badge badge-dibatalkan">Dibatalkan</span>
+                                    @else
+                                        <span class="badge badge-menunggu">Menunggu</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <div class="action-wrap">
+                                        @if ($b->status === 'pending')
+                                            <form method="POST" action="{{ route('bookings.status', $b->id) }}" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="action-btn approve">Terima</button>
+                                            </form>
+                                            <form method="POST" action="{{ route('bookings.status', $b->id) }}" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="rejected">
+                                                <input type="hidden" name="rejection_reason" value="Ditolak oleh pentadbir">
+                                                <button type="submit" class="action-btn reject">Tolak</button>
+                                            </form>
+                                        @elseif ($b->status === 'approved')
+                                            <form method="POST" action="{{ route('bookings.status', $b->id) }}" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="rejected">
+                                                <input type="hidden" name="rejection_reason" value="Dibatalkan oleh pentadbir">
+                                                <button type="submit" class="action-btn reject">Batal</button>
+                                            </form>
+                                        @elseif ($b->status === 'rejected')
+                                            <form method="POST" action="{{ route('bookings.status', $b->id) }}" style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <input type="hidden" name="status" value="approved">
+                                                <button type="submit" class="action-btn approve">Luluskan</button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
 
-            <div class="pagination">
-                <span class="pag-info">Memaparkan 1 hingga 8 daripada 48 rekod</span>
-                <div class="pag-pages">
-                    <button class="pag-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-                    </button>
-                    <button class="pag-btn active">1</button>
-                    <button class="pag-btn">2</button>
-                    <button class="pag-btn">3</button>
-                    <button class="pag-btn" disabled style="cursor:default;color:#9ca3af;">…</button>
-                    <button class="pag-btn">6</button>
-                    <button class="pag-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-                    </button>
-                </div>
-            </div>
+                @if ($bookings->hasPages())
+                    <div class="pagination">
+                        <span class="pag-info">Memaparkan {{ $bookings->firstItem() }} hingga {{ $bookings->lastItem() }} daripada {{ $bookings->total() }} rekod</span>
+                        <div class="pag-pages">
+                            @if (! $bookings->onFirstPage())
+                                <a href="{{ $bookings->previousPageUrl() }}" class="pag-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                                </a>
+                            @endif
 
+                            @foreach ($bookings->getUrlRange(1, $bookings->lastPage()) as $page => $url)
+                                <a href="{{ $url }}" class="pag-btn {{ $page == $bookings->currentPage() ? 'active' : '' }}">{{ $page }}</a>
+                            @endforeach
+
+                            @if ($bookings->hasMorePages())
+                                <a href="{{ $bookings->nextPageUrl() }}" class="pag-btn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+            @endif
         </div>
 
     </main>
