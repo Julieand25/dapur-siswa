@@ -447,10 +447,10 @@
             </div>
 
             <div class="cal-actions">
-                <select class="cal-filter" id="dapurFilter" onchange="applyFilter()">
-                    <option value="">Semua Dapur</option>
-                    @foreach ($dapurList as $dapurName)
-                        <option value="{{ $dapurName }}">{{ $dapurName }}</option>
+                <select class="cal-filter" id="lokasiFilter" onchange="applyFilter()">
+                    <option value="">Semua Lokasi</option>
+                    @foreach ($lokasiList as $lokasi)
+                        <option value="{{ $lokasi }}">{{ $lokasi }}</option>
                     @endforeach
                 </select>
             </div>
@@ -526,23 +526,23 @@
             if (m < 1) { m = 12; y--; }
             if (m > 12) { m = 1; y++; }
             var params = '?month=' + m + '&year=' + y;
-            var dapur = document.getElementById('dapurFilter').value;
-            if (dapur) params += '&dapur=' + encodeURIComponent(dapur);
+            var lokasi = document.getElementById('lokasiFilter').value;
+            if (lokasi) params += '&lokasi=' + encodeURIComponent(lokasi);
             window.location = window.location.pathname + params;
         }
 
         function applyFilter() {
-            var dapur = document.getElementById('dapurFilter').value;
+            var lokasi = document.getElementById('lokasiFilter').value;
             var params = '?month=' + currentMonth + '&year=' + currentYear;
-            if (dapur) params += '&dapur=' + encodeURIComponent(dapur);
+            if (lokasi) params += '&lokasi=' + encodeURIComponent(lokasi);
             window.location = window.location.pathname + params;
         }
 
         function getFilteredBookings(day) {
             var items = calendarData[day] || [];
-            var dapur = document.getElementById('dapurFilter').value;
-            if (!dapur) return items;
-            return items.filter(function(b) { return b.kitchen_name === dapur; });
+            var lokasi = document.getElementById('lokasiFilter').value;
+            if (!lokasi) return items;
+            return items.filter(function(b) { return b.location_code === lokasi; });
         }
 
         function countDayBookings(day) {

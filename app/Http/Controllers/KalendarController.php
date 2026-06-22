@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Dapur;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,9 +16,14 @@ class KalendarController extends Controller
         $month = (int) $request->input('month', now()->month);
         $year = (int) $request->input('year', now()->year);
 
-        $bookings = Booking::whereYear('date', $year)
-            ->whereMonth('date', $month)
-            ->orderBy('date')
+        $query = Booking::whereYear('date', $year)
+            ->whereMonth('date', $month);
+
+        if ($request->filled('lokasi')) {
+            $query->where('location_code', $request->lokasi);
+        }
+
+        $bookings = $query->orderBy('date')
             ->orderBy('start_time')
             ->get();
 
@@ -63,13 +69,13 @@ class KalendarController extends Controller
             $bookingsByDay[$day][] = $bookingData;
         }
 
-        $dapurList = Booking::distinct()->orderBy('kitchen_name')->pluck('kitchen_name');
+        $lokasiList = Dapur::distinct()->orderBy('lokasi')->pluck('lokasi');
 
         return view('kalendar', [
             'bookingsByDay' => $bookingsByDay,
             'month' => $month,
             'year' => $year,
-            'dapurList' => $dapurList,
+            'lokasiList' => $lokasiList,
         ]);
     }
 }
