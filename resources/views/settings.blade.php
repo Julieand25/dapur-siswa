@@ -75,6 +75,15 @@
             cursor: not-allowed;
         }
 
+        .form-input.is-invalid { border-color: #dc2626; }
+
+        .form-error {
+            font-size: 11.5px;
+            color: #dc2626;
+            margin-top: 4px;
+            display: block;
+        }
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -165,6 +174,47 @@
             margin-top: 4px;
         }
 
+        .photo-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn-remove-photo {
+            font-size: 12px;
+            font-weight: 600;
+            color: #dc2626;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+        }
+
+        .btn-remove-photo:hover { color: #b91c1c; }
+
+        .success-msg {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .error-flash {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
         .footer {
             text-align: center;
             padding: 16px 28px;
@@ -190,6 +240,18 @@
 
     <main class="content">
 
+        @if (session('success'))
+            <div class="success-msg">{{ session('success') }}</div>
+        @endif
+
+        @if (session('error'))
+            <div class="error-flash">{{ session('error') }}</div>
+        @endif
+
+        @if ($errors->updatePassword->any())
+            <div class="error-flash">{{ $errors->updatePassword->first() }}</div>
+        @endif
+
         <div class="settings-grid">
 
             <div class="card">
@@ -198,48 +260,63 @@
                     Maklumat Peribadi
                 </div>
 
-                <div class="photo-section">
-                    <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
-                    <label class="photo-preview-wrapper" for="photoInput">
-                        <div class="photo-preview" id="photoPreview">P</div>
-                        <div class="photo-plus">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                <form method="POST" action="{{ route('tetapan.profile.update') }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PATCH')
+
+                    <div class="photo-section">
+                        <input type="file" id="photoInput" name="avatar" accept="image/*" style="display:none;" onchange="previewPhoto(this)">
+                        <label class="photo-preview-wrapper" for="photoInput">
+                            <div class="photo-preview" id="photoPreview">
+                                @if (auth()->user()->avatarUrl())
+                                    <img src="{{ auth()->user()->avatarUrl() }}" alt="Foto Profil">
+                                @else
+                                    {{ auth()->user()->avatarInitial() }}
+                                @endif
+                            </div>
+                            <div class="photo-plus">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                            </div>
+                        </label>
+                        <div>
+                            <button type="button" class="btn-remove-photo" onclick="removePhoto()">Padam Foto</button>
                         </div>
-                    </label>
-                </div>
-                <div class="photo-hint">Format: JPG, PNG. Maksimum 2MB.</div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Nama Penuh</label>
-                        <input type="text" class="form-input" value="Pentadbir" placeholder="Nama penuh">
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">No. Matrik</label>
-                        <input type="text" class="form-input" value="D20240000001" disabled>
-                    </div>
-                </div>
+                    <div class="photo-hint">Format: JPG, PNG. Maksimum 2MB.</div>
 
-                <div class="form-group">
-                    <label class="form-label">Emel</label>
-                    <input type="email" class="form-input" value="admin@dapursiswa.edu.my" placeholder="Emel">
-                </div>
+                    @error('avatar')
+                        <span class="form-error">{{ $message }}</span>
+                    @enderror
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Fakulti / Jabatan</label>
-                        <input type="text" class="form-input" value="Jabatan Hal Ehwal Pelajar" disabled>
+                    <div class="form-row" style="margin-top: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">Nama Penuh</label>
+                            <input type="text" class="form-input @error('name') is-invalid @enderror" name="name" value="{{ old('name', auth()->user()->name) }}" placeholder="Nama penuh" required>
+                            @error('name') <span class="form-error">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Jawatan</label>
+                            <input type="text" class="form-input @error('position') is-invalid @enderror" name="position" value="{{ old('position', auth()->user()->position) }}" placeholder="Cth: Pentadbir">
+                            @error('position') <span class="form-error">{{ $message }}</span> @enderror
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Emel</label>
+                        <input type="email" class="form-input" value="{{ auth()->user()->email }}" disabled>
+                    </div>
+
                     <div class="form-group">
                         <label class="form-label">No. Telefon</label>
-                        <input type="text" class="form-input" value="019-123 4567" placeholder="No. telefon">
+                        <input type="text" class="form-input @error('phone') is-invalid @enderror" name="phone" value="{{ old('phone', auth()->user()->phone) }}" placeholder="No. telefon">
+                        @error('phone') <span class="form-error">{{ $message }}</span> @enderror
                     </div>
-                </div>
 
-                <button class="btn-save">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    Simpan Perubahan
-                </button>
+                    <button type="submit" class="btn-save">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        Simpan Perubahan
+                    </button>
+                </form>
             </div>
 
             <div class="card full">
@@ -248,28 +325,35 @@
                     Tukar Kata Laluan
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Kata Laluan Semasa</label>
-                        <input type="password" class="form-input" placeholder="Masukkan kata laluan semasa">
-                    </div>
-                </div>
+                <form method="POST" action="{{ route('password.update') }}">
+                    @csrf
+                    @method('PUT')
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Kata Laluan Baharu</label>
-                        <input type="password" class="form-input" placeholder="Masukkan kata laluan baharu">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Kata Laluan Semasa</label>
+                            <input type="password" class="form-input @error('current_password', 'updatePassword') is-invalid @enderror" name="current_password" placeholder="Masukkan kata laluan semasa" required>
+                            @error('current_password', 'updatePassword') <span class="form-error">{{ $message }}</span> @enderror
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Sahkan Kata Laluan Baharu</label>
-                        <input type="password" class="form-input" placeholder="Sahkan kata laluan baharu">
-                    </div>
-                </div>
 
-                <button class="btn-save">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-                    Kemas Kini Kata Laluan
-                </button>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Kata Laluan Baharu</label>
+                            <input type="password" class="form-input @error('password', 'updatePassword') is-invalid @enderror" name="password" placeholder="Masukkan kata laluan baharu" required>
+                            @error('password', 'updatePassword') <span class="form-error">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sahkan Kata Laluan Baharu</label>
+                            <input type="password" class="form-input" name="password_confirmation" placeholder="Sahkan kata laluan baharu" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-save">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        Kemas Kini Kata Laluan
+                    </button>
+                </form>
             </div>
 
         </div>
@@ -292,7 +376,20 @@
         }
 
         function removePhoto() {
-            document.getElementById('photoPreview').innerHTML = 'P';
+            document.getElementById('photoPreview').innerHTML = '{{ auth()->user()->avatarInitial() }}';
+            var fileInput = document.getElementById('photoInput');
+            fileInput.value = '';
+            var removeInput = document.getElementById('removeAvatarInput');
+            if (!removeInput) {
+                removeInput = document.createElement('input');
+                removeInput.type = 'hidden';
+                removeInput.name = 'remove_avatar';
+                removeInput.value = '1';
+                removeInput.id = 'removeAvatarInput';
+                fileInput.parentElement.appendChild(removeInput);
+            } else {
+                removeInput.value = '1';
+            }
         }
     </script>
 

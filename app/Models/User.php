@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['name', 'email', 'password', 'phone', 'position'])]
+#[Fillable(['name', 'email', 'password', 'phone', 'position', 'avatar_url'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -30,5 +30,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new EmailVerificationOtp);
+    }
+
+    public function avatarInitial(): string
+    {
+        return strtoupper(substr($this->name, 0, 1));
+    }
+
+    public function avatarUrl(): string
+    {
+        if ($this->avatar_url) {
+            return $this->avatar_url;
+        }
+
+        return '';
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KalendarController;
 use App\Http\Controllers\PendingBookingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TetapanController;
 use App\Http\Controllers\UserListController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,9 +54,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('record-detail');
     })->name('laporan.rekod.show');
 
-    Route::get('/tetapan', function () {
-        return view('settings');
-    })->name('tetapan.index');
+    Route::get('/tetapan', [TetapanController::class, 'index'])->name('tetapan.index');
+    Route::patch('/tetapan/profile', [TetapanController::class, 'updateProfile'])->name('tetapan.profile.update');
 });
 
 // Route::middleware('auth')->group(function () {
