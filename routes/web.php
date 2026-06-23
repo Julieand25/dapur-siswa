@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AllBookingController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DapurController;
 use App\Http\Controllers\DashboardController;
@@ -39,6 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/pengguna', [UserListController::class, 'index'])->name('pengguna.index');
 
     Route::get('/kalendar', [KalendarController::class, 'index'])->name('kalendar.index');
+
+    Route::resource('pemberitahuan', AnnouncementController::class)->except(['show']);
 
     Route::get('/laporan/maklumbalas', [FeedbackController::class, 'index'])->name('laporan.maklumbalas');
     Route::get('/laporan/maklumbalas/{id}', [FeedbackController::class, 'show'])->name('laporan.maklumbalas.show');

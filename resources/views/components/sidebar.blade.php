@@ -8,6 +8,7 @@ $navItems = [
         ['key' => 'tempahan-semua', 'label' => 'Semua Tempahan', 'href' => route('all-booking')],
     ]],
     ['key' => 'kalender', 'label' => 'Kalender', 'href' => route('kalendar.index'), 'icon' => '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'],
+    ['key' => 'pemberitahuan', 'label' => 'Pemberitahuan', 'href' => route('pemberitahuan.index'), 'icon' => '<path stroke-linecap="round" stroke-linejoin="round" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>'],
     ['key' => 'dapur',   'label' => 'Dapur',   'href' => route('dapur.index'), 'icon' => '<path d="M3 12h18M3 6h18M3 18h18"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="12" r="1" fill="currentColor"/><circle cx="6" cy="18" r="1" fill="currentColor"/>'],
     ['key' => 'pengguna', 'label' => 'Pengguna', 'href' => route('pengguna.index'), 'icon' => '<path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>'],
     ['key' => 'laporan', 'label' => 'Laporan', 'href' => '#', 'icon' => '<path d="M9 17v-2m3 2v-4m3 4v-6M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2z"/>', 'children' => [
