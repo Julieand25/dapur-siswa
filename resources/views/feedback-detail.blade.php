@@ -2,118 +2,60 @@
 
     @push('styles')
     <style>
-        .content {
-            padding: 28px;
-            flex: 1;
-        }
+        .content { padding: 28px; flex: 1; }
 
         .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #6b7280;
-            text-decoration: none;
-            margin-bottom: 20px;
+            display: inline-flex; align-items: center; gap: 6px; font-size: 13px;
+            font-weight: 600; color: #6b7280; text-decoration: none; margin-bottom: 20px;
             transition: color 0.15s;
         }
 
         .back-link:hover { color: #374151; }
-
-        .back-link svg {
-            width: 15px;
-            height: 15px;
-        }
+        .back-link svg { width: 15px; height: 15px; }
 
         .detail-card {
-            background: #fff;
-            border-radius: 10px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            padding: 28px;
-            max-width: 640px;
+            background: #fff; border-radius: 10px; border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); padding: 28px; max-width: 640px;
         }
 
         .detail-title {
-            font-size: 15px;
-            font-weight: 700;
-            color: #111827;
-            margin-bottom: 24px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid #f3f4f6;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 15px; font-weight: 700; color: #111827;
+            margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid #f3f4f6;
+            display: flex; align-items: center; gap: 10px;
         }
 
         .detail-row {
-            display: flex;
-            padding: 12px 0;
-            border-bottom: 1px solid #f9fafb;
+            display: flex; padding: 12px 0; border-bottom: 1px solid #f9fafb;
         }
 
         .detail-row:last-child { border-bottom: none; }
 
         .dlabel {
-            font-size: 13px;
-            font-weight: 600;
-            color: #6b7280;
-            width: 160px;
-            flex-shrink: 0;
+            font-size: 13px; font-weight: 600; color: #6b7280;
+            width: 160px; flex-shrink: 0;
         }
 
-        .dvalue {
-            font-size: 13px;
-            font-weight: 500;
-            color: #111827;
-            flex: 1;
-        }
+        .dvalue { font-size: 13px; font-weight: 500; color: #111827; flex: 1; }
 
-        .stars {
-            display: inline-flex;
-            gap: 2px;
-        }
-
-        .stars svg {
-            width: 16px;
-            height: 16px;
-        }
-
+        .stars { display: inline-flex; gap: 2px; }
+        .stars svg { width: 16px; height: 16px; }
         .star-filled { color: #f59e0b; }
         .star-empty { color: #d1d5db; }
 
         .comment-box {
-            margin-top: 20px;
-            background: #f9fafb;
-            border-radius: 8px;
-            padding: 16px 18px;
+            margin-top: 20px; background: #f9fafb; border-radius: 8px; padding: 16px 18px;
         }
 
         .comment-box-label {
-            font-size: 12px;
-            font-weight: 600;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            margin-bottom: 8px;
+            font-size: 12px; font-weight: 600; color: #9ca3af;
+            text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;
         }
 
         .comment-box-text {
-            font-size: 13.5px;
-            color: #374151;
-            line-height: 1.7;
+            font-size: 13.5px; color: #374151; line-height: 1.7;
         }
 
-        .footer {
-            text-align: center;
-            padding: 16px 28px;
-            font-size: 12px;
-            color: #9ca3af;
-            border-top: 1px solid #e5e7eb;
-            background: #fff;
-            margin-top: auto;
-        }
+        .footer { text-align: center; padding: 16px 28px; font-size: 12px; color: #9ca3af; border-top: 1px solid #e5e7eb; background: #fff; margin-top: auto; }
 
         @media (max-width: 640px) {
             .content { padding: 16px; }
@@ -134,27 +76,38 @@
 
             <div class="detail-row">
                 <span class="dlabel">Nama</span>
-                <span class="dvalue">Nur Aisyah Binti Ahmad</span>
+                <span class="dvalue">{{ $profile->name ?? $user->email ?? '—' }}</span>
             </div>
             <div class="detail-row">
                 <span class="dlabel">No. Matrik</span>
-                <span class="dvalue">D20231098765</span>
+                <span class="dvalue">{{ $profile->matrik ?? '—' }}</span>
+            </div>
+            <div class="detail-row">
+                <span class="dlabel">Emel</span>
+                <span class="dvalue">{{ $user->email ?? '—' }}</span>
             </div>
             <div class="detail-row">
                 <span class="dlabel">Tarikh</span>
-                <span class="dvalue">24 Mei 2024</span>
+                <span class="dvalue">{{ \Carbon\Carbon::parse($feedback->created_at)->timezone('Asia/Kuala_Lumpur')->locale('ms')->isoFormat('D MMM YYYY, h:mm A') }}</span>
             </div>
             <div class="detail-row">
                 <span class="dlabel">Penilaian</span>
-                <span class="dvalue"><span class="stars" data-rating="5"></span></span>
+                <span class="dvalue"><span class="stars" data-rating="{{ $feedback->keseluruhan }}"></span></span>
             </div>
 
+            @if ($feedback->komen)
             <div class="comment-box">
                 <div class="comment-box-label">Komen</div>
-                <div class="comment-box-text">
-                    Sangat berpuas hati dengan kemudahan dapur. Bersih dan lengkap! Proses tempahan juga sangat mudah dan pantas. Akan gunakan lagi untuk aktiviti akan datang.
-                </div>
+                <div class="comment-box-text">{{ $feedback->komen }}</div>
             </div>
+            @endif
+
+            @if ($feedback->cadangan)
+            <div class="comment-box" style="border:1px solid #fde68a;background:#fffbeb;">
+                <div class="comment-box-label">Cadangan</div>
+                <div class="comment-box-text">{{ $feedback->cadangan }}</div>
+            </div>
+            @endif
         </div>
     </main>
 

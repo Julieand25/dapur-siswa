@@ -4,6 +4,7 @@ use App\Http\Controllers\AllBookingController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DapurController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\KalendarController;
 use App\Http\Controllers\PendingBookingController;
 use App\Http\Controllers\ProfileController;
@@ -39,13 +40,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/kalendar', [KalendarController::class, 'index'])->name('kalendar.index');
 
-    Route::get('/laporan/maklumbalas', function () {
-        return view('feedback-list');
-    })->name('laporan.maklumbalas');
-
-    Route::get('/laporan/maklumbalas/{id}', function () {
-        return view('feedback-detail');
-    })->name('laporan.maklumbalas.show');
+    Route::get('/laporan/maklumbalas', [FeedbackController::class, 'index'])->name('laporan.maklumbalas');
+    Route::get('/laporan/maklumbalas/{id}', [FeedbackController::class, 'show'])->name('laporan.maklumbalas.show');
 
     Route::get('/laporan/rekod', [RecordController::class, 'index'])->name('laporan.rekod');
     Route::get('/laporan/rekod/{id}', [RecordController::class, 'show'])->name('laporan.rekod.show');
