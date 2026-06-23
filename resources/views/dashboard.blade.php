@@ -179,24 +179,23 @@
 
         .badge-disahkan  { background: #dcfce7; color: #15803d; border-color: #bbf7d0; }
         .badge-menunggu  { background: #fff9db; color: #d97706; border-color: #fef08a; }
-        .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+                .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
 
         .alert-card {
             background: #fff;
             border-radius: 10px;
-            border: 1px solid #fde68a;
+            border: 1px solid #e5e7eb;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             overflow: hidden;
             margin-top: 24px;
         }
 
         .alert-header {
-            background: #fffbeb;
             padding: 14px 20px;
-            border-bottom: 1px solid #fde68a;
-            font-size: 13.5px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 14px;
             font-weight: 700;
-            color: #92400e;
+            color: #111827;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -206,16 +205,7 @@
             width: 18px;
             height: 18px;
             flex-shrink: 0;
-        }
-
-        .alert-header .count-badge {
-            background: #fef3c7;
-            color: #92400e;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 1px 7px;
-            border-radius: 999px;
-            margin-left: auto;
+            color: #6b7280;
         }
 
         .alert-empty {
@@ -228,7 +218,41 @@
         .alert-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 13.5px;
+        }
+
+        .alert-table thead tr {
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .alert-table thead th {
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .alert-table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .alert-table tbody tr:last-child { border-bottom: none; }
+
+        .alert-table tbody td {
+            padding: 13px 16px;
+            color: #374151;
+        }
+
+
+
+        .qty-low { color: #d97706; font-weight: 600; }
+        .qty-zero { color: #dc2626; font-weight: 600; }
+
+        .success-msg {
         }
 
         .alert-table thead tr {
@@ -418,7 +442,6 @@
             <div class="alert-header">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
                 Peringatan Stok Rendah
-                <span class="count-badge">{{ $lowStockCount }}</span>
             </div>
             <table class="alert-table">
                 <thead>
@@ -428,7 +451,6 @@
                         <th>Lokasi</th>
                         <th>Kuantiti</th>
                         <th>Unit</th>
-                        <th>Ambang</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -439,7 +461,6 @@
                             <td>{{ $item->lokasi }}</td>
                             <td class="{{ $item->kuantiti == 0 ? 'qty-zero' : 'qty-low' }}">{{ $item->kuantiti }}</td>
                             <td>{{ $item->unit }}</td>
-                            <td>{{ $item->low_stock_threshold }}</td>
                         </tr>
                     @endforeach
                 </tbody>
