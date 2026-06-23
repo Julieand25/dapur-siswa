@@ -73,7 +73,25 @@ class DashboardController extends Controller
 
         $dapurList = Booking::distinct()->orderBy('kitchen_name')->pluck('kitchen_name');
 
-        return view('dashboard', compact('bookings', 'todayCount', 'pendingCount', 'dapurList'));
+        $lowStockItems = DB::table('bahans')
+            ->join('dapur', 'bahans.dapur_id', '=', 'dapur.id')
+            ->whereColumn('bahans.kuantiti', '<=', 'bahans.low_stock_threshold')
+            ->select(
+                'bahans.nama',
+                'bahans.kuantiti',
+                'bahans.unit',
+                'bahans.low_stock_threshold',
+                'dapur.nama_dapur',
+                'dapur.lokasi'
+            )
+            ->orderBy('bahans.kuantiti')
+            ->get();
+
+        $lowStockCount = $lowStockItems->count();
+
+        return view('dashboard', compact(
+            'bookings', 'todayCount', 'pendingCount', 'dapurList', 'lowStockItems', 'lowStockCount'
+        ));
     }
 
     public function updateStatus(Request $request, Booking $booking): RedirectResponse

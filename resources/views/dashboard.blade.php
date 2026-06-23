@@ -181,6 +181,85 @@
         .badge-menunggu  { background: #fff9db; color: #d97706; border-color: #fef08a; }
         .badge-dibatalkan{ background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
 
+        .alert-card {
+            background: #fff;
+            border-radius: 10px;
+            border: 1px solid #fde68a;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-top: 24px;
+        }
+
+        .alert-header {
+            background: #fffbeb;
+            padding: 14px 20px;
+            border-bottom: 1px solid #fde68a;
+            font-size: 13.5px;
+            font-weight: 700;
+            color: #92400e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .alert-header svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        .alert-header .count-badge {
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 999px;
+            margin-left: auto;
+        }
+
+        .alert-empty {
+            text-align: center;
+            padding: 30px 20px;
+            color: #9ca3af;
+            font-size: 13px;
+        }
+
+        .alert-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .alert-table thead tr {
+            background: #fafafa;
+        }
+
+        .alert-table thead th {
+            padding: 10px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .alert-table tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .alert-table tbody tr:last-child { border-bottom: none; }
+        .alert-table tbody td {
+            padding: 11px 16px;
+            color: #374151;
+            vertical-align: middle;
+        }
+
+        .alert-table .qty-low { color: #d97706; font-weight: 700; }
+        .alert-table .qty-zero { color: #dc2626; font-weight: 700; }
+        .alert-table .qty-ok { color: #374151; font-weight: 500; }
+
         .success-msg {
             background: #dcfce7;
             color: #15803d;
@@ -333,6 +412,40 @@
             <a href="{{ route('all-booking') }}" class="view-all-link">Lihat semua tempahan</a>
 
         </div>
+
+        @if ($lowStockCount > 0)
+        <div class="alert-card">
+            <div class="alert-header">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+                Peringatan Stok Rendah
+                <span class="count-badge">{{ $lowStockCount }}</span>
+            </div>
+            <table class="alert-table">
+                <thead>
+                    <tr>
+                        <th>Bahan</th>
+                        <th>Dapur</th>
+                        <th>Lokasi</th>
+                        <th>Kuantiti</th>
+                        <th>Unit</th>
+                        <th>Ambang</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($lowStockItems as $item)
+                        <tr>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->nama_dapur }}</td>
+                            <td>{{ $item->lokasi }}</td>
+                            <td class="{{ $item->kuantiti == 0 ? 'qty-zero' : 'qty-low' }}">{{ $item->kuantiti }}</td>
+                            <td>{{ $item->unit }}</td>
+                            <td>{{ $item->low_stock_threshold }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        @endif
 
     </main>
 
