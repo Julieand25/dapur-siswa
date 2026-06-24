@@ -9,7 +9,7 @@ test('registration screen can be rendered', function () {
 test('new users can register', function () {
     $response = $this->post('/register', [
         'name' => 'Test User',
-        'email' => 'test@example.com',
+        'email' => 'test@upsi.edu.my',
         'phone' => '0123456789',
         'position' => 'Pensyarah',
         'password' => 'password',
@@ -18,5 +18,5 @@ test('new users can register', function () {
 
     $this->assertGuest();
     $response->assertRedirect(route('verification.notice'));
-    $response->assertSessionHas('verification_email', 'test@example.com');
+    $response->assertSessionHas('verification_email', 'test@upsi.edu.my');
 });

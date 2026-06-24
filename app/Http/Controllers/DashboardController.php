@@ -73,18 +73,18 @@ class DashboardController extends Controller
 
         $dapurList = Booking::distinct()->orderBy('kitchen_name')->pluck('kitchen_name');
 
-        $lowStockItems = DB::table('bahans')
-            ->join('dapur', 'bahans.dapur_id', '=', 'dapur.id')
-            ->whereColumn('bahans.kuantiti', '<=', 'bahans.low_stock_threshold')
+        $lowStockItems = DB::table('bahan')
+            ->join('dapur', 'bahan.dapur_id', '=', 'dapur.id')
+            ->whereColumn('bahan.kuantiti', '<=', 'bahan.low_stock_threshold')
             ->select(
-                'bahans.nama',
-                'bahans.kuantiti',
-                'bahans.unit',
-                'bahans.low_stock_threshold',
+                'bahan.nama',
+                'bahan.kuantiti',
+                'bahan.unit',
+                'bahan.low_stock_threshold',
                 'dapur.nama_dapur',
                 'dapur.lokasi'
             )
-            ->orderBy('bahans.kuantiti')
+            ->orderBy('bahan.kuantiti')
             ->get();
 
         $lowStockCount = $lowStockItems->count();

@@ -99,7 +99,7 @@ class RecordController extends Controller
             }
         }
 
-        $allBahanUnits = DB::table('bahans')
+        $allBahanUnits = DB::table('bahan')
             ->select('nama', 'unit')
             ->distinct()
             ->get()

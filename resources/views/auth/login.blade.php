@@ -206,7 +206,7 @@
                     required
                     autofocus
                     autocomplete="username"
-                    placeholder="nama@email.com"
+                    placeholder="email"
                 >
                 @error('email')
                     <span class="error-msg">{{ $message }}</span>
