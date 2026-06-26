@@ -19,7 +19,7 @@
         }
 
         .main {
-            margin-left: 160px;
+            margin-left: 240px;
             flex: 1;
             display: flex;
             flex-direction: column;

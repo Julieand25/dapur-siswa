@@ -22,7 +22,7 @@ $pendingCount = \DB::table('bookings')->where('status', 'pending')->count();
 
 <style>
     .sidebar {
-        width: 160px;
+        width: 240px;
         flex-shrink: 0;
         background: #1a3a8f;
         min-height: 100vh;
