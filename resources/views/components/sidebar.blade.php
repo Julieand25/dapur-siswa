@@ -223,7 +223,7 @@ $pendingCount = \DB::table('bookings')->where('status', 'pending')->count();
 
 <aside class="sidebar">
     <div class="sidebar-logo">
-        <img src="{{ asset('images/upsi-logo.png') }}" alt="UPSI Logo">
+        <img src="{{ asset('images/logo-upsi2.png') }}" alt="UPSI Logo">
         <span class="brand-name">Dapur Siswa Madani<br><span class="brand-sub">UPSI</span></span>
     </div>
 

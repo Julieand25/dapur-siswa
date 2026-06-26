@@ -89,26 +89,6 @@
             margin-top: 2px;
         }
 
-        /* Remember me row */
-        .remember-row {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .remember-row input[type="checkbox"] {
-            width: 15px;
-            height: 15px;
-            accent-color: #1a56db;
-            cursor: pointer;
-        }
-
-        .remember-row label {
-            font-size: 13px;
-            color: #4b5563;
-            cursor: pointer;
-        }
-
         /* Forgot password */
         .forgot-link {
             font-size: 12.5px;
@@ -229,17 +209,11 @@
                 @enderror
             </div>
 
-            {{-- Remember Me --}}
-            <div class="remember-row">
-                <input id="remember_me" type="checkbox" name="remember">
-                <label for="remember_me">{{ __('Remember me') }}</label>
-
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="forgot-link" style="margin-left:auto;">
-                        {{ __('Forgot your password?') }}
-                    </a>
-                @endif
-            </div>
+            @if (Route::has('password.request'))
+                <a href="{{ route('password.request') }}" class="forgot-link">
+                    {{ __('Forgot your password?') }}
+                </a>
+            @endif
 
             {{-- Log Masuk --}}
             <button type="submit" class="btn btn-primary">Log Masuk</button>
