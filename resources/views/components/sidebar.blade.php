@@ -16,6 +16,8 @@ $navItems = [
         ['key' => 'laporan-maklumbalas', 'label' => 'Maklum Balas Pengguna', 'href' => route('laporan.maklumbalas')],
     ]],
 ];
+
+$pendingCount = \DB::table('bookings')->where('status', 'pending')->count();
 @endphp
 
 <style>
@@ -117,6 +119,25 @@ $navItems = [
         opacity: 0.7;
     }
 
+    .pending-badge {
+        background: #ef4444;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        border-radius: 999px;
+        min-width: 18px;
+        height: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 5px;
+        margin-left: auto;
+    }
+
+    .nav-sub-item .pending-badge {
+        margin-left: 8px;
+    }
+
     .nav-sub-item {
         display: flex;
         align-items: center;
@@ -216,6 +237,9 @@ $navItems = [
             <a href="{{ $hasChildren ? 'javascript:void(0)' : $item['href'] }}" class="nav-item @if($isActive) active @endif" @if($hasChildren) onclick="toggleSubmenu(this)" @endif>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">{!! $item['icon'] !!}</svg>
                 <span>{{ $item['label'] }}</span>
+                @if($item['key'] === 'tempahan' && $pendingCount > 0)
+                    <span class="pending-badge" id="tempahanBadge">{{ $pendingCount }}</span>
+                @endif
                 @if($hasChildren)
                     <svg class="nav-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 15l7-7 7 7"/></svg>
                 @endif
@@ -257,6 +281,16 @@ $navItems = [
             var chevron = el.querySelector('.nav-chevron');
             if (chevron) {
                 chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+            }
+            var badge = document.getElementById('tempahanBadge');
+            if (badge) {
+                if (isOpen) {
+                    var parentSpan = el.querySelector('span');
+                    if (parentSpan) parentSpan.after(badge);
+                } else {
+                    var firstSub = wrap.querySelector('.nav-sub-item');
+                    if (firstSub) firstSub.querySelector('span').after(badge);
+                }
             }
         }
     }

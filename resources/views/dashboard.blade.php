@@ -465,6 +465,7 @@
                     @endforeach
                 </tbody>
             </table>
+            <a href="{{ route('dapur.index') }}" class="view-all-link">Pergi ke halaman dapur</a>
         </div>
         @endif
 
