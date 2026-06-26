@@ -36,26 +36,26 @@ class AnnouncementController extends Controller
         return redirect()->route('pemberitahuan.index')->with('success', 'Pemberitahuan berjaya dicipta.');
     }
 
-    public function edit(Announcement $announcement): View
+    public function edit(Announcement $pemberitahuan): View
     {
-        return view('pemberitahuan-edit', compact('announcement'));
+        return view('pemberitahuan-edit', compact('pemberitahuan'));
     }
 
-    public function update(Request $request, Announcement $announcement): RedirectResponse
+    public function update(Request $request, Announcement $pemberitahuan): RedirectResponse
     {
         $validated = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'content' => ['required', 'string'],
         ]);
 
-        $announcement->update($validated);
+        $pemberitahuan->update($validated);
 
         return redirect()->route('pemberitahuan.index')->with('success', 'Pemberitahuan berjaya dikemaskini.');
     }
 
-    public function destroy(Announcement $announcement): RedirectResponse
+    public function destroy(Announcement $pemberitahuan): RedirectResponse
     {
-        $announcement->delete();
+        $pemberitahuan->delete();
 
         return redirect()->route('pemberitahuan.index')->with('success', 'Pemberitahuan berjaya dipadam.');
     }

@@ -98,7 +98,7 @@
         </a>
 
         <div class="form-container">
-            <form class="form-card" method="POST" action="{{ route('pemberitahuan.update', $announcement) }}">
+            <form class="form-card" method="POST" action="{{ route('pemberitahuan.update', ['pemberitahuan' => $pemberitahuan]) }}">
                 @csrf
                 @method('PUT')
 
@@ -106,13 +106,13 @@
 
                 <div class="form-group">
                     <label class="form-label">Tajuk <span class="required">*</span></label>
-                    <input type="text" class="form-input @error('title') is-invalid @enderror" name="title" value="{{ old('title', $announcement->title) }}" required>
+                    <input type="text" class="form-input @error('title') is-invalid @enderror" name="title" value="{{ old('title', $pemberitahuan->title) }}" required>
                     @error('title') <span class="form-error">{{ $message }}</span> @enderror
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Kandungan <span class="required">*</span></label>
-                    <textarea class="form-textarea @error('content') is-invalid @enderror" name="content" required>{{ old('content', $announcement->content) }}</textarea>
+                    <textarea class="form-textarea @error('content') is-invalid @enderror" name="content" required>{{ old('content', $pemberitahuan->content) }}</textarea>
                     <div class="form-hint">
                         Gunakan <strong>1. 2. 3.</strong> untuk senarai bernombor atau <strong>-</strong> untuk senarai bullet.
                         Kandungan akan dipaparkan seperti yang diatur di aplikasi pengguna.
