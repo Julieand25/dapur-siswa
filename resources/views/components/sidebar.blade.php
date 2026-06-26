@@ -281,11 +281,11 @@ $pendingCount = \DB::table('bookings')->where('status', 'pending')->count();
             if (chevron) {
                 chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
             }
+            var label = el.querySelector('span');
             var badge = document.getElementById('tempahanBadge');
-            if (badge) {
+            if (badge && label && label.textContent.trim() === 'Tempahan') {
                 if (isOpen) {
-                    var parentSpan = el.querySelector('span');
-                    if (parentSpan) parentSpan.after(badge);
+                    if (label) label.after(badge);
                 } else {
                     var firstSub = wrap.querySelector('.nav-sub-item');
                     if (firstSub) firstSub.querySelector('span').after(badge);
