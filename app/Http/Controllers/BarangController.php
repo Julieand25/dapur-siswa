@@ -16,7 +16,9 @@ class BarangController extends Controller
         $peralatans = $dapur->peralatans()->orderBy('nama')->get();
         $bahans = $dapur->bahans()->orderBy('nama')->get();
 
-        return view('manage-barang', compact('dapur', 'peralatans', 'bahans'));
+        $lowBahanCount = $bahans->filter(fn($b) => $b->kuantiti <= $b->low_stock_threshold)->count();
+
+        return view('manage-barang', compact('dapur', 'peralatans', 'bahans', 'lowBahanCount'));
     }
 
     public function storePeralatan(Request $request, Dapur $dapur): RedirectResponse

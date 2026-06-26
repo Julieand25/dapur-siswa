@@ -48,6 +48,22 @@
 
         .tab-btn:hover { color: #374151; }
 
+        .tab-btn .stock-badge {
+            background: #ef4444;
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            border-radius: 999px;
+            min-width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
         .tab-btn.active {
             color: #1a56db;
             border-bottom-color: #1a56db;
@@ -198,6 +214,11 @@
             color: #dc2626;
             border-color: #fecaca;
         }
+
+        .bahan-low-row { background: #fffbeb; }
+        .bahan-low-row:hover { background: #fef3c7 !important; }
+        td.bahan-low { color: #d97706; font-weight: 700; }
+        td.bahan-zero { color: #dc2626; font-weight: 700; }
 
         .tab-content { display: none; }
         .tab-content.active { display: block; }
@@ -356,7 +377,7 @@
 
         <div class="tab-row">
             <button class="tab-btn active" onclick="switchTab('peralatan', this)">Peralatan</button>
-            <button class="tab-btn" onclick="switchTab('bahan', this)">Bahan Masak</button>
+            <button class="tab-btn" onclick="switchTab('bahan', this)">Bahan Masak @if($lowBahanCount > 0)<span class="stock-badge">{{ $lowBahanCount }}</span>@endif</button>
         </div>
 
         <div class="tab-content active" id="tab-peralatan">
@@ -431,10 +452,11 @@
                     </thead>
                     <tbody>
                         @forelse ($bahans as $b)
-                            <tr>
+                            @php $isLow = $b->kuantiti <= $b->low_stock_threshold; @endphp
+                            <tr class="{{ $isLow ? 'bahan-low-row' : '' }}">
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $b->nama }}</td>
-                                <td>{{ $b->kuantiti }}</td>
+                                <td class="{{ $b->kuantiti == 0 ? 'bahan-zero' : ($isLow ? 'bahan-low' : '') }}">{{ $b->kuantiti }}</td>
                                 <td>{{ $b->unit }}</td>
                                 <td>
                                     <button class="btn-icon" title="Edit" onclick="openEditModal('bahan', {{ $b->id }}, '{{ addslashes($b->nama) }}', {{ $b->kuantiti }}, '{{ $b->unit }}')">
