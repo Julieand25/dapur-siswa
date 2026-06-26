@@ -10,43 +10,33 @@
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             height: 100vh;
-            overflow: hidden;
             display: flex;
-            flex-direction: row;
-            background: #ffffff;
-        }
-
-        /* ── Left Panel ── */
-        .left-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 48px 48px;
-            gap: 32px;
-            overflow-y: auto;
+            background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                        url('{{ asset('images/dapur2.jpg') }}');
+            background-size: cover;
+            background-position: center;
         }
 
-        /* Logo & Tagline */
-        .logo-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
+        .content-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 48px 40px;
+            max-width: 420px;
+            width: 90%;
             text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
-        .logo-wrap img {
+        .content-card img {
             width: 200px;
             max-width: 100%;
             object-fit: contain;
+            margin-bottom: 32px;
         }
 
-        /* ── Buttons ── */
         .btn-group {
-            width: 100%;
-            max-width: 340px;
             display: flex;
             flex-direction: column;
             gap: 14px;
@@ -73,41 +63,18 @@
         .btn-primary   { background: #1a56db; color: #fff; }
         .btn-secondary { background: #fff; color: #1a3a8f; border: 2px solid #1a3a8f; }
 
-        /* ── Right Panel ── */
-        .right-panel {
-            width: 25%;
-            flex-shrink: 0;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .right-panel img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        /* ── Responsive ── */
         @media (max-width: 768px) {
-            body { flex-direction: column; overflow: auto; height: auto; min-height: 100vh; }
-            .left-panel { width: 100%; padding: 36px 24px; }
-            .right-panel { width: 100%; height: 220px; flex-shrink: 0; }
+            body { padding: 20px; }
+            .content-card { padding: 32px 24px; }
         }
     </style>
 </head>
 <body>
 
-    {{-- ── Left: Welcome Panel ── --}}
-    <div class="left-panel">
+    <div class="content-card">
 
-        {{-- Logo & Tagline --}}
-        <div class="logo-wrap">
-            <img src="{{ asset('images/dapur-siswa-logo.png') }}" alt="Dapur Siswa MADANI UPSI">
+        <img src="{{ asset('images/dapur-siswa-logo.png') }}" alt="Dapur Siswa MADANI UPSI">
 
-        </div>
-
-        {{-- Buttons --}}
         <div class="btn-group">
             <a href="{{ route('login') }}" class="btn btn-primary">Log Masuk</a>
 
@@ -116,11 +83,6 @@
             @endif
         </div>
 
-    </div>
-
-    {{-- ── Right: Kitchen Photo ── --}}
-    <div class="right-panel">
-        <img src="{{ asset('images/dapur.png') }}" alt="Dapur Siswa Kitchen">
     </div>
 
 </body>
