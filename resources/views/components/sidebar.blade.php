@@ -67,7 +67,6 @@ $pendingCount = \DB::table('bookings')->where('status', 'pending')->count();
     .sidebar-nav {
         flex: 1;
         padding: 12px 0;
-        overflow-y: auto;
     }
 
     .nav-item {
