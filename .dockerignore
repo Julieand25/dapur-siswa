@@ -1,0 +1,16 @@
+node_modules
+vendor
+.git
+.env
+.env.backup
+.env.production
+.dockerignore
+.gitignore
+*.log
+.gitattributes
+.npmrc
+.editorconfig
+AGENTS.md
+PROJECT-ANALYSIS.md
+README.md
+Thumbs.db
