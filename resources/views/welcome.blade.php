@@ -85,5 +85,15 @@
 
     </div>
 
+    <footer style="
+        position: fixed; bottom: 0; width: 100%;
+        text-align: center; padding: 16px;
+        color: rgba(255,255,255,0.7);
+        font-size: 13px;
+        letter-spacing: 0.03em;
+    ">
+        powered by WBL DTD3053 AT20 META UPSI ❤️
+    </footer>
+
 </body>
 </html>
