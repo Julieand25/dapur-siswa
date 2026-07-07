@@ -22,6 +22,7 @@
             </div>
             <div class="user-dropdown" id="userDropdown" style="display:none;">
                 <a href="{{ route('tetapan.index') }}" class="user-dropdown-item">Tetapan</a>
+                <a href="{{ route('info.index') }}" class="user-dropdown-item">Info</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="user-dropdown-item logout">Log Keluar</button>

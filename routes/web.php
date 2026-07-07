@@ -6,6 +6,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DapurController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\KalendarController;
 use App\Http\Controllers\PendingBookingController;
 use App\Http\Controllers\ProfileController;
@@ -51,6 +52,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/tetapan', [TetapanController::class, 'index'])->name('tetapan.index');
     Route::patch('/tetapan/profile', [TetapanController::class, 'updateProfile'])->name('tetapan.profile.update');
+
+    Route::get('/info', [InfoController::class, 'index'])->name('info.index');
 });
 
 // Route::middleware('auth')->group(function () {
