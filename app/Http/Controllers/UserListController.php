@@ -17,7 +17,7 @@ class UserListController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->where('profiles.name', 'ilike', '%'.$search.'%')
+                $q->where(DB::raw("auth.users.raw_user_meta_data->>'name'"), 'ilike', '%'.$search.'%')
                     ->orWhere('profiles.matrik', 'ilike', '%'.$search.'%')
                     ->orWhere('auth.users.email', 'ilike', '%'.$search.'%');
             });
@@ -27,7 +27,7 @@ class UserListController extends Controller
             'auth.users.id',
             'auth.users.email',
             'auth.users.created_at',
-            'profiles.name',
+            DB::raw("auth.users.raw_user_meta_data->>'name' as name"),
             'profiles.matrik',
             'profiles.faculty',
             'profiles.program',

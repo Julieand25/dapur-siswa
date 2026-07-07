@@ -18,7 +18,7 @@ class RecordController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->whereRaw('EXISTS (SELECT 1 FROM auth.users WHERE auth.users.id = reviews.user_id AND (auth.users.email ILIKE ?))', ["%$search%"])
-                    ->orWhereRaw('EXISTS (SELECT 1 FROM profiles WHERE profiles.id = reviews.user_id AND (profiles.name ILIKE ? OR profiles.matrik ILIKE ?))', ["%$search%", "%$search%"]);
+                    ->orWhereRaw('EXISTS (SELECT 1 FROM profiles WHERE profiles.id = reviews.user_id AND (profiles.matrik ILIKE ?))', ["%$search%"]);
             });
         }
 
@@ -47,19 +47,24 @@ class RecordController extends Controller
         if (! empty($userIds)) {
             $users = DB::table('auth.users')
                 ->whereIn('id', $userIds)
-                ->get(['id', 'email'])
+                ->get(['id', 'email', 'raw_user_meta_data'])
                 ->keyBy('id');
 
             $profiles = DB::table('profiles')
                 ->whereIn('id', $userIds)
-                ->get(['id', 'name', 'matrik'])
+                ->get(['id', 'matrik'])
                 ->keyBy('id');
         }
 
         foreach ($reviews as $review) {
             $user = $users->get($review->user_id);
             $profile = $profiles->get($review->user_id);
-            $review->nama = $profile->name ?? ($user->email ?? '—');
+            if ($user) {
+                $meta = json_decode($user->raw_user_meta_data ?? '{}');
+                $review->nama = $meta->name ?? $user->email;
+            } else {
+                $review->nama = '—';
+            }
             $review->emel = $user->email ?? '—';
             $review->matrik = $profile->matrik ?? '—';
         }
@@ -78,7 +83,7 @@ class RecordController extends Controller
             abort(404);
         }
 
-        $user = DB::table('auth.users')->where('id', $review->user_id)->first();
+        $user = DB::table('auth.users')->where('id', $review->user_id)->first(['id', 'email', 'raw_user_meta_data']);
         $profile = DB::table('profiles')->where('id', $review->user_id)->first();
 
         $bilanganHidangan = '—';

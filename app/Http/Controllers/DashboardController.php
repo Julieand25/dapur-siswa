@@ -39,20 +39,27 @@ class DashboardController extends Controller
         $userIds = $bookings->pluck('user_id')->unique()->toArray();
 
         $users = collect();
+        $profiles = collect();
         if (! empty($userIds)) {
             $users = DB::table('auth.users')
                 ->whereIn('id', $userIds)
                 ->get(['id', 'email', 'raw_user_meta_data'])
                 ->keyBy('id');
+
+            $profiles = DB::table('profiles')
+                ->whereIn('id', $userIds)
+                ->get(['id', 'matrik'])
+                ->keyBy('id');
         }
 
         foreach ($bookings as $booking) {
             $user = $users->get($booking->user_id);
+            $profile = $profiles->get($booking->user_id);
             if ($user) {
                 $meta = json_decode($user->raw_user_meta_data ?? '{}');
                 $booking->nama = $meta->name ?? explode('@', $user->email)[0];
                 $booking->emel = $user->email;
-                $booking->matrik = $meta->matrik ?? '—';
+                $booking->matrik = $profile->matrik ?? '—';
             } else {
                 $booking->nama = '—';
                 $booking->emel = '—';

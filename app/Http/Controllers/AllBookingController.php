@@ -35,20 +35,27 @@ class AllBookingController extends Controller
         $userIds = $bookings->pluck('user_id')->unique()->toArray();
 
         $users = collect();
+        $profiles = collect();
         if (! empty($userIds)) {
             $users = DB::table('auth.users')
                 ->whereIn('id', $userIds)
                 ->get(['id', 'email', 'raw_user_meta_data'])
                 ->keyBy('id');
+
+            $profiles = DB::table('profiles')
+                ->whereIn('id', $userIds)
+                ->get(['id', 'matrik'])
+                ->keyBy('id');
         }
 
-        $bookings->getCollection()->transform(function ($b) use ($users) {
+        $bookings->getCollection()->transform(function ($b) use ($users, $profiles) {
             $user = $users->get($b->user_id);
+            $profile = $profiles->get($b->user_id);
             if ($user) {
                 $meta = json_decode($user->raw_user_meta_data ?? '{}');
                 $b->nama = $meta->name ?? explode('@', $user->email)[0];
                 $b->emel = $user->email;
-                $b->matrik = $meta->matrik ?? '—';
+                $b->matrik = $profile->matrik ?? '—';
             } else {
                 $b->nama = '—';
                 $b->emel = '—';

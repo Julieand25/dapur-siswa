@@ -17,7 +17,7 @@ class FeedbackController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->whereRaw('EXISTS (SELECT 1 FROM auth.users WHERE auth.users.id = feedback.user_id AND (auth.users.email ILIKE ?))', ["%$search%"])
-                    ->orWhereRaw('EXISTS (SELECT 1 FROM profiles WHERE profiles.id = feedback.user_id AND (profiles.name ILIKE ? OR profiles.matrik ILIKE ?))', ["%$search%", "%$search%"]);
+                    ->orWhereRaw('EXISTS (SELECT 1 FROM profiles WHERE profiles.id = feedback.user_id AND (profiles.matrik ILIKE ?))', ["%$search%"]);
             });
         }
 
@@ -41,19 +41,24 @@ class FeedbackController extends Controller
         if (! empty($userIds)) {
             $users = DB::table('auth.users')
                 ->whereIn('id', $userIds)
-                ->get(['id', 'email'])
+                ->get(['id', 'email', 'raw_user_meta_data'])
                 ->keyBy('id');
 
             $profiles = DB::table('profiles')
                 ->whereIn('id', $userIds)
-                ->get(['id', 'name', 'matrik'])
+                ->get(['id', 'matrik'])
                 ->keyBy('id');
         }
 
         foreach ($feedbacks as $f) {
             $user = $users->get($f->user_id);
             $profile = $profiles->get($f->user_id);
-            $f->nama = $profile->name ?? ($user->email ?? '—');
+            if ($user) {
+                $meta = json_decode($user->raw_user_meta_data ?? '{}');
+                $f->nama = $meta->name ?? $user->email;
+            } else {
+                $f->nama = '—';
+            }
             $f->matrik = $profile->matrik ?? '—';
         }
 
@@ -68,7 +73,7 @@ class FeedbackController extends Controller
             abort(404);
         }
 
-        $user = DB::table('auth.users')->where('id', $feedback->user_id)->first();
+        $user = DB::table('auth.users')->where('id', $feedback->user_id)->first(['id', 'email', 'raw_user_meta_data']);
         $profile = DB::table('profiles')->where('id', $feedback->user_id)->first();
 
         return view('feedback-detail', compact('feedback', 'user', 'profile'));

@@ -76,7 +76,7 @@
 
             <div class="detail-row">
                 <span class="dlabel">Nama</span>
-                <span class="dvalue">{{ $profile->name ?? $user->email ?? '—' }}</span>
+                <span class="dvalue">{{ json_decode($user->raw_user_meta_data ?? '{}')->name ?? $user->email ?? '—' }}</span>
             </div>
             <div class="detail-row">
                 <span class="dlabel">No. Matrik</span>

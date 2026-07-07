@@ -79,7 +79,7 @@
         <div class="detail-card">
             <div class="detail-title">Maklumat Pengguna</div>
             <div class="info-grid">
-                <div class="info-row"><span class="ilabel">Nama</span><span class="ivalue">{{ $profile->name ?? $user->email ?? '—' }}</span></div>
+                <div class="info-row"><span class="ilabel">Nama</span><span class="ivalue">{{ json_decode($user->raw_user_meta_data ?? '{}')->name ?? $user->email ?? '—' }}</span></div>
                 <div class="info-row"><span class="ilabel">No. Matrik</span><span class="ivalue">{{ $profile->matrik ?? '—' }}</span></div>
                 <div class="info-row"><span class="ilabel">Emel</span><span class="ivalue">{{ $user->email ?? '—' }}</span></div>
                 <div class="info-row"><span class="ilabel">Tarikh Rekod</span><span class="ivalue">{{ \Carbon\Carbon::parse($review->created_at)->timezone('Asia/Kuala_Lumpur')->locale('ms')->isoFormat('D MMM YYYY') }}</span></div>
