@@ -17,7 +17,7 @@ class RecordController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->whereRaw('EXISTS (SELECT 1 FROM auth.staff WHERE auth.staff.id = reviews.user_id AND (auth.staff.email ILIKE ?))', ["%$search%"])
+                $q->whereRaw('EXISTS (SELECT 1 FROM auth.users WHERE auth.users.id = reviews.user_id AND (auth.users.email ILIKE ?))', ["%$search%"])
                     ->orWhereRaw('EXISTS (SELECT 1 FROM profiles WHERE profiles.id = reviews.user_id AND (profiles.name ILIKE ? OR profiles.matrik ILIKE ?))', ["%$search%", "%$search%"]);
             });
         }
@@ -45,7 +45,7 @@ class RecordController extends Controller
         $users = collect();
         $profiles = collect();
         if (! empty($userIds)) {
-            $users = DB::table('auth.staff')
+            $users = DB::table('auth.users')
                 ->whereIn('id', $userIds)
                 ->get(['id', 'email'])
                 ->keyBy('id');
@@ -78,7 +78,7 @@ class RecordController extends Controller
             abort(404);
         }
 
-        $user = DB::table('auth.staff')->where('id', $review->user_id)->first();
+        $user = DB::table('auth.users')->where('id', $review->user_id)->first();
         $profile = DB::table('profiles')->where('id', $review->user_id)->first();
 
         $bilanganHidangan = '—';
