@@ -250,7 +250,7 @@
                             value="{{ old('email') }}"
                             required
                             autocomplete="username"
-                            placeholder="nama@upsi.edu.my"
+                            placeholder="nama@example.com"
                         >
                         @error('email')
                             <span class="error-msg">{{ $message }}</span>
