@@ -51,10 +51,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/tetapan', [TetapanController::class, 'index'])->name('tetapan.index');
     Route::patch('/tetapan/profile', [TetapanController::class, 'updateProfile'])->name('tetapan.profile.update');
-
-    Route::get('/info', function () {
-        return view('info.index');
-    })->name('info.index');
 });
 
 // Route::middleware('auth')->group(function () {
