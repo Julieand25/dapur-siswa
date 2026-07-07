@@ -18,6 +18,8 @@ class User extends Authenticatable implements MustVerifyEmail
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
+    protected $table = 'staff';
+
     protected function casts(): array
     {
         return [

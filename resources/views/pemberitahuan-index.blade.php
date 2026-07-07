@@ -143,6 +143,10 @@
                                 <div class="ann-preview">{{ $a->preview }}</div>
                                 <div class="ann-meta">
                                     <span>{{ \Carbon\Carbon::parse($a->created_at)->timezone('Asia/Kuala_Lumpur')->locale('ms')->isoFormat('D MMM YYYY') }}</span>
+                                    @if ($a->creator)
+                                        <span>•</span>
+                                        <span>Oleh: {{ $a->creator->name }}</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="ann-actions">

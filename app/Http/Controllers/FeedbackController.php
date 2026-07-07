@@ -16,7 +16,7 @@ class FeedbackController extends Controller
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
-                $q->whereRaw('EXISTS (SELECT 1 FROM auth.users WHERE auth.users.id = feedback.user_id AND (auth.users.email ILIKE ?))', ["%$search%"])
+                $q->whereRaw('EXISTS (SELECT 1 FROM auth.staff WHERE auth.staff.id = feedback.user_id AND (auth.staff.email ILIKE ?))', ["%$search%"])
                     ->orWhereRaw('EXISTS (SELECT 1 FROM profiles WHERE profiles.id = feedback.user_id AND (profiles.name ILIKE ? OR profiles.matrik ILIKE ?))', ["%$search%", "%$search%"]);
             });
         }
@@ -39,7 +39,7 @@ class FeedbackController extends Controller
         $users = collect();
         $profiles = collect();
         if (! empty($userIds)) {
-            $users = DB::table('auth.users')
+            $users = DB::table('auth.staff')
                 ->whereIn('id', $userIds)
                 ->get(['id', 'email'])
                 ->keyBy('id');
@@ -68,7 +68,7 @@ class FeedbackController extends Controller
             abort(404);
         }
 
-        $user = DB::table('auth.users')->where('id', $feedback->user_id)->first();
+        $user = DB::table('auth.staff')->where('id', $feedback->user_id)->first();
         $profile = DB::table('profiles')->where('id', $feedback->user_id)->first();
 
         return view('feedback-detail', compact('feedback', 'user', 'profile'));

@@ -40,7 +40,7 @@ class DashboardController extends Controller
 
         $users = collect();
         if (! empty($userIds)) {
-            $users = DB::table('auth.users')
+            $users = DB::table('auth.staff')
                 ->whereIn('id', $userIds)
                 ->get(['id', 'email', 'raw_user_meta_data'])
                 ->keyBy('id');
@@ -101,7 +101,10 @@ class DashboardController extends Controller
             'rejection_reason' => ['nullable', 'string', 'max:500'],
         ]);
 
-        $data = ['status' => $request->status];
+        $data = [
+            'status' => $request->status,
+            'processed_by' => auth()->id(),
+        ];
 
         if ($request->status === 'rejected' && $request->filled('rejection_reason')) {
             $data['rejection_reason'] = $request->rejection_reason;
@@ -120,6 +123,7 @@ class DashboardController extends Controller
                 ->where('end_time', '>', $booking->start_time)
                 ->update([
                     'status' => 'rejected',
+                    'processed_by' => auth()->id(),
                     'rejection_reason' => 'Slot telah diambil oleh tempahan lain.',
                 ]);
         }

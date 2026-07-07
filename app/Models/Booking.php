@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Booking extends Model
 {
@@ -16,6 +17,7 @@ class Booking extends Model
 
     protected $fillable = [
         'status',
+        'processed_by',
     ];
 
     protected function casts(): array
@@ -24,6 +26,12 @@ class Booking extends Model
             'id' => 'string',
             'date' => 'date',
             'bilangan_hidangan' => 'integer',
+            'processed_by' => 'integer',
         ];
+    }
+
+    public function processor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'processed_by');
     }
 }

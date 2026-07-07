@@ -11,7 +11,7 @@ class AnnouncementController extends Controller
 {
     public function index(): View
     {
-        $announcements = Announcement::orderBy('created_at', 'desc')->paginate(10);
+        $announcements = Announcement::with('creator')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('pemberitahuan-index', compact('announcements'));
     }

@@ -31,7 +31,7 @@ class KalendarController extends Controller
 
         $users = collect();
         if (! empty($userIds)) {
-            $users = DB::table('auth.users')
+            $users = DB::table('auth.staff')
                 ->whereIn('id', $userIds)
                 ->get(['id', 'email', 'raw_user_meta_data'])
                 ->keyBy('id');
